@@ -1,0 +1,126 @@
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="/assets/css/game.css">
+
+</head>
+<body>
+
+
+<script type="text/template" id="tmplScoreBoard">
+    <div title="Time limit" class="timeLimit">
+        <svg version="1.1" width="22" xmlns="http://www.w3.org/2000/svg" preserveaspectratio="xMidYMid meet" viewbox="0 0 50 50" space="preserve" data-icon="time" class="i-svg">
+            <path d="M7.533,21.646C9.111,13.06,16.633,6.552,25.678,6.552c10.188,0,18.447,8.259,18.447,18.448 c0,10.19-8.259,18.447-18.447,18.447c-7.167,0-13.378-4.084-16.433-10.053h3.886c2.708,4.039,7.317,6.699,12.547,6.699 c8.336,0,15.094-6.758,15.094-15.094S34.014,9.907,25.678,9.907c-7.184,0-13.195,5.018-14.72,11.739H7.533L7.533,21.646z M24.838,25.587l8.74,5.151l0.851-1.444l-7.913-4.706V13.314h-1.678V25.587z M8.906,28.354l5.031-6.708H3.875L8.906,28.354z M7.533,21.646C9.111,13.06,16.633,6.552,25.678,6.552c10.188,0,18.447,8.259,18.447,18.448c0,10.19-8.259,18.447-18.447,18.447 c-7.167,0-13.378-4.084-16.433-10.053h3.886c2.708,4.039,7.317,6.699,12.547,6.699c8.336,0,15.094-6.758,15.094-15.094 S34.014,9.907,25.678,9.907c-7.184,0-13.195,5.018-14.72,11.739H7.533L7.533,21.646z M24.838,25.587l8.74,5.151l0.851-1.444 l-7.913-4.706V13.314h-1.678V25.587z M8.906,28.354l5.031-6.708H3.875L8.906,28.354z" fill="#6a6a6a"></path>
+        </svg>
+        <div class="timeLimitCounter"><span id="timer">30</span>s</div>
+    </div>
+    <div id="loader" class="loader">
+        <div id="loaderSlip" class="loaderSlip"></div>
+    </div>
+</script>
+
+
+
+    <div class="hiddenWindow">
+        <div id="results" class="results">
+            <div class="resultsTable">
+                <div>
+                    <div id="resultsClose" class="resultsClose"></div>
+                    <h3 id="resultsScore">000 points</h3>
+                    <!-- пока мы еще не проиграли буквам, буквы нас еще не могут поранить-->
+                    <p>Right. You were defeated the webpage lettering.</p>
+                    <ul>
+                        <li>
+                            <div>TIME</div>
+                            <div id="resultsTimeLeft">0.001s</div>
+                        </li>
+                        <li>
+                            <div>SHOOTS</div>
+                            <div id="resultsShots">0</div>
+                        </li>
+                        <li>
+                            <div>DESTROYED</div>
+                            <div id="resultsDestroy">0</div>
+                        </li>
+                        <li>
+                            <div>ACCURACY</div>
+                            <div id="resultsAccuracy">0%</div>
+                        </li>
+                        <li>
+                            <div><span>YOUR BEST</span></div>
+                            <div id="resultsBest">000</div>
+                        </li>
+                    </ul><a id="viewLeaderboard" class="linkBtn">VIEW LEADERBOARD</a>
+                </div>
+            </div>
+        </div>
+        <div id="leaders" class="results">
+            <div class="leaderTable">
+                <div>
+                    <div id="resultsClose" class="resultsClose"></div>
+                    <h3>LEADERBOARD</h3>
+                    <ul id="topLeaders"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--#testEl
+    #testElclose
+    -->
+    <!-- <div id="stopGame"></div>-->
+
+
+<!--<div id="startGameBtn" class="button">DESTROY THIS TEXT</div>-->
+ <!--<div id="represent">-->
+     <!--Hello, my name is Roman Kuznetsov.-->
+     <!--|I am a web Front-End Engineer and UX enthusiast.-->
+     <!--|Check out my latest web components and brackets.io extensions at my lab page .-->
+     <!--|Feel free to take a look at my most recent projects on my work page.-->
+     <!--|Also you can stop and say hello at kuzroman@list.ru-->
+ <!--</div>-->
+
+
+    <script id="topListTmpl" type="text/x-dot-template">
+        {{~it.array :obj:i}}
+        <li>
+            {{? obj.name }}
+            <div>{{=i+1}}st <span>{{=obj.name}}</span></div>
+            <div>{{=obj.score}}</div>
+            {{??}}
+            <div>{{=i+1}}st <span id="resultName"><input id="resultNameInput" placeholder="your name"></span></div>
+            <div><a class="linkBtn" id="saveScore">SAVE</a> {{=obj.score}}</div>
+            {{?}}
+        </li>
+        {{~}}
+    </script>
+    <script id="yourScore" type="text/x-dot-template">
+        <li>
+            <div>{{=it.place+1}}st <span id="resultName"><input id="resultNameInput" placeholder="your name"></span></div>
+            <div><a class="linkBtn" id="saveScore">SAVE</a> {{=it.score}}</div>
+        </li>
+    </script>
+
+
+    <link rel="stylesheet" href="/assets/css/topNav.css">
+
+    <!--<div id="topMenu" class="topMenu"></div>-->
+    <!--<nav id="topNav" class="topNav hidden">-->
+        <!--<a href="/"><span>about</span></a>-->
+        <!--<a href="/work"><span>work</span></a>-->
+        <!--<a href="/labs"><span>labs</span></a>-->
+        <!--<a href="/contact"><span>contact</span></a>-->
+    <!--</nav>-->
+
+    <!--<script src="/node_modules/jquery/dist/jquery.js"></script>-->
+    <!--<script src="/node_modules/underscore/underscore-min.js"></script>-->
+    <!--<script src="/node_modules/backbone/backbone-min.js"></script>-->
+    <!--<script src="/assets/js/helper.js"></script>-->
+
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="dist/main.js"></script>
+
+</body>
+</html>
+

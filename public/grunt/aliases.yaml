@@ -1,0 +1,15 @@
+default:
+ description: 'Сборка по умолчанию'
+ tasks:
+  - 'browserSync'
+  - 'watch'
+
+build:
+ description: 'Сборка в продакшен - нужно добавить uglify!'
+ tasks:
+  - 'webpack:build'
+someTest:
+ description: 'hepfull plugins: clean, copy, watch'
+ tasks:
+  - 'clean'
+  - 'copy:postinstall'
