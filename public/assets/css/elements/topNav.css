@@ -1,0 +1,126 @@
+@charset "UTF-8";
+/* font-size 24 */
+.topMenu {
+  width: 60px;
+  height: 27px;
+  /* я┐╜я┐╜я┐╜ я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜ */
+  position: absolute;
+  z-index: 1010;
+  right: 35px;
+  top: 35px;
+  border-top: 2px solid #999;
+  cursor: pointer;
+  margin-top: 5px; }
+
+.topMenu:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #999;
+  margin-top: 10px; }
+
+.topMenu:after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #999;
+  margin-top: 10px; }
+
+.topMenu:not(.close):hover {
+  margin-top: 0; }
+
+.topMenu:not(.close):hover:before {
+  margin-top: 15px; }
+
+.topMenu:not(.close):hover:after {
+  margin-top: 15px; }
+
+.topMenu, .topMenu:before, .topMenu:after {
+  transition: 0.2s; }
+
+.topMenu.close, .topMenu.close:before, .topMenu.close:after {
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-duration: 0.1s;
+  animation-fill-mode: forwards; }
+
+.topMenu.close {
+  animation-name: twirl; }
+
+.topMenu.close:before {
+  animation-name: twirl_top; }
+
+.topMenu.close:after {
+  animation-name: twirl_bottom; }
+
+/* я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜ я┐╜я┐╜я┐╜я┐╜ */
+@keyframes twirl {
+  from {
+    border-top: none; }
+  to {
+    border-top: none; } }
+@keyframes twirl_top {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(45deg); } }
+@keyframes twirl_bottom {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(-45deg);
+    margin-top: 0; } }
+/* я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜ close */
+.topMenu.close:hover {
+  animation-name: round;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  border-top: none; }
+
+@keyframes round {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+/* я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜ я┐╜я┐╜я┐╜я┐╜ */
+.topNav {
+  width: 100%;
+  height: 100%;
+  background: #333;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 10% 0;
+  box-sizing: border-box;
+  transition: 0.3s; }
+
+.topNav.hidden {
+  /*display: none;*/
+  top: -100%; }
+
+.topNav a {
+  width: 80%;
+  height: 20%;
+  background: #353535;
+  display: table;
+  margin: 0 auto;
+  box-shadow: 0 0 0 15px #292929;
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+  text-align: center;
+  transition: 0.9s; }
+
+.topNav a:hover {
+  background: #444; }
+
+.topNav span {
+  display: table-cell;
+  vertical-align: middle; }
+
+/*# sourceMappingURL=topNav.css.map */

@@ -1,1 +1,0 @@
-export var pageName = 'Страница testRequire.js';

@@ -1,6 +1,6 @@
 var $ = require("jquery");
 var _ = require("underscore");
-var Backbone = require("backbone");
+//var Backbone = require("backbone");
 import {hp, vent, params} from '../../helper';
 
 // + отрисовать буквы
@@ -37,17 +37,22 @@ export var TypingV = Backbone.View.extend({
             letter.setPositionInModel();
             letter.$el.css('opacity', 1);
 
-            vent.trigger('letterShowed', { // передаем в канвас
-                x: letter.model.get('x2'),
-                y: letter.model.get('y2')
-            });
+            if (letter.model.get('isGoal')) {
+                vent.trigger('letterShowed', { // передаем в канвас
+                    x: letter.model.get('x2'),
+                    y: letter.model.get('y2')
+                });
+            }
 
-            if (len <= ++i) clearInterval(this.interval)
+            if (len <= ++i) {
+                vent.trigger('game:textLoaded');
+                clearInterval(this.interval)
+            }
         }, this.model.get('SPEED_TYPING'));
     },
     setNumberGoal: function () {
-        this.model.set('NUMBER_GOALS', this.collectionLetters.length - this.collectionLetters.where({'killed': true}).length);
-        //console.log( this.model.get('NUMBER_GOALS') );
+        this.model.set('NUMBER_GOALS', this.collectionLetters.where({'isGoal': true}).length);
+        //console.log( this.collectionLetters.where({'isGoal': true}).length, this.model.get('NUMBER_GOALS') );
     },
     remove: function () {
         clearInterval(this.interval);
@@ -61,9 +66,9 @@ export var TypingV = Backbone.View.extend({
 
 var Letter = Backbone.Model.extend({
     defaults: {
-        //$el: $(),
         symbol: '',
         killed: false,
+        isGoal: true,
         x1: -10, x2: -10, y1: 0, y2: 0 // -10 for i.display:block
     }
 });
@@ -81,20 +86,26 @@ var LetterV = Backbone.View.extend({
     },
     render: function () {
         // + сделать перенос строки
-        let symbol = this.model.get('symbol');
+        var symbol = this.model.get('symbol');
         if (symbol == '|') {
             symbol = '';
             this.$el.css('display', 'block');
-            this.model.set('killed', true); // it isn't necessary kill them
+            this.model.set('isGoal', false); // it isn't necessary kill them
         }
-        else this.$el.text(symbol);
+        else {
+            if (symbol == ' ')
+                this.model.set('isGoal', false);
+            this.$el.text(symbol);
+        }
+
         return this;
     },
     hideLetter: function (model, killed) {
         if (killed) this.$el.css('opacity', 0);
     },
     setPositionInModel: function () {
-        if (!this.$el.height()) return; // i.display:block
+        //if (!this.model.get('isGoal')) return;
+        //if (!this.$el.height()) return; // i.display:block
         this.model.set({
             killed: false,
             x1: ~~this.$el.offset().left,
@@ -107,16 +118,14 @@ var LetterV = Backbone.View.extend({
 
 /////////////////////////////////////////////////////////////////////////////
 
-//var myText = `Hello, my name is Roman Kuznetsov.
-//|I am a web Front-End Engineer and UX enthusiast.
-//|Check out my latest web components and brackets.io extensions at my lab page.
-//|Feel free to take a look at my most recent projects on my work page.
-//|Also you can stop and say hello at kuzroman@list.ru`;
+var myText = `Hello, my name is Roman Kuznetsov.
+|I am a web Front-End Engineer and UX enthusiast.
+|Check out my latest web components and brackets.io extensions at my lab page.
+|Feel free to take a look at my most recent projects on my work page.
+|Also you can stop and say hello at kuzroman@list.ru`;
 
-// - почему если убрать | перестают работать цели - не подбиваются
-// - обновлять цели после нажатия на play again
+//var myText = `Hello|вава вавава|вавава вавава`; // 31 - 4 = 27
 
-var myText = `Hello вава`;
 myText = $.trim(myText.replace(/\s{2,}/g, ''));
 let arrLetter = [], len = myText.length;
 for (let i = 0; i < len; i++) {

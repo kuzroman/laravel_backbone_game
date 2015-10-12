@@ -1,6 +1,6 @@
 var $ = require("jquery");
 var _ = require("underscore");
-var Backbone = require("backbone");
+//var Backbone = require("backbone");
 import {vent} from '../../helper';
 
 export var BtnModel = Backbone.Model.extend({
@@ -25,9 +25,9 @@ export var Btn = Backbone.View.extend({
     },
     initialize: function (options) {
         this.parentV = options.pageV;
+        //this.parentM = options.model;
         this.model = new BtnModel();
         this.render();
-        //this.listenTo(this.model, 'change:gameStarted', this.hideEl);
         vent.on('removePage', this.remove, this);
     },
     render: function () {
@@ -36,7 +36,9 @@ export var Btn = Backbone.View.extend({
     },
 
     btnClick: function () {
-        vent.trigger('game:StartGame', this.model.get('isFirstStart') );
+        //if (!this.parentM.get('textLoaded')) return;
+        vent.trigger('game:startGame');
+        //vent.trigger('game:startGame', this.model.get('isFirstStart') );
         this.hideEl();
         this.model.changeFirstStart();
     },

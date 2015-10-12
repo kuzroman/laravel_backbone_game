@@ -1,31 +1,53 @@
+/*
+ исследовать -
+ http://handlebarsjs.com/
+ http://susy.oddbird.net/
+ google: sass media query
+ normalize.css
+ HTML5 Boilerplate
+
+ - work description make as separate page! work/cash-back/, work/cash-back-calc/
+ - to pass jquery & underscore Globally
+ - logo bank of moscow in gallery
+ - menu should disappeared after the page loaded
+ - handle the error if user entered invalid name in results
+
+ Удалил из Gruntfile
+ возможно когданибудь придется использовать
+ "grunt-contrib-clean": "^0.6.0",
+ "grunt-contrib-copy": "^0.7.0",
+ "grunt-contrib-watch": "^0.6.1",
+ "time-grunt": "^1.2.1",
+ возможно больше не понадобится, проверить(удалив их из ноды!)
+ "node-sass": "^3.3.3"
+ * */
+
+//require("../css/main.css");
+
+// backbone - пробрасывает себя глобально, достаточно загрузить только здесь
 var Backbone = require("backbone");
-import {NavigationView} from './modules/topNav';
+
 import {vent} from './helper';
+import {NavigationView} from './modules/topNav';
 
-///////////////////////////////////////////////////////////////////////////
 // page work
-
-import {WorksPageView} from './modules/work';
-
-///////////////////////////////////////////////////////////////////////////
+import {WorksPageView} from './modules/works/work';
 // page skills
-
 import {SkillsPageView} from './modules/skills';
-
-///////////////////////////////////////////////////////////////////////////
 // page game
-
 import {GamePageView} from './modules/game/game';
-
+// page desc
+import {DescPageV} from './modules/works/desc';
 ///////////////////////////////////////////////////////////////////////////
 
 var Router = Backbone.Router.extend({
     routes: {
         '': 'game'
         , "users": "users"
-        , "work": "work"
         , "about": "about"
         , "skills": "skills"
+        , "work": "work"
+        , "work/:query": "workDesc"  // #work/some
     },
     users: function () {
         console.log('router users');
@@ -47,32 +69,13 @@ var Router = Backbone.Router.extend({
         console.log('page skills');
         vent.trigger('removePage');
         new SkillsPageView();
+    },
+    workDesc: function (pageName) {
+        //console.log(arguments);
+        console.log('page workDesc');
+        vent.trigger('removePage');
+        new DescPageV({pageName:pageName});
     }
-
-
-    // Checking for a dirty - view http://mikeygee.com/blog/backbone.html
-    // например если есть не сохраненные изменения мы можем предупредить пользователя о них перед переходом на др страницу
-    //hashChange : function(evt) {
-    //    if(this.cancelNavigate) { // cancel out if just reverting the URL
-    //        evt.stopImmediatePropagation();
-    //        this.cancelNavigate = false;
-    //        return;
-    //    }
-    //    if(this.view && this.view.dirty) {
-    //        var dialog = confirm("You have unsaved changes. To stay on the page, press cancel. To discard changes and leave the page, press OK");
-    //        if(dialog == true)
-    //            return;
-    //        else {
-    //            evt.stopImmediatePropagation();
-    //            this.cancelNavigate = true;
-    //            window.location.href = evt.originalEvent.oldURL;
-    //        }
-    //    }
-    //},
-    //beforeUnload : function() {
-    //    if(this.view && this.view.dirty)
-    //        return "You have unsaved changes. If you leave or reload this page, your changes will be lost.";
-    //}
 
 });
 
@@ -80,6 +83,4 @@ var router = new Router();
 //$(window).on("hashchange", router.hashChange); // this will run before backbone's route handler
 //$(window).on("beforeunload", router.beforeUnload);
 Backbone.history.start();
-
-
 new NavigationView();

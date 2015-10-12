@@ -1,16 +1,26 @@
 var $ = require("jquery");
 var _ = require("underscore");
-var Backbone = require("backbone");
+//var Backbone = require("backbone");
 
 import {hp, vent} from '../helper';
-
 
 ///////////////////////////////////////////////////////////////////////
 
 export var SkillsPageView = Backbone.View.extend({
+    className: 'skills',
     initialize: function () {
-        new SkillsView();
+        this.render();
+        new SkillsView({pageV:this});
         vent.on('removePage', this.remove, this);
+    },
+    render: function () {
+        $('body').append(this.el);
+        this.show();
+    },
+    show: function () {
+        setTimeout(()=> {
+            this.$el.animate({left: 0}, 300);
+        }, 10);
     },
     remove: function () {
         vent.off();
@@ -19,13 +29,9 @@ export var SkillsPageView = Backbone.View.extend({
 });
 
 var SkillsView = Backbone.View.extend({
-    tagName: "div",
-    id: "skills-view",
-    className: 'works skills',
-
-    initialize: function () {
-        $("body").append(this.el);
-
+    //id: "skills-view",
+    initialize: function (options) {
+        this.parentV = options.pageV;
         this.skillsV = _.map(dataSkills, function (skill) {
             return new SkillView({model: new Backbone.Model({nameTitle: skill.nameTitle, nameImg: skill.nameImg})});
         });
@@ -34,6 +40,9 @@ var SkillsView = Backbone.View.extend({
         vent.on('removePage', this.remove, this);
     },
     render: function () {
+        console.log(this.parentV.$el);
+        this.parentV.$el.append(this.el);
+
         var div = $('<div>'), len = this.skillsV.length - 1;
         _.each(this.skillsV, function (view, key) {
             div.append(view.el);

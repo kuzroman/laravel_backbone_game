@@ -1,6 +1,6 @@
 var $ = require("jquery");
 var _ = require("underscore");
-var Backbone = require("backbone");
+//var Backbone = require("backbone");
 import {hp, vent, params} from '../../helper';
 
 export var BoardLeaderV = Backbone.View.extend({
@@ -45,9 +45,10 @@ export var BoardLeaderV = Backbone.View.extend({
     },
     hadGotScores: function (collect) {
         // add current model in collection
-        var model = {score: 550};
-        collect.add(new User(model));
-        //collect.add(new User({score: this.gameModel.get('score')}));
+        //var model = {score: 550}; // for test
+        //collect.add(new User(model));
+
+        collect.add(new User({score: this.gameModel.get('score')}));
 
         //console.log(collect);
         new LeadersV({collection: collect}).render();
@@ -60,6 +61,9 @@ var LeadersV = Backbone.View.extend({
         this.$el.empty();
     },
     render: function () {
+
+        //console.log(this.model);
+
         this.collection.each((model, index) => {
             model.set('i', index + 1);
 
@@ -87,27 +91,30 @@ var LeaderV = Backbone.View.extend({
     template: hp.tmpl('tmplLeader'),
     templateCurrentScore: hp.tmpl('tmplYourScore'),
     events: {
-        'click #saveScore': 'save'
+        'click #saveScore': 'save',
+        'keypress input': 'enter'
     },
     initialize: function (options) {
         this.line = options.line || false;
     },
     render: function () {
-
-        if (this.line) {
-            this.$el.html('.');  return this;
-        }
-
+        if (this.line) return this;
         if (this.model.get('name') == 'looser') return;
 
         if (this.model.get('name'))
             this.$el.html(this.template(this.model.toJSON()));
-        else
+        else {
             this.$el.html(this.templateCurrentScore(this.model.toJSON()));
+            this.$el.focus();
+        }
 
         return this;
     },
-    save: function () {
+    enter: function (e) {
+        if (e.which != 13) return; // !enter
+        this.save();
+    },
+    save: function (e) {
         var name = this.$el.find('#resultNameInput').val();
         this.model.set('name', name);
         this.model.save();

@@ -13,12 +13,10 @@ module.exports = {
             //livereload: true
         }
     }
-    //,styles: {
-    //    files: [
-    //        'src/styles/*.scss'
-    //    ],
-    //    tasks: [
-    //        'sass:dev'
-    //    ]
-    //}
+    ,styles: {
+        files: [
+            'assets/css/*.scss'
+        ],
+        tasks: ['webpack:build']
+    }
 };

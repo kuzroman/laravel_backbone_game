@@ -1,20 +1,15 @@
 var $ = require("jquery");
 var _ = require("underscore");
-var Backbone = require("backbone");
+//var Backbone = require("backbone");
 import {hp, vent, params} from '../../helper';
 
-
 import {Btn} from './btn.js';
-import {ShooterMouseArea, ShooterV} from './shooter.js';
 import {LoaderV} from './loader.js';
 import {TypingV} from './typing.js';
+import {ShooterMouseArea, ShooterV} from './shooter.js';
 import {Canvas} from './canvasPartialsFall.js';
 import {BoardResult} from './boardResult.js';
 import {BoardLeaderV} from './boardLeader.js';
-
-// + при клике на красную кнопку отрисовать shooter
-// + при клике на красную кнопку отрисовать timer и loaderSlip
-
 
 var Game = Backbone.Model.extend({
     defaults: {
@@ -23,41 +18,22 @@ var Game = Backbone.Model.extend({
         SPEED_PARTIALS: 0, // 15
         NUMBER_GOALS: 0, // set in typing
 
-        timeSpend: 0, // сбросить
-        destroyed: 0, // сбросить
-        shoots: 0,    // сбросить
-        accuracy: 0,  // сбросить
-        score: 0,     // сбросить
-        bulletsReachedGoal: 0, // сбросить
-        bestScore: 0,  // сбросить
-        record: false, // сбросить
-
+        timeSpend: 0,
+        destroyed: 0,
+        shoots: 0,
+        accuracy: 0,
+        score: 0,
+        bulletsReachedGoal: 0,
+        bestScore: 0,
+        record: false,
+        textLoaded: false,
+        gameStarted: false,
         gameFinished: false
-        //yourBestResult: 0
     },
-    isGameFinished: function () {
-        var result = !(this.get('NUMBER_GOALS') - this.get('destroyed')) // !(0) -> all goals destroyed
-                || this.get('timeSpend') == this.get('PERIOD') // time left) {
-            ;
-        if (!result) return;
-
-        this.set('gameFinished', result);
-        vent.trigger('game:StopGame'); // нельзя слушать через модель, т.к. необходимо делать сброс модели вконце игры
-        return result;
-    }
-
-});
-
-export var GamePageView = Backbone.View.extend({
-    className: 'game',
     initialize: function () {
-        this.render();
-
-        vent.on('game:StartGame', this.startGame, this);
-        vent.on('game:StopGame', this.stopGame, this);
-
-        vent.on('removePage', this.remove, this);
-
+        vent.on('game:textLoaded', function () {
+            this.set('textLoaded', true);
+        }, this);
         vent.on('game:changeDestroyed', function () {
             this.counter('destroyed')
         }, this);
@@ -70,10 +46,47 @@ export var GamePageView = Backbone.View.extend({
         vent.on('game:changeBulletsReachedGoal', function () {
             this.counter('bulletsReachedGoal')
         }, this);
+        vent.on('game:startGame', function () {
+            this.set('gameStarted', true);
+        }, this);
+    },
+    isGameFinished: function () {
+        var result = !(this.get('NUMBER_GOALS') - this.get('destroyed')) // !(0) -> all goals destroyed
+                || this.get('timeSpend') == this.get('PERIOD') // time left) {
+            ;
+        if (!result) return;
+
+        this.set('gameFinished', result);
+        vent.trigger('game:stopGame'); // нельзя слушать через модель, т.к. необходимо делать сброс модели вконце игры
+        return result;
+    },
+    counter: function (param) {
+        this.set(param, this.get(param) + 1);
+    },
+    setDefaults: function () {
+        this.set('timeSpend', 0);
+        this.set('destroyed', 0);
+        this.set('shoots', 0);
+        this.set('bulletsReachedGoal', 0);
+        this.set('textLoaded', false);
+        this.set('gameStarted', false);
+        this.set('gameFinished', false);
+    }
+});
+
+export var GamePageView = Backbone.View.extend({
+    className: 'game',
+    initialize: function () {
+        this.render();
+
+        this.listenTo(this.model, 'change:gameStarted', this.startGame);
+        vent.on('game:stopGame', this.stopGame, this);
+        vent.on('removePage', this.remove, this);
         vent.on('game:showBtn', function () {
             this.modules.btn.showEl();
         }, this);
 
+        this.gameNumber = 0;
     },
 
     render: function () {
@@ -84,49 +97,40 @@ export var GamePageView = Backbone.View.extend({
         $('body').append(this.$el);
 
         this.modules = {};
-        this.modules.obtypingV = new TypingV(this.options);
+        this.modules.typingV = new TypingV(this.options);
         this.modules.canvas = new Canvas(this.options);
         this.modules.btn = new Btn(this.options);
         this.modules.shooterV = new ShooterV(this.options);
         this.modules.loaderV = new LoaderV(this.options);
         this.modules.boardResult = new BoardResult(this.options);
         this.modules.boardLeader = new BoardLeaderV(this.options);
-
+        this.shooterMouseArea = new ShooterMouseArea(this.options);
     },
-    startGame: function (isFirstStart) {
-        if (!isFirstStart) {
-            this.model.clear().set(this.model.defaults);
-            this.modules.obtypingV.updateView();
-        }
+    startGame: function (model, gameStarted) {
+        if (!gameStarted) return;
 
-        this.modules.shooterMouseArea = new ShooterMouseArea(this.options);
-        this.modules.shooterMouseArea.render();
+        if (this.gameNumber++) {
+            this.modules.typingV.updateView();
+        }
 
         this.modules.shooterV.show();
         this.modules.loaderV.show();
-        //this.modules.boardResult.hide();
-        //this.modules.boardLeader.hide();
     },
     stopGame: function () {
-        this.modules.shooterMouseArea.remove();
+        this.shooterMouseArea.cleanAttr();
         this.modules.shooterV.hide();
         this.modules.loaderV.hide();
         this.modules.boardResult.show();
-    },
-    counter: function (param) {
-        this.model.set(param, this.model.get(param) + 1);
+
+        this.model.setDefaults();
     },
     remove: function () {
         vent.off();
         Backbone.View.prototype.remove.call(this);
     },
-    updateView: function() {
+    updateView: function () {
         this.remove();
         this.render();
     }
 });
-
-//$(function () {
-//    new GamePageView();
-//});
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Score;
+use App\Description;
 use Illuminate\Http\Request;
 //use DB;
 
@@ -14,26 +15,28 @@ use Illuminate\Http\Request;
 | and give it the controller to call when that URI is requested.
 |
 */
-
 Route::get('/', function () {
     return view('game');
 });
 
 Route::get('bestScore', function () {
-
 //    $score = Score::all();
 //    $score = json_encode($score);
     $score = Score::orderBy('score', 'DESC')->get(); //->take(8)
-
     return $score;
 });
 
 Route::post('bestScore', function (Request $request) {
-
     $model = new Score;
     $model->name = $request->input('name');
     $model->score = $request->input('score');
     $model->save();
-
     return json_encode($model);
 });
+
+//Route::get('descWork', function () {
+////    return  func_num_args() ;
+////    $desc = DB::table('descriptions')->where('namePage', '=', 'anywayanyday')->first();
+////    return json_encode($desc);
+//    return json_encode( Description::all() );
+//});

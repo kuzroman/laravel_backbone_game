@@ -1,0 +1,35 @@
+@import "../param.scss";
+
+.back-to-work {
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  top: 35px; left: 35px;
+  cursor: pointer;
+  z-index: $zIndex-1;
+}
+.back-to-work i {
+  width: 8px;
+  height: 8px;
+  background: $bg-4;
+  position: absolute;
+  transition: 0.3s;
+}
+.back-to-work i:nth-child(1) {left: 0; top:0}
+.back-to-work i:nth-child(2) {left: 10px; top:0}
+.back-to-work i:nth-child(3) {left: 20px; top:0}
+.back-to-work i:nth-child(4) {left: 0; top:10px}
+.back-to-work i:nth-child(5) {left: 10px; top:10px}
+.back-to-work i:nth-child(6) {left: 20px; top:10px}
+.back-to-work i:nth-child(7) {left: 0; top:20px}
+.back-to-work i:nth-child(8) {left: 10px; top:20px}
+.back-to-work i:nth-child(9) {left: 20px; top:20px}
+
+.back-to-work:hover {
+  width: 48px;
+  height: 48px;
+}
+.back-to-work:hover i:nth-child(1) {left: 20px; top: -10px}
+.back-to-work:hover i:nth-child(7) {left: 20px; top: 30px}
+.back-to-work:hover i:nth-child(3) {left: 30px; top: 10px}
+.back-to-work:hover i:nth-child(9) {left: 40px; top: 10px}

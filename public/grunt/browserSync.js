@@ -5,7 +5,6 @@ module.exports = {
             'assets/css/*.css',
             '*.html'
         ]
-
     },
     options: {
         watchTask: true // позволяет работать слушателю
@@ -13,6 +12,6 @@ module.exports = {
         //    baseDir: "./",
         //    //index: "game.html"
         //}
-        ,proxy: "laravelGame" // if we started with another server (wamp)
+        ,proxy: "game" // if we started with another server (wamp)
     }
 };

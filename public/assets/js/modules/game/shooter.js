@@ -1,6 +1,6 @@
 var $ = require("jquery");
 var _ = require("underscore");
-var Backbone = require("backbone");
+//var Backbone = require("backbone");
 import {vent} from '../../helper';
 import {letters} from './typing.js';
 
@@ -9,7 +9,8 @@ import {letters} from './typing.js';
 
 var Shooter = Backbone.Model.extend({
     defaults: {
-        x: 0
+        x: 0,
+        firstShot: true
     }
 });
 var shooter = new Shooter();
@@ -23,27 +24,39 @@ export var ShooterMouseArea = Backbone.View.extend({
     },
     initialize: function (options) {
         this.parentV = options.pageV;
+        this.parentM = options.model;
         this.model = shooter;
-        //this.render();
+        this.render();
         vent.on('removePage', this.remove, this);
     },
     render: function () {
-        //console.log(this.model);
         this.parentV.$el.append(this.$el);
+        //this.cleanAttr();
     },
     shooterMove: function (event) {
-        //console.log(event.offsetX);
+        //console.log(this.model.get('x'));
         this.model.set('x', event.offsetX);
     },
-    bulletShot: function (event) {
-        if (!this.firstShot) {
+    bulletShot: function () {
+        //console.log(this.parentM);
+        if (!this.parentM.get('textLoaded') ||
+            !this.parentM.get('gameStarted') ||
+            this.parentM.get('gameFinished'))
+            return;
+
+        if (this.model.get('firstShot')) {
             vent.trigger('startTimer');
-            this.firstShot = true;
+            this.model.set('firstShot', false);
         }
+
+        vent.trigger('game:audio:shoot');
         vent.trigger('game:changeShoots');
         let bullet = new Bullet({x: this.model.get('x')});
         new BulletV({model: bullet});
         bullet.changeY();
+    },
+    cleanAttr: function () {
+        this.model.clear().set(this.model.defaults);
     }
 });
 
@@ -77,11 +90,8 @@ export var ShooterV = Backbone.View.extend({
     remove: function () {
         this.hide();
         Backbone.View.prototype.remove.call(this);
-    },
-    //updateView: function() {
-    //    this.remove();
-    //    this.render();
-    //}
+    }
+
 });
 
 ////////////////////////////////////////////////
@@ -104,13 +114,11 @@ var Bullet = Backbone.Model.extend({
             var aims = letters.models
                 , bX1 = this.get('x')
                 , bX2 = this.get('x') + 12 // bullet size
-            //,allKilled = 0
                 ;
+
             for (var i = 0, len = aims.length; i < len; i++) {
-                //console.log(1);
-                if (aims[i].get('killed')) {
-                    continue;
-                }
+
+                if (aims[i].get('killed') || !aims[i].get('isGoal') ) continue;
 
                 // they on the one axis y
                 if (this.get('y') == aims[i].get('y2') || this.get('y') == aims[i].get('y2') + speed) {
