@@ -1,20 +1,15 @@
-var $ = require("jquery");
-var _ = require("underscore");
+//var $ = require("jquery");
+//var _ = require("underscore");
 //var Backbone = require("backbone");
 
-import {hp, vent} from '../../helper';
+import {hp, vent, params} from '../../helper';
 import {dataWorks} from './work';
 import {BackPageV} from '../backPage';
 
 export var DescPageV = Backbone.View.extend({
-    className: 'desc',
+    className: 'page desc',
     initialize: function (options) {
-
         options = _.extend({pageV: this}, options);
-        // options = {
-        //    pageV: this,
-        //    pageName: options.pageName
-        //};
         new DescV(options);
         new BackPageV(options);
 
@@ -26,14 +21,20 @@ export var DescPageV = Backbone.View.extend({
         $('body').append(this.el);
         this.show();
     },
-    show: function () {
+    remove: function () {
+        vent.off();
+
+        $('body').addClass('rotate');
+        this.$el.addClass('rotate');
         setTimeout(()=> {
-            this.$el.animate({left: 0}, 300);
-        }, 10)
+            Backbone.View.prototype.remove.call(this);
+            vent.trigger('removeDesc');
+        }, params.speedChangePage);
     }
 });
 
 var DescV = Backbone.View.extend({
+    className: 'content',
     template: hp.tmpl('tmplDesc'),
     initialize: function (options) {
         this.pageV = options.pageV;
@@ -42,7 +43,7 @@ var DescV = Backbone.View.extend({
 
         this.render();
 
-        vent.on('removePage', this.remove, this);
+        vent.on('removeDesc', this.remove, this);
     },
     render: function () {
         var data = _.find(dataWorks, (model) => {

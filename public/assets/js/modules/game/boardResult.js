@@ -1,5 +1,5 @@
-var $ = require("jquery");
-var _ = require("underscore");
+//var $ = require("jquery");
+//var _ = require("underscore");
 //var Backbone = require("backbone");
 import {hp, vent, params} from '../../helper';
 
@@ -12,29 +12,35 @@ export var BoardResult = Backbone.View.extend({
         'click #openBoardLeader': 'openBoardLeader'
     },
     initialize: function (options) {
+        this.isShowed = false;
+
         this.parentV = options.pageV;
         this.render();
+        this.resize();
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         this.parentV.$el.append(this.$el.append(this.template));
     },
     close: function () {
         this.hide();
-        vent.trigger('game:showBtn');
+        vent.game.trigger('showBtn');
     },
     openBoardLeader: function () {
         this.hide();
         vent.trigger('openBoardLeader');
     },
     show: function () {
+        this.isShowed = true;
         this.setAccuracy();
         this.setScore();
         this.getBestScoreAndRecord(this.model.get('score'));
         this.scoring();
-        this.$el.animate({left: params.bodyW / 2 - 232, opacity:1}, 300);
+        this.$el.animate({left: (params.bodyW - this.$el.width()) / 2, opacity: 1}, 300);
     },
     hide: function () {
-        this.$el.animate({left:-500, opacity:0}, 300);
+        this.isShowed = false;
+        this.$el.animate({left: -500, opacity: 0}, 300);
     },
     scoring: function () {
         this.$el.find('#resTimeSpend').text(this.model.get('timeSpend'));
@@ -71,5 +77,16 @@ export var BoardResult = Backbone.View.extend({
         //console.log({bestScore:bestScore, record:record});
         this.model.set('bestScore', bestScore);
         this.model.set('record', record);
+    },
+    resize: function () {
+        var self = this, resizeTimeoutId;
+        //console.log(this);
+        $(window).on('resize', function () {
+            if (!self.isShowed) return;
+            clearTimeout(resizeTimeoutId);
+            resizeTimeoutId = setTimeout(function () {
+                self.$el.animate({left: (params.bodyW - self.$el.width()) / 2, opacity: 1}, 300);
+            }, 200);
+        });
     }
 });

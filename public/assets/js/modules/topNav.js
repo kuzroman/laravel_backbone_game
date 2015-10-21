@@ -1,4 +1,4 @@
-var $ = require("jquery");
+//var $ = require("jquery");
 //var Backbone = require("backbone");
 
 import {hp} from '../helper';
@@ -44,14 +44,18 @@ var NavIconView = Backbone.View.extend({
         'click': 'toggleOpened'
     }
     , initialize: function () {
-        $("body").append(this.el);
-        //console.log('init NavIconView');
-        //this.setElement($('#topMenu'));
+        this.render();
         this.model = navigation;
         this.listenTo(ev, 'changeOpened', this.changeIcon);
+    },
+    render: function () {
+        var arr = new Array(3);
+        $.each(arr, (n) => {
+            this.$el.append($('<i>'));
+        });
+        $("body").append(this.el);
     }
     , toggleOpened: function () {
-        //console.log('toggleOpened');
         this.model.toggle();
     }
     , changeIcon: function () {

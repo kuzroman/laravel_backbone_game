@@ -1,5 +1,5 @@
-var $ = require("jquery");
-var _ = require("underscore");
+//var $ = require("jquery");
+//var _ = require("underscore");
 //var Backbone = require("backbone");
 import {hp, vent, params} from '../../helper';
 
@@ -11,24 +11,30 @@ export var BoardLeaderV = Backbone.View.extend({
         'click .resultsClose': 'close'
     },
     initialize: function (options) {
+        this.isShowed = false;
+
         this.parentV = options.pageV;
         this.gameModel = options.model;
         this.render();
+        this.resize();
         vent.on('openBoardLeader', this.show, this);
         vent.on('hadGotScores', this.hadGotScores, this);
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         this.parentV.$el.append(this.$el.append(this.template));
     },
     close: function () {
         this.hide();
-        vent.trigger('game:showBtn');
+        vent.game.trigger('showBtn');
     },
     show: function () {
+        this.isShowed = true;
         this.getScore();
-        this.$el.animate({left: params.bodyW / 2 - 232, opacity: 1}, 300);
+        this.$el.animate({left: (params.bodyW - this.$el.width()) / 2, opacity: 1}, 300);
     },
     hide: function () {
+        this.isShowed = false;
         this.$el.animate({left: params.bodyW, opacity: 0}, 300);
     },
     getScore: function () {
@@ -52,6 +58,16 @@ export var BoardLeaderV = Backbone.View.extend({
 
         //console.log(collect);
         new LeadersV({collection: collect}).render();
+    },
+    resize: function () {
+        var self = this, resizeTimeoutId;
+        $(window).on('resize', function () {
+            if (!self.isShowed) return;
+            clearTimeout(resizeTimeoutId);
+            resizeTimeoutId = setTimeout(function () {
+                self.$el.animate({left: (params.bodyW - self.$el.width()) / 2, opacity: 1}, 300);
+            }, 200);
+        });
     }
 });
 
@@ -59,6 +75,7 @@ var LeadersV = Backbone.View.extend({
     initialize: function (options) {
         this.setElement('#topLeaders');
         this.$el.empty();
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
 
@@ -96,6 +113,7 @@ var LeaderV = Backbone.View.extend({
     },
     initialize: function (options) {
         this.line = options.line || false;
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         if (this.line) return this;

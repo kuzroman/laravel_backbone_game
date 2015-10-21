@@ -14,8 +14,13 @@ build:
   - 'webpack'
 #  - 'webpack:build'
 
-someTest:
- description: 'hepfull plugins: clean, copy, watch'
- tasks:
-  - 'clean'
-  - 'copy:postinstall'
+#allWorks:
+# description: 'test page allworks'
+# tasks:
+#  - 'browserSync'
+
+#someTest:
+# description: 'hepfull plugins: clean, copy, watch'
+# tasks:
+#  - 'clean'
+#  - 'copy:postinstall'

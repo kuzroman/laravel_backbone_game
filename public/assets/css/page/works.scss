@@ -3,14 +3,19 @@
 $opacity-1: 0.9;
 
 .works {
-  width: 100%;
-  //max-width: 1200px;
-  min-height: 100%;
-  overflow: hidden;
-  margin: 100px auto 0;
-  box-sizing: border-box;
-  position: absolute;
-  top: 0; left: -100%;
+  //width: 100%;
+  //overflow: hidden;
+  //margin: auto;
+  //box-sizing: border-box;
+  //position: absolute;
+  top: 100px;
+  //left: -100%;
+}
+
+@media screen and (max-width: $mediaMaxWidth-1) {
+  .works {
+    top: 75px;
+  }
 }
 
 .works-work {
@@ -20,6 +25,7 @@ $opacity-1: 0.9;
   color: $color-2;
   position: absolute;
   cursor: pointer;
+
   text-decoration: none;
 }
 
@@ -33,27 +39,6 @@ $opacity-1: 0.9;
   line-height: 26px;
   position: relative;
 }
-
-//.works-work-title > div {
-//  position: absolute;
-//  top: 6px;
-//}
-//
-//.works-work-title i {
-//  height: 12px;
-//  width: 12px;
-//  display: inline-block;
-//  border-radius: 50%;
-//  margin: 0 3px;
-//  background: #ff5f57;
-//  float: left;
-//}
-//.works-work-title i:nth-child(2) {
-//  background: #ffbd2e;
-//}
-//.works-work-title i:nth-child(3) {
-//  background: #28ca41;
-//}
 
 .works-work-title > i {
   position: absolute;
@@ -133,7 +118,7 @@ $opacity-1: 0.9;
   position: relative;
 
   top: 150px;
-  transition: 0.3s;
+  transition: $transition-1;
   /*transition: 0.1s cubic-bezier(1, 1.2, 1, 1.2);*/
 }
 .works-img:hover .works-img-desc > div {
@@ -164,45 +149,63 @@ $opacity-1: 0.9;
 
 /*@media screen and (max-width: 980px) {*/
 /*}*/
-@media screen and (max-width: 650px) {
-  .works {
-    height: initial !important;
-    position: static;
-  }
-  .works-work {
-    //width: 80%;
-    margin: 20px auto;
-    position: static;
-  }
-}
+//@media screen and (max-width: 650px) {
+//  .works {
+//    //height: initial !important;
+//    //position: static;
+//  }
+//  .works-work {
+//    //width: 80%;
+//    margin: 20px auto;
+//    position: static;
+//  }
+//}
 
 /*@media screen and (max-width: 480px) {*/
 /*}*/
 
-/*/////////////////////////////////////////////////////////////*/
+//----------------------------------------------------------------------------
 /* in addition to work (will not work without works.css) */
-.skills {
-  @extend .works;
-}
+//.skills {
+//  @extend .works;
+//}
 
-.skills > div {
+.skillsBox {
   overflow: hidden;
   text-align: center;
+  padding: 0 10%;
+}
+
+.skills .stripe {
+  top: 7px;
+}
+
+.skills .experience {
+  margin-bottom: 20px;
+}
+.skills .experience:before {
+  content: attr(data-experience);
+  display: block;
+  font-size: $fontSize-3;
+  margin-bottom: 20px;
+  color: $color-3;
 }
 
 .skills .works-work {
   width: 175px;
   display: inline-block;
   position: static;
+  margin: 10px;
 }
 
 .skills .works-work-title {
   padding-left: 0;
+  cursor: auto;
 }
 
-.skills .works-img {
-  height: 130px;
-}
+//.skills .works-img {
+//  height: 130px;
+//}
 
 .skills .img-bg {
   height: 100%;
@@ -212,11 +215,12 @@ $opacity-1: 0.9;
   position: relative;
 }
 
-.skills .works-img:before {
-  top: 100%;
-  background: green;
-}
-
-.skills .works-img:hover:before {
-  top: 0;
-}
+//.skills .works-img:before {
+//  top: 100%;
+//  background: green;
+//}
+//
+//.skills .works-img:hover:before {
+//  top: 0;
+//}
+//----------------------------------------------------------------------------

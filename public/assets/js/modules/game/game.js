@@ -1,5 +1,5 @@
-var $ = require("jquery");
-var _ = require("underscore");
+//var $ = require("jquery");
+//var _ = require("underscore");
 //var Backbone = require("backbone");
 import {hp, vent, params} from '../../helper';
 
@@ -11,11 +11,12 @@ import {Canvas} from './canvasPartialsFall.js';
 import {BoardResult} from './boardResult.js';
 import {BoardLeaderV} from './boardLeader.js';
 
+
 var Game = Backbone.Model.extend({
     defaults: {
-        PERIOD: 1, // stop the time if all goal reached
-        SPEED_TYPING: 0, // 10
-        SPEED_PARTIALS: 0, // 15
+        PERIOD: 10, // stop the time if all goal reached
+        SPEED_TYPING: 10, // 10
+        SPEED_PARTIALS: 15, // 15
         NUMBER_GOALS: 0, // set in typing
 
         timeSpend: 0,
@@ -31,22 +32,22 @@ var Game = Backbone.Model.extend({
         gameFinished: false
     },
     initialize: function () {
-        vent.on('game:textLoaded', function () {
+        vent.game.on('textLoaded', function () {
             this.set('textLoaded', true);
         }, this);
-        vent.on('game:changeDestroyed', function () {
+        vent.game.on('changeDestroyed', function () {
             this.counter('destroyed')
         }, this);
-        vent.on('game:changeShoots', function () {
+        vent.game.on('changeShoots', function () {
             this.counter('shoots')
         }, this);
-        vent.on('game:changeTimeSpend', function () {
+        vent.game.on('changeTimeSpend', function () {
             this.counter('timeSpend')
         }, this);
-        vent.on('game:changeBulletsReachedGoal', function () {
+        vent.game.on('changeBulletsReachedGoal', function () {
             this.counter('bulletsReachedGoal')
         }, this);
-        vent.on('game:startGame', function () {
+        vent.game.on('startGame', function () {
             this.set('gameStarted', true);
         }, this);
     },
@@ -57,7 +58,7 @@ var Game = Backbone.Model.extend({
         if (!result) return;
 
         this.set('gameFinished', result);
-        vent.trigger('game:stopGame'); // нельзя слушать через модель, т.к. необходимо делать сброс модели вконце игры
+        vent.game.trigger('stopGame'); // нельзя слушать через модель, т.к. необходимо делать сброс модели вконце игры
         return result;
     },
     counter: function (param) {
@@ -75,31 +76,47 @@ var Game = Backbone.Model.extend({
 });
 
 export var GamePageView = Backbone.View.extend({
-    className: 'game',
+    className: 'page game',
     initialize: function () {
+        this.modules = {};
+        this.show();
         this.render();
 
         this.listenTo(this.model, 'change:gameStarted', this.startGame);
-        vent.on('game:stopGame', this.stopGame, this);
-        vent.on('removePage', this.remove, this);
-        vent.on('game:showBtn', function () {
+        vent.game.on('stopGame', this.stopGame, this);
+        vent.game.on('showBtn', function () {
             this.modules.btn.showEl();
         }, this);
 
         this.gameNumber = 0;
+        vent.on('pageLoaded', this.loadModules, this);
+        vent.on('removePage', this.remove, this);
     },
-
+    //renderOld: function () {
+    //    var gameModel = new Game(), options;
+    //    this.options = {model: gameModel, pageV: this};
+    //    this.model = gameModel;
+    //    $('body').append(this.$el);
+    //    this.modules = {};
+    //    this.modules.typingV = new TypingV(this.options);
+    //    this.modules.canvas = new Canvas(this.options);
+    //    this.modules.btn = new Btn(this.options);
+    //    this.modules.shooterV = new ShooterV(this.options);
+    //    this.modules.loaderV = new LoaderV(this.options);
+    //    this.modules.boardResult = new BoardResult(this.options);
+    //    this.modules.boardLeader = new BoardLeaderV(this.options);
+    //    this.shooterMouseArea = new ShooterMouseArea(this.options);
+    //},
     render: function () {
         var gameModel = new Game(), options;
         this.options = {model: gameModel, pageV: this};
         this.model = gameModel;
-
         $('body').append(this.$el);
-
-        this.modules = {};
+        this.modules.btn = new Btn(this.options);
+    },
+    loadModules: function () {
         this.modules.typingV = new TypingV(this.options);
         this.modules.canvas = new Canvas(this.options);
-        this.modules.btn = new Btn(this.options);
         this.modules.shooterV = new ShooterV(this.options);
         this.modules.loaderV = new LoaderV(this.options);
         this.modules.boardResult = new BoardResult(this.options);
@@ -115,6 +132,9 @@ export var GamePageView = Backbone.View.extend({
 
         this.modules.shooterV.show();
         this.modules.loaderV.show();
+
+        vent.audio.trigger('hideBackground');
+        vent.audio.trigger('play', 'startGame');
     },
     stopGame: function () {
         this.shooterMouseArea.cleanAttr();
@@ -123,10 +143,21 @@ export var GamePageView = Backbone.View.extend({
         this.modules.boardResult.show();
 
         this.model.setDefaults();
+
+        vent.audio.trigger('killGameAudio');
+        vent.audio.trigger('showBackground');
     },
     remove: function () {
+        vent.audio.trigger('killGameAudio');
+        vent.audio.trigger('showBackground');
         vent.off();
-        Backbone.View.prototype.remove.call(this);
+
+        $('body').addClass('rotate');
+        this.$el.addClass('rotate');
+        setTimeout(()=> {
+            Backbone.View.prototype.remove.call(this);
+            vent.trigger('removeGame');
+        }, params.speedChangePage);
     },
     updateView: function () {
         this.remove();

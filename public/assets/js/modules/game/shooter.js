@@ -1,5 +1,5 @@
-var $ = require("jquery");
-var _ = require("underscore");
+//var $ = require("jquery");
+//var _ = require("underscore");
 //var Backbone = require("backbone");
 import {vent} from '../../helper';
 import {letters} from './typing.js';
@@ -27,7 +27,7 @@ export var ShooterMouseArea = Backbone.View.extend({
         this.parentM = options.model;
         this.model = shooter;
         this.render();
-        vent.on('removePage', this.remove, this);
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         this.parentV.$el.append(this.$el);
@@ -49,8 +49,11 @@ export var ShooterMouseArea = Backbone.View.extend({
             this.model.set('firstShot', false);
         }
 
-        vent.trigger('game:audio:shoot');
-        vent.trigger('game:changeShoots');
+        //console.log(letters);
+        //letters.setPositionInModel();
+        
+        vent.audio.trigger('play', 'shoot');
+        vent.game.trigger('changeShoots');
         let bullet = new Bullet({x: this.model.get('x')});
         new BulletV({model: bullet});
         bullet.changeY();
@@ -69,7 +72,7 @@ export var ShooterV = Backbone.View.extend({
         this.model = shooter;
         this.listenTo(this.model, 'change:x', this.move);
         this.render();
-        vent.on('removePage', this.remove, this);
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         this.parentV.$el.append(this.$el);
@@ -106,9 +109,10 @@ var Bullet = Backbone.Model.extend({
     changeY: function () {
         var speed = 2;
         var idInt = setInterval(() => {
-            this.set('y', this.get('y') - 1 - speed);
-            //console.log(self.get('y'));
+            //this.set('y', this.get('y') - 1 - speed);
+            this.set('y', this.get('y') - speed);
 
+            //console.log(letters);
             // + to count of hit
             // + to make the letters disappear
             var aims = letters.models
@@ -119,18 +123,21 @@ var Bullet = Backbone.Model.extend({
             for (var i = 0, len = aims.length; i < len; i++) {
 
                 if (aims[i].get('killed') || !aims[i].get('isGoal') ) continue;
-
+                var y = this.get('y'), y2 = aims[i].get('y2');
+                //console.log(this.get('y'));
+                
                 // they on the one axis y
-                if (this.get('y') == aims[i].get('y2') || this.get('y') == aims[i].get('y2') + speed) {
+                if (y == y2 || y == y2 - 1 || y == y2 + 1 ) {
                     if ((bX1 <= aims[i].get('x1') && aims[i].get('x1') <= bX2) || // bullet at left
                         (bX1 <= aims[i].get('x2') && aims[i].get('x2') <= bX2 )) { // bullet at right
                         // they on the one axis x - Goal!
                         aims[i].set('killed', true);
-                        vent.trigger('game:changeDestroyed');
+                        vent.game.trigger('changeDestroyed');
                         this.countReachedGoal();
-                        if (this.get('numberReachedGoal') == 1)
-                            vent.trigger('game:changeBulletsReachedGoal');
-
+                        if (this.get('numberReachedGoal') == 1) {
+                            vent.game.trigger('changeBulletsReachedGoal');
+                            vent.audio.trigger('play', 'destroyed');
+                        }
                     }
                 }
             }
@@ -150,11 +157,10 @@ var BulletV = Backbone.View.extend({
     className: 'bullet',
     initialize: function () {
         //console.log(letters);
-
         this.listenTo(this.model, 'change:y', this.flight);
         this.listenTo(this.model, 'change:died', this.remove);
         this.render();
-        vent.on('removePage', this.remove, this);
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         $('body').append(this.$el);

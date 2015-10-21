@@ -1,5 +1,5 @@
-var $ = require("jquery");
-var _ = require("underscore");
+//var $ = require("jquery");
+//var _ = require("underscore");
 //var Backbone = require("backbone");
 import {hp, vent, params} from '../../helper';
 
@@ -12,7 +12,7 @@ export var TypingV = Backbone.View.extend({
     initialize: function (options) {
         this.parentV = options.pageV;
         this.render();
-        vent.on('removePage', this.remove, this);
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         this.arrLettersV = [];
@@ -45,7 +45,7 @@ export var TypingV = Backbone.View.extend({
             }
 
             if (len <= ++i) {
-                vent.trigger('game:textLoaded');
+                vent.game.trigger('textLoaded');
                 clearInterval(this.interval)
             }
         }, this.model.get('SPEED_TYPING'));
@@ -75,13 +75,18 @@ var Letter = Backbone.Model.extend({
 
 var Letters = Backbone.Collection.extend({
     model: Letter
+    //setPositionInModel: function () {
+    //    console.log(this);
+    //}
 });
 
 var LetterV = Backbone.View.extend({
     tagName: 'i',
     initialize: function () {
         this.render();
-        vent.on('removePage', this.remove, this);
+        //this.resize();
+        //vent.on('textLoaded', this.setPositionInModel, this); // cause slide effect on start, we need change position in finish
+        vent.on('removeGame', this.remove, this);
         this.listenTo(this.model, 'change:killed', this.hideLetter);
     },
     render: function () {
@@ -105,7 +110,6 @@ var LetterV = Backbone.View.extend({
     },
     setPositionInModel: function () {
         //if (!this.model.get('isGoal')) return;
-        //if (!this.$el.height()) return; // i.display:block
         this.model.set({
             killed: false,
             x1: ~~this.$el.offset().left,
@@ -113,14 +117,43 @@ var LetterV = Backbone.View.extend({
             y1: ~~this.$el.offset().top,
             y2: ~~( this.$el.offset().top + this.$el.height() )
         });
-    }
+    },
+    //resizePositionInModel: function () {
+    //    this.model.set({
+    //        x1: ~~this.$el.offset().left,
+    //        x2: ~~( this.$el.offset().left + this.$el.width() ),
+    //        y1: ~~this.$el.offset().top,
+    //        y2: ~~( this.$el.offset().top + this.$el.height() )
+    //    });
+    //},
+    //resize: function () {
+    //    var self = this, resizeTimeoutId;
+    //    $(window).on('resize', function () {
+    //        console.log(1);
+    //        if (!self.isShowed) return;
+    //        clearTimeout(resizeTimeoutId);
+    //        resizeTimeoutId = setTimeout(function () {
+    //            self.resizePositionInModel();
+    //        }, 200);
+    //    });
+    //}
 });
 
 /////////////////////////////////////////////////////////////////////////////
 
+
+//var myText = `Hello, my name is Roman Kuznetsov.
+//|I am a web Front-End Engineer and UX enthusiast.
+//|I prefer to work in does't big team developers and designers
+//|I don't like long-years projects it's boring.)
+//|Single page applications, no big websites, and landing page are my passion
+//|i'm as fish in the water here.
+//|Feel free to take a look at my most recent projects on my work page.
+//|Also you can stop and say hello at kuzroman@list.ru`;
+
 var myText = `Hello, my name is Roman Kuznetsov.
-|I am a web Front-End Engineer and UX enthusiast.
-|Check out my latest web components and brackets.io extensions at my lab page.
+|I am a web Front-End Developer and UX enthusiast.
+|Single page applications, animation, parallax are my passion
 |Feel free to take a look at my most recent projects on my work page.
 |Also you can stop and say hello at kuzroman@list.ru`;
 

@@ -3,16 +3,46 @@
     <title></title>
     <meta charset="utf-8">
     <meta id="token" content="{{ csrf_token() }}"/>
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+
     <link rel="import" href="/bower_components/slider/slider.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
 </head>
 <body>
+
+{{--<style>--}}
+    {{--#topNav2 {--}}
+        {{--position: absolute;--}}
+        {{--top: 10px;--}}
+        {{--left: 10px;--}}
+        {{--z-index: 1000;--}}
+    {{--}--}}
+
+    {{--#topNav2 a {--}}
+        {{--color: white;--}}
+    {{--}--}}
+{{--</style>--}}
+{{--<nav id="topNav2">--}}
+    {{--<a href="#/skills"><span>skills</span></a>--}}
+    {{--<a href="#/work"><span>work</span></a>--}}
+    {{--<a href="#/"><span>about</span></a>--}}
+    {{--<a href="#/contact"><span>contact</span></a>--}}
+{{--</nav>--}}
+
+{{--<a href="#/" class="logo">--}}
+    {{--<canvas id="canvasLogo"></canvas>--}}
+{{--</a>--}}
+
 <script type="text/template" id="tmplSkill">
     <div class="works-work-title">
         <span><%=title%></span>
     </div>
+    {{--<div class="works-img">--}}
+        {{--<div class="img-bg" style="background-image:url('assets/img/skills/<%=nameImg%>.png')"></div>--}}
+    {{--</div>--}}
 </script>
+
 <script type="text/template" id="tmplScoreBoard">
     <div title="Time limit" class="timeLimit">
         <svg version="1.1" width="22" xmlns="http://www.w3.org/2000/svg" preserveaspectratio="xMidYMid meet"
@@ -26,6 +56,7 @@
         <div id="loaderSlip" class="loaderSlip"></div>
     </div>
 </script>
+
 <script type="text/template" id="tmplBoardResult">
     <div class="resultsTable">
         <div>
@@ -57,6 +88,7 @@
         </div>
     </div>
 </script>
+
 <script type="text/template" id="tmplBoardLeader">
     <div class="leaderTable">
         <div>
@@ -75,12 +107,14 @@
                                                maxlength="15"></span></div>
     <div><a class="linkBtn" id="saveScore">SAVE</a> <%=score%></div>
 </script>
+
 <script type="text/template" id="tmplMenu">
     <a href="#/"><span>game</span></a>
     <a href="#/work"><span>work</span></a>
     <a href="#/skills"><span>skills</span></a>
     <a href="#/contact"><span>contact</span></a>
 </script>
+
 <script type="text/template" id="tmplWork">
     <div class="works-work-title">
         <i></i>
@@ -96,6 +130,7 @@
         </div>
     </div>
 </script>
+
 <script type="text/template" id="tmplDesc">
     <h1><%=nameCompany%> - <%=nameTitle%></h1>
     <p><%=descCompany%></p>
@@ -128,6 +163,8 @@
     </div>
     <% } %>
 </script>
+
+
 <script type="text/template" id="tmplResume">
     <h2>About</h2>
     <p>Professional Front-end web developer with 5 years old experience<br>
@@ -149,12 +186,13 @@
     <h2>Education</h2>
     <p>Bachelor of Science in Computer Science - 2002-2007</p>
 </script>
+
 <script type="text/template" id="tmplContact">
 <div class="content">
     <h1>I am freelancing</h1>
     <p>I am currently based in Moscow. Wanna talk to me about a project or hire me for a freelance?</p>
     <p>Just send an email to
-        <a href="mailto:1kuzroman@gmail.com">kuzroman@list.ru</a>
+        <a href="mailto:1kuzroman@gmail.com">1kuzroman@gmail.com</a>
         and let's talk.
     </p>
     <div class="social">
@@ -163,6 +201,26 @@
     </div>
 </div>
 </script>
+
+{{--
+    ul#nav>li.item$*4>a{item $}
+    div>(header>ul>li*2>a)+footer>p
+    div+div>p>span+em^^^bq
+    (div>dl>(dt+dd)*3)+footer>p
+    ul>li.item$@-*5 // change numbering direction
+    ul>li.item$@3*5 // change counter base
+    p*4>lorem
+--}}
+
+
+
+{{--<script src="node_modules/jquery/dist/jquery.js"></script>--}}
+{{--<script src="node_modules/underscore/underscore.js"></script>--}}
+{{--<script src="node_modules/backbone/backbone.js"></script>--}}
+
+{{--<script src="assets/js/routers.js"></script>--}}
+
 <script src="dist/main.js"></script>
+
 </body>
 </html>

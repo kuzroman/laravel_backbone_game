@@ -19,6 +19,10 @@ Route::get('/', function () {
     return view('game');
 });
 
+Route::get('/allWorks', function () {
+    return view('allWorks');
+});
+
 Route::get('bestScore', function () {
 //    $score = Score::all();
 //    $score = json_encode($score);

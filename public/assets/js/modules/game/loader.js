@@ -1,5 +1,5 @@
-var $ = require("jquery");
-var _ = require("underscore");
+//var $ = require("jquery");
+//var _ = require("underscore");
 //var Backbone = require("backbone");
 import {hp, vent} from '../../helper';
 
@@ -14,7 +14,7 @@ export var LoaderV = Backbone.View.extend({
         this.timer = new TimerV(options);
         this.loaderSlipV = new LoaderSlipV(options);
 
-        vent.on('removePage', this.remove, this);
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         this.parentV.$el.append(this.$el.append(this.template));
@@ -37,8 +37,8 @@ var LoaderSlipV = Backbone.View.extend({
 
         this.width = this.$el.width();
 
-        vent.on('game:changeDestroyed', this.shift, this);
-        vent.on('removePage', this.remove, this);
+        vent.game.on('changeDestroyed', this.shift, this);
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         this.$el.css({left: 0 });
@@ -57,9 +57,8 @@ var TimerV = Backbone.View.extend({
         this.setElement('#timer');
         this.model = options.model;
         //this.render();
-        vent.on('removePage', this.remove, this);
         vent.on('startTimer', this.start, this);
-        vent.on('removePage', this.remove, this);
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         this.$el.text(this.model.get('PERIOD') - this.model.get('timeSpend'));
@@ -68,7 +67,7 @@ var TimerV = Backbone.View.extend({
         //console.log('startTimer');
         var id = setInterval(() => {
             //console.log('isGameFinished',this.model.isGameFinished());
-            vent.trigger('game:changeTimeSpend');
+            vent.game.trigger('changeTimeSpend');
             this.render();
             if (this.model.isGameFinished()) {
                 //console.log('clear timer');

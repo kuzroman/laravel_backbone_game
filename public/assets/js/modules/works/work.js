@@ -1,15 +1,15 @@
-var $ = require("jquery");
-var _ = require("underscore");
+//var $ = require("jquery");
+//var _ = require("underscore");
 //var Backbone = require("backbone");
 
-import {hp, vent} from '../../helper';
+import {hp, vent, params} from '../../helper';
 
 ///////////////////////////////////////////////////////////////////////
 
 // todo чтобы небыло задержки можно показыват их полсе рендеринга!
 
 export var WorksPageView = Backbone.View.extend({
-    className: 'works',
+    className: 'page works',
     initialize: function () {
         this.render();
         new WorksView({pageV: this});
@@ -19,19 +19,20 @@ export var WorksPageView = Backbone.View.extend({
         $('body').append(this.el);
         this.show();
     },
-    show: function () {
-        setTimeout(()=> {
-            this.$el.animate({left: 0}, 300);
-        }, 10);
-    },
     remove: function () {
         vent.off();
-        Backbone.View.prototype.remove.call(this);
+
+        $('body').addClass('rotate');
+        this.$el.addClass('rotate');
+        setTimeout(()=> {
+            Backbone.View.prototype.remove.call(this);
+            vent.trigger('removeWork');
+        }, params.speedChangePage);
     }
 });
 
 var WorksView = Backbone.View.extend({
-    //id: 'works-view',
+    className: 'works-view',
     initialize: function (options) {
         this.parentV = options.pageV;
         this.worksV = _.map(dataWorks, function (work) {
@@ -41,7 +42,7 @@ var WorksView = Backbone.View.extend({
         this.render();
         this.cubsInLine();
         this.resize();
-        vent.on('removePage', this.remove, this);
+        vent.on('removeWork', this.remove, this);
     },
     render: function () {
         this.parentV.$el.append(this.$el);
@@ -54,16 +55,19 @@ var WorksView = Backbone.View.extend({
         var countEl = this.worksV.length
             , elSize = 325 // 25 it's offset
             , fieldW = this.$el.width()
-            , countInColumn = Math.floor(fieldW / elSize)
-            , countInRow = Math.ceil(countEl / countInColumn)
+            , countInColumn = Math.floor(fieldW / elSize) || 1;
+
+        if (countInColumn == 1) elSize = 300;
+
+        var countInRow = Math.ceil(countEl / countInColumn)
             , fieldH = countInRow * elSize
             , centerX = ( fieldW - (countInColumn * elSize) ) / 2
             , centerY = ( fieldH - (countInRow * elSize) ) / 2
             , x = centerX, y = centerY
             ;
 
-        if (fieldW < 650) return; // we will work only with css!
-        //console.log(countInColumn, countInRow, elSize);
+        //if (fieldW < 480) return; // we will work only with css!
+        //console.log(countEl, countInColumn, countInRow, elSize );
 
         for (var i = 0; i < countEl; i++) {
             //coordinateList[i] = {x:x, y:y};
@@ -88,6 +92,7 @@ var WorksView = Backbone.View.extend({
         $(window).on('resize', function () {
             clearTimeout(resizeTimeoutId);
             resizeTimeoutId = setTimeout(function () {
+                //alert($(window).width());
                 self.cubsInLine(true);
             }, 200);
         });
@@ -102,20 +107,14 @@ var WorkView = Backbone.View.extend({
     tagName: 'a',
     className: 'works-work',
     template: hp.tmpl('tmplWork'),
-    //events: {
-    //    "click": "openDescription"
-    //},
     initialize: function () {
         this.render();
-        vent.on('removePage', this.remove, this);
+        vent.on('removeWork', this.remove, this);
     },
     render: function () {
         this.$el.attr('href', '#/work/' + this.model.get('href'));
         this.$el.html(this.template(this.model.toJSON()));
-    },
-    //openDescription: function () {
-    //    console.log('click');
-    //}
+    }
 });
 
 // названия страниц в формате дефисов! cash-back-calc
@@ -130,6 +129,17 @@ export var dataWorks = [
         skills: ['HTML','CSS3','JavaScript','jQuery', 'AJAX', 'JSON, JSONP', 'Require.js', 'Git', 'Photoshop', 'Responsive Website Design'],
         descDopInfo: '',
         link: 'http://www.anywayanyday.com/'
+    },
+    {
+        href: 'kuzroman',
+        nameTitle: 'Portfolio',
+        nameCompany: 'Kuznetsov Roman',
+        descCompany: '',
+        numberImg: 3,
+        descDeal: 'The idea behind this project was to create a showcase of everything I have worked on in the past few years. I tried to keep the UI as simple as possible.',
+        skills: ['HTML5','CSS3','JavaScript','ES6','jQuery','AJAX','JSON','Backbone','Underscore','Grunt','Webpack','Babel','SASS','BrowserSync','Bower','NPM', 'PHP', 'Laravel','MySQL','Git','GitHub','Photoshop'],
+        descDopInfo: '',
+        link: ''
     },
     {
         href: 'private-banking-platinum',
@@ -177,36 +187,25 @@ export var dataWorks = [
     },
     {
         href: 'cash-back-calc',
-        nameTitle: 'Cash back calculator',
+        nameTitle: 'Calculators, transfers, services',
         nameCompany: 'Bank of Moscow',
         descCompany: 'Russian Bank providing banking services to both legal entities and individuals',
-        numberImg: 3,
-        descDeal: '<i>The calculation of the money by program cash back</i> <hr> <p> <ul><li>calendar programs</li><li>calculator money back</li></ul> </p>',
-        skills: ['HTML', 'CSS3, SASS', 'JavaScript', 'jQuery', 'AJAX', 'Bower', 'Git', 'Photoshop'],
+        numberImg: 4,
+        descDeal: '<p> In my duties included creating tools for a work with product of bank.<br>Mortgage calculators, loan calculators, money transfers from card to card, sale of the collateral. </p>',
+        skills: ['HTML', 'CSS3, SASS', 'JavaScript', 'jQuery', 'AJAX', 'Bower', 'Git', 'Photoshop', 'Twig'],
         descDopInfo: '',
-        link: ''
+        link: 'https://www.bm.ru/ru/personal/platezhi-i-perevody/perevody-s-kart/perevody-s-karty-na-karty/'
     },
     {
-        href: 'cash-back',
-        nameTitle: 'Landing page', // пишем либо название компании, либо что делал
-        nameCompany: 'Bank of Moscow',
-        descCompany: 'Russian Bank providing banking services to both legal entities and individuals',
-        numberImg: 2,
-        descDeal: '<i>Landing page for promotion</i>',
-        skills: ['HTML', 'CSS3, SASS', 'JavaScript', 'jQuery', 'Parallax', 'UI/UX animations', 'Bower', 'Git', 'Photoshop'],
+        href: 'advertising-boulevard',
+        nameTitle: 'Creative agency',
+        nameCompany: 'Advertising boulevard',
+        descCompany: 'Strategic marketing, creative development and production',
+        numberImg: 7,
+        descDeal: '<i>Mostly layout from psd to html and js</i><br><a href="http://trueski.ru/">trueski.ru</a><br><a href="http://www.belbereg.ru/">belbereg.ru</a><br><a href="http://www.imperialtea.ru/">imperialtea.ru</a><br><a href="http://www.tom-t.ru/">tom-t.ru</a><br><a href="www.trans-i.ru">trans-i.ru</a><br>',
+        skills: ['HTML', 'CSS3', 'JavaScript', 'jQuery', 'animations', 'Photoshop'],
         descDopInfo: '',
-        link: 'http://www.bm.ru/lp/011/'
-    },
-//    {
-//        href: 'tretyakov-gallery',
-//        nameTitle: 'Landing page',
-//        nameCompany: 'Bank of Moscow',
-//        descCompany: 'Russian Bank providing banking services to both legal entities and individuals',
-//        numberImg: 2,
-//        descDeal: '',
-//        skills: ['custom','custom','custom','custom','custom','custom','custom'],
-//        descDopInfo: '',
-//        link: 'bm.ru/lp/011/'
-//    }
+        link: 'http://www.designbox.ru/eng/'
+    }
 ];
 

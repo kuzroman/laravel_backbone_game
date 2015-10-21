@@ -67,15 +67,22 @@
   }
 }
 
-
+@media screen and (max-width: $mediaMaxWidth-1) {
+  .results {
+    width: 100%;
+  }
+  .results > div > div {
+    padding: 20px 0;
+  }
+}
 
 #leaders {
   left: 100%;
 }
 
 .resultsClose {
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
   width: 30px;
   height: 30px;
   position: absolute;

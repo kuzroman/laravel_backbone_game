@@ -4,6 +4,7 @@ html {
   height: 100%;
 }
 body {
+  min-width: 320px;
   height: 100%;
   background: $bg-1;
   color: $color-1;
@@ -11,6 +12,47 @@ body {
   font-family: sans-serif;
   font-size: $fontSize-1;
   line-height: $fontSize-1 + 6;
+  position: relative;
+}
+
+body::-webkit-scrollbar {
+  width: 3px;
+}
+body::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+
+body.rotate { // нельзя распространять body.rotate на page - искозит текущий и новый контент
+  overflow: hidden;
+  margin-right: 3px;
+}
+.page.rotate { // поэтому разделяем сущности // page может быть несколько на странице
+  animation: rotate 0.6s forwards; // infinite
+}
+@keyframes rotate {
+  0% { left: 0; transform: rotateY(0deg); }
+  100% { left: 40%; transform: perspective(1500px) rotateY(90deg); }
+}
+
+.page {
+  width: 100%;
+  min-height: 100%;
+  padding: 100px 0 50px;
+  overflow: hidden;
+  margin: auto;
+  box-sizing: border-box;
+  position: absolute;
+  left: -100%;
+}
+@media screen and (max-width: $mediaMaxWidth-1) {
+  .page {
+    padding-top: 50px;
+  }
 }
 
 ul {padding: 0}
@@ -29,34 +71,47 @@ h1 {
   line-height: 39px;
 }
 
+//.logo {
+//  width: 52px;
+//  height: 28px;
+//  display: block;
+//  position: absolute;
+//  top: 35px;
+//  left: 84px;
+//  transition: $transition-1;
+//  background: $bg-1;
+//  overflow: hidden;
+//  z-index: $zIndex-20;
+//}
+//@media screen and (max-width: $mediaMaxWidth-1) {
+//  .logo {
+//    top: $top-2;
+//  }
+//}
 
-.stripe {
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-  text-transform: uppercase;
-  padding: 4px 0 2px;
+.social {
+
+  margin-top: 30px;
+
+  & > a {
+    text-transform: uppercase;
+    font-size: $fontSize-1;
+    padding: 8px 18px 6px 50px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: #325c99 no-repeat 20px center;
+    background-size: 15%;
+    color: $color-3;
+    box-shadow: 3px 3px darken($bg-1, $percent-3);
+  }
+
+  .facebook {
+    background-image: url("../img/svg/facebook.svg");
+  }
+  .linkedin {
+    background-color: #1178b3;
+    background-image: url("../img/svg/linkedin.svg");
+  }
+
 }
-a {
-  color: $color-3;
-  position: relative;
-  z-index: $zIndex-1;
-  text-decoration: none;
-}
-.stripe:before, .stripe:after {
-  width: 100%;
-  height: 50px;
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0; left: -100%;
-  background: lighten($bg-1, $percent-4);
-  transition: 0.2s;
-}
-.stripe:after {
-  top: 50%;
-  left: 100%;
-}
-.stripe:hover:before, .stripe:hover:after {
-  left: 0;
-}
+

@@ -1,5 +1,5 @@
-var $ = require("jquery");
-var _ = require("underscore");
+//var $ = require("jquery");
+//var _ = require("underscore");
 //var Backbone = require("backbone");
 import {hp, vent, params} from '../../helper';
 
@@ -15,7 +15,7 @@ export var Canvas = Backbone.View.extend({
         this.parentV = options.pageV;
         this.render();
         engravingText.events();
-        vent.on('removePage', this.remove, this);
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         engravingText.p = {
@@ -60,7 +60,11 @@ engravingText.animationBits = function () {
     var isInt = setInterval(() => {
         this.clearCanvas();
         this.updateBit();
-        if (this.p.bitsStatus == 'stop') clearInterval(isInt);
+        if (this.p.bitsStatus == 'stop') {
+            clearInterval(isInt);
+            this.clearCanvas();
+        }
+        //this.clearCanvas();
     }, this.p.speedPartials)
 };
 
@@ -81,7 +85,8 @@ engravingText.Bit = class {
 
 engravingText.clearCanvas = function () {
     this.p.ctx.fillStyle = "#2f2f2f";
-    this.p.ctx.fillRect(0, 0, params.bodyW, params.bodyH);
+    //this.p.ctx.fillRect(0, 0, params.bodyW, params.bodyH);
+    this.p.ctx.clearRect(0, 0, 5000, 5000);
 };
 
 engravingText.updateBit = function () {

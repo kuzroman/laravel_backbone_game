@@ -2,15 +2,17 @@
  исследовать -
  http://handlebarsjs.com/
  http://susy.oddbird.net/
- google: sass media query
  normalize.css
  HTML5 Boilerplate
 
- - work description make as separate page! work/cash-back/, work/cash-back-calc/
- - to pass jquery & underscore Globally
- - logo bank of moscow in gallery
- - menu should disappeared after the page loaded
+ Доделать
  - handle the error if user entered invalid name in results
+
+ Добавить в работы
+ - переводы с карты на карту
+ - залоговое имущество
+ - кредитный калькулятор - можно объеденить с другими калькуляторами
+ - так же и landing page - можно все положить в одну страницу ( или придумать отдельную страницу и круто их там разместить)
 
  Удалил из Gruntfile
  возможно когданибудь придется использовать
@@ -22,61 +24,57 @@
  "node-sass": "^3.3.3"
  * */
 
-//require("../css/main.css");
+
+require("../css/main.css");
 
 // backbone - пробрасывает себя глобально, достаточно загрузить только здесь
 var Backbone = require("backbone");
+import {Audio} from './modules/audio';
 
 import {vent} from './helper';
 import {NavigationView} from './modules/topNav';
 
-// page work
 import {WorksPageView} from './modules/works/work';
-// page skills
 import {SkillsPageView} from './modules/skills';
-// page game
 import {GamePageView} from './modules/game/game';
-// page desc
 import {DescPageV} from './modules/works/desc';
+import {ContactPageView} from './modules/contact';
 ///////////////////////////////////////////////////////////////////////////
 
 var Router = Backbone.Router.extend({
     routes: {
         '': 'game'
-        , "users": "users"
         , "about": "about"
         , "skills": "skills"
+        , "contact": "contact"
         , "work": "work"
         , "work/:query": "workDesc"  // #work/some
     },
-    users: function () {
-        console.log('router users');
-    },
     game: function () {
-        console.log('page game');
+        //console.log('page game');
         vent.trigger('removePage');
         new GamePageView();
     },
-    work: function () {
-        console.log('page work');
+    contact: function () {
+        //console.log('router about');
         vent.trigger('removePage');
-        new WorksPageView();
-    },
-    about: function () {
-        console.log('router about');
+        new ContactPageView();
     },
     skills: function () {
-        console.log('page skills');
+        //console.log('page skills');
         vent.trigger('removePage');
         new SkillsPageView();
     },
+    work: function () {
+        //console.log('page work');
+        vent.trigger('removePage');
+        new WorksPageView();
+    },
     workDesc: function (pageName) {
         //console.log(arguments);
-        console.log('page workDesc');
         vent.trigger('removePage');
         new DescPageV({pageName:pageName});
     }
-
 });
 
 var router = new Router();
@@ -84,3 +82,6 @@ var router = new Router();
 //$(window).on("beforeunload", router.beforeUnload);
 Backbone.history.start();
 new NavigationView();
+
+new Audio(); // Внимание! класс зависит от положинея. ставить после роутов. доработать!
+//params.drawLogo();

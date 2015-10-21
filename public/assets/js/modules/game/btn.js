@@ -1,5 +1,5 @@
-var $ = require("jquery");
-var _ = require("underscore");
+//var $ = require("jquery");
+//var _ = require("underscore");
 //var Backbone = require("backbone");
 import {vent} from '../../helper';
 
@@ -28,7 +28,7 @@ export var Btn = Backbone.View.extend({
         //this.parentM = options.model;
         this.model = new BtnModel();
         this.render();
-        vent.on('removePage', this.remove, this);
+        vent.on('removeGame', this.remove, this);
     },
     render: function () {
         this.$el.text(this.model.get('text'));
@@ -37,8 +37,7 @@ export var Btn = Backbone.View.extend({
 
     btnClick: function () {
         //if (!this.parentM.get('textLoaded')) return;
-        vent.trigger('game:startGame');
-        //vent.trigger('game:startGame', this.model.get('isFirstStart') );
+        vent.game.trigger('startGame');
         this.hideEl();
         this.model.changeFirstStart();
     },

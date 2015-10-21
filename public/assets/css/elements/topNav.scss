@@ -1,128 +1,77 @@
 @import "../param.scss";
 
 .topMenu {
-  width: 60px;
-  height: 27px;
-  position: absolute;
+  width: 28px;
+  height: 28px;
+  position: fixed;
   z-index: $zIndex-20;
   right: 32px;
-  top: 35px;
-  border-top: 2px solid $color-1;
+  top: $top-1;
   cursor: pointer;
-  margin-top: 5px;
+  transition: $transition-1;
+  background: $bg-1;
 }
 
-.topMenu:before {
-  content: '';
-  display: block;
+@media screen and (max-width: $mediaMaxWidth-1) {
+  .topMenu {
+    top: $top-2;
+    right: 10px;
+  }
+}
+
+.topMenu i {
   width: 100%;
   height: 2px;
-  background: $color-1; // фон этого элемента больше относится к border, чем к bg!
-  margin-top: 10px;
+  background: $bg-4;
+  position: absolute;
+  left: 0
 }
 
-.topMenu:after {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 2px;
-  background: $color-1;
-  margin-top: 10px;
+.topMenu i:nth-child(1) {top: 0;   }
+.topMenu i:nth-child(2) {top: 13px;}
+.topMenu i:nth-child(3) {top: 26px;}
+
+.topMenu:not(.close):hover i:nth-child(1) {
+  animation: menuSwing-1 $transition-1 2 alternate;
+}
+.topMenu:not(.close):hover i:nth-child(3) {
+  animation: menuSwing-3 $transition-1 2 alternate;
 }
 
-.topMenu:not(.close):hover {
-  margin-top: 0;
-}
-
-.topMenu:not(.close):hover:before {
-  margin-top: 15px;
-}
-
-.topMenu:not(.close):hover:after {
-  margin-top: 15px;
-}
-
-.topMenu, .topMenu:before, .topMenu:after {
-  transition: 0.2s;
-}
-
-.topMenu.close, .topMenu.close:before, .topMenu.close:after {
-  animation-timing-function: linear;
-  animation-iteration-count: 1;
-  animation-duration: 0.1s;
-  animation-fill-mode: forwards;
-}
-
-.topMenu.close {
-  animation-name: twirl;
-}
-
-.topMenu.close:before {
-  animation-name: twirl_top;
-}
-
-.topMenu.close:after {
-  animation-name: twirl_bottom;
-}
+@keyframes menuSwing-1 { from {top: 0} to {top: 4px} }
+@keyframes menuSwing-3 { from {top: 26px} to {top: 22px} }
 
 
-@keyframes twirl {
-  from {
-    border-top: none;
-  }
-  to {
-    border-top: none;
-  }
+.topMenu.close i:nth-child(1), .topMenu.close i:nth-child(3) {
+  animation: $transition-1 1 forwards;
 }
 
-@keyframes twirl_top {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(45deg);
-  }
+.topMenu.close i:nth-child(1) {animation-name: twirl-1;}
+.topMenu.close i:nth-child(2) {display: none;}
+.topMenu.close i:nth-child(3) {animation-name: twirl-2;}
+
+@keyframes twirl-1 {
+  from {transform: rotate(0deg); top:0}
+  to {transform: rotate(45deg); top: 12px}
+}
+@keyframes twirl-2 {
+  from {transform: rotate(0deg); top: 26px}
+  to {transform: rotate(-45deg); top: 12px;}
 }
 
-@keyframes twirl_bottom {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-45deg);
-    margin-top: 0;
-  }
-}
-
-.topMenu.close:hover {
-  animation-name: round;
-  animation-timing-function: linear;
-  animation-iteration-count: 1;
-  animation-duration: 0.3s;
-  animation-fill-mode: forwards;
-  border-top: none;
-}
-
-@keyframes round {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+//////////////////////////////////////////////////////
 
 .topNav {
   width: 100%;
   height: 100%;
   background: $bg-1;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: $zIndex-10;
   padding: 10% 0;
   box-sizing: border-box;
-  transition: 0.3s;
+  transition: $transition-1;
 }
 
 .topNav.hidden {
@@ -131,7 +80,8 @@
 
 .topNav a {
   width: 80%;
-  height: 20%;
+  height: 22%; // зависит от колличества строк, но делать чуть меньше, вылазиет за края при сужении экрана на странице work!
+  //height: 20%;
   background: lighten($bg-1, $percent-2);
   display: table;
   margin: 0 auto;
@@ -142,6 +92,12 @@
   text-align: center;
   transition: 0.9s;
   text-transform: uppercase;
+}
+
+@media screen and (max-height: 300px) {
+  .topNav {
+    padding: 0;
+  }
 }
 
 .topNav a:hover {

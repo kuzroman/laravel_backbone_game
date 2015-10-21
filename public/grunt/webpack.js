@@ -2,15 +2,16 @@ var webpack = require('webpack');
 var ComponentPlugin = require("component-webpack-plugin");
 //__dirname текуща€ директори€ public/grunt/
 //__filename
-
+//var node_dir = __dirname + '/../node_modules';
+//console.log('node_dir', node_dir); //  C:\wamp\www\laravel_backbone_game\public\grunt/node_modules
 
 module.exports = {
     // http://babeljs.io/docs/using-babel/#webpack
     // https://github.com/webpack/grunt-webpack
     build: {
 
-        devtool: 'source-map',
-        debug: true,
+        //devtool: 'source-map',
+        //debug: true,
 
         watch: true, // использовать совместно с keepalive
         keepalive: true,
@@ -36,20 +37,30 @@ module.exports = {
         },
         module: {
             loaders: [ // https://github.com/babel/babel-loader
-                {exclude: /(node_modules|bower_components)/, test: /\.js$/, loader: 'babel'}
+                {exclude: /(node_modules|bower_components)/, test: /\.js$/, loader: 'babel'},
                 //{test: /\.(css||scss)$/, loaders: ["style", "css?sourceMap", "sass?sourceMap"]},
-                //{test: /\.png$/, loader: "url-loader?limit=100000" },
-                //{test: /\.jpg$/, loader: "file-loader" }
+                {test: /\.(css||scss)$/, loaders: ["style", "css", "sass"]},
+                {test: /\.(png||svg)$/, loader: "url-loader?limit=100000" },
+                {test: /\.jpg$/, loader: "file-loader" }
             ]
-        }
+        },
         //resolve: {
-        //    modulesDirectories: ['assets/js','node_modules', 'bower_components']
-        //}
+            //modulesDirectories: ['assets/js','node_modules', 'bower_components']
+            //$: node_dir + '/jquery/dist/jquery.min.js',
+            //underscore: resolveNpmPath('/underscore/underscore.js')
+        //},
         //noParse: ['./node_modules/jquery/dist/jquery','./node_modules/backbone','./node_modules/underscore']
-        ,plugins: [
-            new ComponentPlugin() // the gallery work as component.js, this plugin load this library
-            //new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } })
-        ]
+        plugins: [
+            new webpack.ProvidePlugin({
+                $: "jquery",
+                "_": "underscore"
+            }),
+            new ComponentPlugin(), // the gallery work as component.js, this plugin load this library
+            new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } })
+        ],
+        //externals: {
+        //    $: 'jquery',
+        //    _: 'underscore'
+        //}
     }
-
 };
