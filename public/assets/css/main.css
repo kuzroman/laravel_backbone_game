@@ -67,23 +67,8 @@ hr {
 h1 {
   line-height: 39px; }
 
-.social {
-  margin-top: 30px; }
-  .social > a {
-    text-transform: uppercase;
-    font-size: 14px;
-    padding: 8px 18px 6px 50px;
-    margin-right: 10px;
-    border-radius: 4px;
-    background: #325c99 no-repeat 20px center;
-    background-size: 15%;
-    color: #fff;
-    box-shadow: 3px 3px #222222; }
-  .social .facebook {
-    background-image: url("../img/svg/facebook.svg"); }
-  .social .linkedin {
-    background-color: #1178b3;
-    background-image: url("../img/svg/linkedin.svg"); }
+.white {
+  color: #fff; }
 
 .stripe {
   position: relative;
@@ -490,6 +475,26 @@ a {
 .topNav span {
   display: table-cell;
   vertical-align: middle; }
+
+.social {
+  margin-top: 30px; }
+  .social > a {
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 8px 18px 6px 50px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: #325c99 no-repeat 20px center;
+    background-size: 15%;
+    color: #fff;
+    box-shadow: 3px 3px #222222; }
+  .social .facebook {
+    background-image: url("../img/svg/facebook.svg"); }
+  .social .linkedin {
+    background-color: #1178b3;
+    background-image: url("../img/svg/linkedin.svg"); }
+  .social .github {
+    background-image: url("../img/svg/github.svg"); }
 
 .game {
   height: 100%;

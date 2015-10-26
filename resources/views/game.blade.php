@@ -157,9 +157,11 @@
         <a href="mailto:1kuzroman@gmail.com">kuzroman@list.ru</a>
         and let's talk.
     </p>
+    <p>Skype: <span class="white">kuzroman2</span></p>
     <div class="social">
         <a class="facebook" href="https://www.facebook.com/profile.php?id=100001773679921" target="_blank">facebook</a>
         <a class="linkedin" href="https://www.linkedin.com/in/kuzroman" target="_blank">linkedin</a>
+        <a class="github" href="https://github.com/kuzroman" target="_blank">github</a>
     </div>
 </div>
 </script>
