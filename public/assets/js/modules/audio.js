@@ -34,7 +34,7 @@ var FactorySounds = Backbone.View.extend({
         this.play();
         //vent.on('audio:killGameAudio', this.removeGameAudio, this);
         vent.audio.on('killGameAudio', this.removeGameAudio, this);
-        vent.audio.on('killAllAudio', this.remove, this);
+        vent.audio.on('killBgAudio', this.removeBgAudio, this);
         //vent.on('removePage', this.remove, this); // постоянный на странице!
     },
     play: function () {
@@ -44,13 +44,21 @@ var FactorySounds = Backbone.View.extend({
     },
     removeGameAudio: function () {
         if (this.group == 'game') {
-            //console.log('killGameAudio 2');
+            //console.log('removeGameAudio');
+            vent.audio.off('killGameAudio');
+            this.remove();
+        }
+    },
+    removeBgAudio: function () {
+        if (this.group == 'bg') {
+            //console.log('killBgAudio');
+            vent.audio.off('killBgAudio');
             this.remove();
         }
     },
     remove: function () {
+        //console.log('remove');
         this.el.pause();
-        vent.audio.off('killAllAudio');
         Backbone.View.prototype.remove.call(this);
     }
 });
@@ -89,7 +97,7 @@ var SoundCheck = Backbone.View.extend({
     },
     stop: function () {
         this.$el.removeClass('play');
-        vent.audio.trigger('killAllAudio');
+        vent.audio.trigger('killBgAudio');
         this.sound = false;
     },
     // не должен включать музыку если до этого она была выключена!
