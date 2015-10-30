@@ -41,20 +41,17 @@ var FactorySounds = Backbone.View.extend({
     },
     removeGameAudio: function () {
         if (this.group == 'game') {
-            //console.log('removeGameAudio');
             vent.audio.off('killGameAudio');
             this.remove();
         }
     },
     removeBgAudio: function () {
         if (this.group == 'bg') {
-            //console.log('killBgAudio');
             vent.audio.off('killBgAudio');
             this.remove();
         }
     },
     remove: function () {
-        //console.log('remove');
         this.el.pause();
         Backbone.View.prototype.remove.call(this);
     }
@@ -70,7 +67,6 @@ var SoundCheck = Backbone.View.extend({
     initialize: function () {
         this.sound = false;
         this.render();
-        //this.play(); // на телефоне не проигрывается без нажатия!
         vent.audio.on('showBackground', this.show, this);
         vent.audio.on('hideBackground', this.hide, this);
         //vent.on('removePage', this.remove, this); // постоянный на странице!
@@ -102,7 +98,6 @@ var SoundCheck = Backbone.View.extend({
         //this.play();
     },
     hide: function () {
-        //console.log(1);
         this.$el.css('opacity', 0);
         this.hide = true;
         this.stop();

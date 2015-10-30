@@ -20,11 +20,8 @@ hp.styleHyphenFormat = function (propertyName) {
     return propertyName.replace(/-[a-z]/g, upperToHyphenLower);
 };
 
-
 export var params = {};
-
 params.body = $('body');
-
 params.bodyW = params.body.width();
 params.bodyH = params.body.height();
 

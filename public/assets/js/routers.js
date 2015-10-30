@@ -23,27 +23,22 @@ var Router = Backbone.Router.extend({
         , "work/:query": "workDesc"  // #work/some
     },
     game: function () {
-        //console.log('page game');
         vent.trigger('removePage');
         new GamePageView();
     },
     contact: function () {
-        //console.log('router about');
         vent.trigger('removePage');
         new ContactPageView();
     },
     skills: function () {
-        //console.log('page skills');
         vent.trigger('removePage');
         new SkillsPageView();
     },
     work: function () {
-        //console.log('page work');
         vent.trigger('removePage');
         new WorksPageView();
     },
     workDesc: function (pageName) {
-        //console.log(arguments);
         vent.trigger('removePage');
         new DescPageV({pageName:pageName});
     }
