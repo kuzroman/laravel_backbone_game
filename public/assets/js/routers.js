@@ -53,4 +53,4 @@ var router = new Router();
 Backbone.history.start();
 new NavigationView();
 
-new Audio(); // Внимание! зависит от положинея. ставить после роутов!
+new Audio(); // ! зависит от положинея. ставить после роутов!
