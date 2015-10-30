@@ -22,10 +22,6 @@ body::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey; }
 
-body.rotate {
-  overflow: hidden;
-  margin-right: 3px; }
-
 .page.rotate {
   animation: rotate 0.6s forwards; }
 
