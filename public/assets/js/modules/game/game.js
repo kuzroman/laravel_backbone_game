@@ -89,21 +89,6 @@ export var GamePageView = Backbone.View.extend({
         vent.on('pageLoaded', this.loadModules, this);
         vent.on('removePage', this.remove, this);
     },
-    //renderOld: function () {
-    //    var gameModel = new Game(), options;
-    //    this.options = {model: gameModel, pageV: this};
-    //    this.model = gameModel;
-    //    $('body').append(this.$el);
-    //    this.modules = {};
-    //    this.modules.typingV = new TypingV(this.options);
-    //    this.modules.canvas = new Canvas(this.options);
-    //    this.modules.btn = new Btn(this.options);
-    //    this.modules.shooterV = new ShooterV(this.options);
-    //    this.modules.loaderV = new LoaderV(this.options);
-    //    this.modules.boardResult = new BoardResult(this.options);
-    //    this.modules.boardLeader = new BoardLeaderV(this.options);
-    //    this.shooterMouseArea = new ShooterMouseArea(this.options);
-    //},
     render: function () {
         var gameModel = new Game(), options;
         this.options = {model: gameModel, pageV: this};
