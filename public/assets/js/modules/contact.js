@@ -5,8 +5,6 @@ export var ContactPageView = Backbone.View.extend({
     initialize: function () {
         this.render();
         new ContactDescView({pageV:this});
-
-        //new SkillsView({pageV:this});
         vent.on('removePage', this.remove, this);
     },
     render: function () {

@@ -30,8 +30,6 @@ export var Canvas = Backbone.View.extend({
 var engravingText = {};
 engravingText.p = {};
 
-//var bodyW = params.bodyW
-
 engravingText.events = function () {
     vent.on('letterShowed', (positions) => {
         this.addBits(positions);

@@ -60,7 +60,6 @@ var FactorySounds = Backbone.View.extend({
     }
 });
 
-
 var SoundCheck = Backbone.View.extend({
     className: 'sound',
     events: {
@@ -97,7 +96,6 @@ var SoundCheck = Backbone.View.extend({
         vent.audio.trigger('killBgAudio');
         this.sound = false;
     },
-    // не должен включать музыку если до этого она была выключена!
     show: function () {
         this.$el.css('opacity', 1);
         this.hide = false;
@@ -109,7 +107,7 @@ var SoundCheck = Backbone.View.extend({
         this.hide = true;
         this.stop();
     },
-    // действия по наведению !если не проигрывается! фон
+    // действия по наведению
     hoverOn: function () {
         if (!this.sound) this.$el.addClass('play');
     },

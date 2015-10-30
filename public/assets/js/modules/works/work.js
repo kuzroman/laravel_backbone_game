@@ -109,6 +109,8 @@ var WorkView = Backbone.View.extend({
     }
 });
 
+// может быть этим данным сдесь и не место
+// но создавать отдельные миграции и сиды а ларавел и делать пару запросов в роутах из за нескольких строк данных как то глупо
 // названия страниц в формате дефисов! cash-back-calc
 export var dataWorks = [
     {
@@ -200,4 +202,3 @@ export var dataWorks = [
         link: 'http://www.designbox.ru/eng/'
     }
 ];
-
