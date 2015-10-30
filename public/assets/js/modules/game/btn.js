@@ -1,6 +1,3 @@
-//var $ = require("jquery");
-//var _ = require("underscore");
-//var Backbone = require("backbone");
 import {vent} from '../../helper';
 
 export var BtnModel = Backbone.Model.extend({

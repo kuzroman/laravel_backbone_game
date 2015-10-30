@@ -1,5 +1,3 @@
-//var $ = require("jquery");
-//var Backbone = require("backbone");
 import {hp, vent, params} from '../helper';
 
 export var BackPageV = Backbone.View.extend({

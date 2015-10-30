@@ -1,10 +1,4 @@
-//var $ = require("jquery");
-//var _ = require("underscore");
-//var Backbone = require("backbone");
-
 import {hp, vent, params} from '../helper';
-
-///////////////////////////////////////////////////////////////////////
 
 export var SkillsPageView = Backbone.View.extend({
     className: 'page skills',
@@ -65,10 +59,6 @@ var SkillsView = Backbone.View.extend({
         });
     }
 });
-
-/*
- Уметь рассказать на английском о каждом пункте отдельно!
- */
 
 var skills = {
     'Master': [

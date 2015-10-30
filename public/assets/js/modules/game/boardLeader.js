@@ -1,6 +1,3 @@
-//var $ = require("jquery");
-//var _ = require("underscore");
-//var Backbone = require("backbone");
 import {hp, vent, params} from '../../helper';
 
 export var BoardLeaderV = Backbone.View.extend({

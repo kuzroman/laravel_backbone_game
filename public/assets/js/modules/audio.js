@@ -1,10 +1,7 @@
-//var $ = require("jquery");
-//var _ = require("underscore");
 import {vent} from '../helper';
 
 // + если уходим со страницы game включаем фоновую музыку
-// - если уходим со страницы game убиваем не все vent события а только текущей страницы!
-
+// + если уходим со страницы game убиваем не все vent события а только текущей страницы!
 export var Audio = Backbone.View.extend({
     initialize: function () {
         vent.audio.on('play', this.createSound); // Внимание! зависит от положения. должен быть выше чем sound

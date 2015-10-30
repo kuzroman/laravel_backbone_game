@@ -1,6 +1,3 @@
-//var $ = require("jquery");
-//var Backbone = require("backbone");
-
 import {hp} from '../helper';
 
 export var NavigationView = Backbone.View.extend({
@@ -29,8 +26,6 @@ var Navigation = Backbone.Model.extend({
         }, this);
     },
     toggle: function () {
-        //console.log('toggle');
-        //this.save({ opened: !this.get('opened') }); // save -> post
         this.set({opened: !this.get('opened')});
     }
 });

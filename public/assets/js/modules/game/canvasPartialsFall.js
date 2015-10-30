@@ -1,12 +1,4 @@
-//var $ = require("jquery");
-//var _ = require("underscore");
-//var Backbone = require("backbone");
 import {hp, vent, params} from '../../helper';
-
-
-//$(function () {
-//    initPartialsFall();
-//});
 
 export var Canvas = Backbone.View.extend({
     tagName: 'canvas',

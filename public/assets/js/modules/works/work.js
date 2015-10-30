@@ -1,12 +1,4 @@
-//var $ = require("jquery");
-//var _ = require("underscore");
-//var Backbone = require("backbone");
-
 import {hp, vent, params} from '../../helper';
-
-///////////////////////////////////////////////////////////////////////
-
-// todo чтобы небыло задержки можно показыват их полсе рендеринга!
 
 export var WorksPageView = Backbone.View.extend({
     className: 'page works',

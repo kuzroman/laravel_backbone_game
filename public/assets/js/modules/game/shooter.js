@@ -1,6 +1,3 @@
-//var $ = require("jquery");
-//var _ = require("underscore");
-//var Backbone = require("backbone");
 import {vent} from '../../helper';
 import {letters} from './typing.js';
 

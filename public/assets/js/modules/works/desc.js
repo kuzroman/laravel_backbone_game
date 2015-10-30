@@ -1,7 +1,3 @@
-//var $ = require("jquery");
-//var _ = require("underscore");
-//var Backbone = require("backbone");
-
 import {hp, vent, params} from '../../helper';
 import {dataWorks} from './work';
 import {BackPageV} from '../backPage';
@@ -49,50 +45,7 @@ var DescV = Backbone.View.extend({
         var data = _.find(dataWorks, (model) => {
             return model['href'] == this.pageName;
         });
-
-        //console.log(data, data.numberImg);
-
-        //var descM = this.collection.find((model) => {
-        //    return model.get('namePage') == this.pageName;
-        //});
-        //var content = this.$el.html( this.template( descM.toJSON() ) );
         var content = this.$el.html(this.template(data));
         this.pageV.$el.append(content);
     }
 });
-
-
-//var Desc = Backbone.Model.extend({
-//    //url: '/descWork',
-//    urlRoot: '/descWork',
-//    defaults: {
-//        namePage: '',
-//        nameCompany: '',
-//        descCompany: '',
-//        numberImg: 1,
-//        descDeal: '',
-//        descTechnologies: '',
-//        descDopInfo: '',
-//        '_token': $('#token').attr('content')
-//    }
-//});
-
-//var Descs = Backbone.Collection.extend({
-//    model: Desc,
-//    url: '/descWork'
-//});
-//
-//var descsC = new Descs(); // коллекция которая не удаляется после перехода на др стр!
-//
-//descsC.fetch({
-//    success: () => {
-//        //console.log('gotCollection');
-//        vent.trigger('globalDescsFilled', descsC);
-//        //console.log( descsC.toJSON() );
-//    },
-//    error: function () {
-//        console.log('error');
-//    }
-//});
-
-//window.descsC = descsC; // убрать из продакшена!!!

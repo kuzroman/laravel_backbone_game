@@ -1,6 +1,3 @@
-//var $ = require("jquery");
-//var _ = require("underscore");
-//var Backbone = require("backbone");
 import {hp, vent} from '../../helper';
 
 export var LoaderV = Backbone.View.extend({
