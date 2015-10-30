@@ -5,22 +5,7 @@ default:
   - 'webpack'
 #  - 'watch' # теперь использую вотчер от weppack!
 
-
-
-# - кэшировать сборку, собирать только то что редактировалось
 build:
- description: 'Сборка в продакшен - нужно добавить uglify!'
+ description: 'Сборка в продакшен'
  tasks:
   - 'webpack'
-#  - 'webpack:build'
-
-#allWorks:
-# description: 'test page allworks'
-# tasks:
-#  - 'browserSync'
-
-#someTest:
-# description: 'hepfull plugins: clean, copy, watch'
-# tasks:
-#  - 'clean'
-#  - 'copy:postinstall'
