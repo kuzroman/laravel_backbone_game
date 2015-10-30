@@ -55,7 +55,7 @@ var Game = Backbone.Model.extend({
         if (!result) return;
 
         this.set('gameFinished', result);
-        vent.game.trigger('stopGame'); // нельзя слушать через модель, т.к. необходимо делать сброс модели вконце игры
+        vent.game.trigger('stopGame');
         return result;
     },
     counter: function (param) {
