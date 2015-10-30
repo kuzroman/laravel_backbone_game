@@ -11,13 +11,12 @@ hp.tmpl = function (id) {
     return _.template($('#' + id).html());
 };
 
-// Вызов styleHyphenFormat('page-one') вернёт строку 'pageOne'.
+// 'page-one' => 'pageOne'
 hp.styleHyphenFormat = function (propertyName) {
     function upperToHyphenLower(match) {
         var result = match.replace('-', '');
         return result.toUpperCase();
     }
-
     return propertyName.replace(/-[a-z]/g, upperToHyphenLower);
 };
 
