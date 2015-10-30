@@ -6,16 +6,16 @@ export var SkillsPageView = Backbone.View.extend({
         this.render();
         new ResumeView({pageV:this});
         new SkillsView({pageV:this});
-        vent.on('removePage', this.remove, this);
+        this.listenTo(vent, 'removePage', this.remove);
     },
     render: function () {
         $('body').append(this.el);
         this.show();
     },
     remove: function () {
-        vent.off();
+        vent.off('removePage');
+        console.log('remove skills');
 
-        $('body').addClass('rotate');
         this.$el.addClass('rotate');
         setTimeout(()=> {
             Backbone.View.prototype.remove.call(this);
@@ -30,7 +30,8 @@ var ResumeView = Backbone.View.extend({
     initialize: function (options) {
         this.parentV = options.pageV;
         this.render();
-        vent.on('removeSkill', this.remove, this);
+        //vent.on('removeSkill', this.remove, this);
+        this.listenTo(vent, 'removeSkill', this.remove);
     },
     render: function () {
         this.parentV.$el.append(this.$el.html(this.template()));
@@ -43,7 +44,8 @@ var SkillsView = Backbone.View.extend({
     initialize: function (options) {
         this.parentV = options.pageV;
         this.render();
-        vent.on('removeSkill', this.remove, this);
+        //vent.on('removeSkill', this.remove, this);
+        this.listenTo(vent, 'removeSkill', this.remove);
     },
     render: function () {
         this.parentV.$el.append(this.el);

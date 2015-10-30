@@ -10,17 +10,14 @@ export var DescPageV = Backbone.View.extend({
         new BackPageV(options);
 
         this.render();
-
-        vent.on('removePage', this.remove, this);
+        this.listenTo(vent, 'removePage', this.remove);
     },
     render: function () {
         $('body').append(this.el);
         this.show();
     },
     remove: function () {
-        vent.off();
-
-        $('body').addClass('rotate');
+        vent.off('removePage');
         this.$el.addClass('rotate');
         setTimeout(()=> {
             Backbone.View.prototype.remove.call(this);
@@ -36,10 +33,9 @@ var DescV = Backbone.View.extend({
         this.pageV = options.pageV;
         this.pageName = options.pageName;
 
-
         this.render();
-
-        vent.on('removeDesc', this.remove, this);
+        //vent.on('removeDesc', this.remove, this);
+        this.listenTo(vent, 'removeDesc', this.remove);
     },
     render: function () {
         var data = _.find(dataWorks, (model) => {

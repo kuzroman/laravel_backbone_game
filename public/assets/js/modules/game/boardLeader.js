@@ -14,9 +14,9 @@ export var BoardLeaderV = Backbone.View.extend({
         this.gameModel = options.model;
         this.render();
         this.resize();
-        vent.on('openBoardLeader', this.show, this);
-        vent.on('hadGotScores', this.hadGotScores, this);
-        vent.on('removeGame', this.remove, this);
+        vent.listenTo(vent, 'openBoardLeader', this.show.bind(this) );
+        vent.listenTo(vent, 'hadGotScores', this.hadGotScores.bind(this) );
+        this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
         this.parentV.$el.append(this.$el.append(this.template));
@@ -27,6 +27,7 @@ export var BoardLeaderV = Backbone.View.extend({
     },
     show: function () {
         this.isShowed = true;
+        //console.log(this.constructor.name, this);
         this.getScore();
         this.$el.animate({left: (params.bodyW - this.$el.width()) / 2, opacity: 1}, 300);
     },
@@ -42,18 +43,12 @@ export var BoardLeaderV = Backbone.View.extend({
                 vent.trigger('hadGotScores', scores);
             },
             error: function () {
-                console.log('error');
+                //console.log('error');
             }
         });
     },
     hadGotScores: function (collect) {
-        // add current model in collection
-        //var model = {score: 550}; // for test
-        //collect.add(new User(model));
-
         collect.add(new User({score: this.gameModel.get('score')}));
-
-        //console.log(collect);
         new LeadersV({collection: collect}).render();
     },
     resize: function () {
@@ -72,12 +67,9 @@ var LeadersV = Backbone.View.extend({
     initialize: function (options) {
         this.setElement('#topLeaders');
         this.$el.empty();
-        vent.on('removeGame', this.remove, this);
+        this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
-
-        //console.log(this.model);
-
         this.collection.each((model, index) => {
             model.set('i', index + 1);
 
@@ -93,9 +85,7 @@ var LeadersV = Backbone.View.extend({
                 if (model.get('i') != 9) this.$el.append(new LeaderV({model: preModel}).render().$el); // preModel
                 this.$el.append(new LeaderV({model: model}).render().$el); // current model
             }
-
         });
-
         return this;
     }
 });
@@ -110,7 +100,7 @@ var LeaderV = Backbone.View.extend({
     },
     initialize: function (options) {
         this.line = options.line || false;
-        vent.on('removeGame', this.remove, this);
+        this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
         if (this.line) return this;
@@ -145,7 +135,7 @@ var User = Backbone.Model.extend({
     },
     initialize: function () {
         this.on("invalid", function (model, error) {
-            console.log(error);
+            //console.log(error);
         });
     },
     validate: function (attrs, options) {

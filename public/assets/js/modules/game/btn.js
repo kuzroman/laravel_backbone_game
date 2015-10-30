@@ -25,7 +25,7 @@ export var Btn = Backbone.View.extend({
         //this.parentM = options.model;
         this.model = new BtnModel();
         this.render();
-        vent.on('removeGame', this.remove, this);
+        this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
         this.$el.text(this.model.get('text'));

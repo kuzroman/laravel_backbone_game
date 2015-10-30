@@ -11,7 +11,7 @@ export var BackPageV = Backbone.View.extend({
         this.pageV = options.pageV;
         //this.$el.attr('href',options.pageName);
         this.render();
-        vent.on('removePage', this.remove, this);
+        this.listenTo(vent, 'removePage', this.remove);
     },
     render: function () {
         var arr = new Array(9);

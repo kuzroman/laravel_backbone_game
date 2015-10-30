@@ -5,16 +5,15 @@ export var WorksPageView = Backbone.View.extend({
     initialize: function () {
         this.render();
         new WorksView({pageV: this});
-        vent.on('removePage', this.remove, this);
+
+        this.listenTo(vent, 'removePage', this.remove);
     },
     render: function () {
         $('body').append(this.el);
         this.show();
     },
     remove: function () {
-        vent.off();
-
-        $('body').addClass('rotate');
+        vent.off('removePage');
         this.$el.addClass('rotate');
         setTimeout(()=> {
             Backbone.View.prototype.remove.call(this);
@@ -34,7 +33,8 @@ var WorksView = Backbone.View.extend({
         this.render();
         this.cubsInLine();
         this.resize();
-        vent.on('removeWork', this.remove, this);
+        //vent.on('removeWork', this.remove, this);
+        this.listenTo(vent, 'removeWork', this.remove);
     },
     render: function () {
         this.parentV.$el.append(this.$el);
@@ -43,7 +43,6 @@ var WorksView = Backbone.View.extend({
         }, this);
     },
     cubsInLine: function (isAnimation) {
-        //console.log('cubsInLine');
         var countEl = this.worksV.length
             , elSize = 325 // 25 it's offset
             , fieldW = this.$el.width()
@@ -80,11 +79,9 @@ var WorksView = Backbone.View.extend({
     },
     resize: function () {
         var self = this, resizeTimeoutId;
-        //console.log(this);
         $(window).on('resize', function () {
             clearTimeout(resizeTimeoutId);
             resizeTimeoutId = setTimeout(function () {
-                //alert($(window).width());
                 self.cubsInLine(true);
             }, 200);
         });
@@ -101,7 +98,7 @@ var WorkView = Backbone.View.extend({
     template: hp.tmpl('tmplWork'),
     initialize: function () {
         this.render();
-        vent.on('removeWork', this.remove, this);
+        this.listenTo(vent, 'removeWork', this.remove);
     },
     render: function () {
         this.$el.attr('href', '#/work/' + this.model.get('href'));

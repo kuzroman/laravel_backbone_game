@@ -7,7 +7,7 @@ export var Canvas = Backbone.View.extend({
         this.parentV = options.pageV;
         this.render();
         engravingText.events();
-        vent.on('removeGame', this.remove, this);
+        this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
         engravingText.p = {
@@ -64,7 +64,6 @@ engravingText.Bit = class {
         this.y = currentY || 0;
         this.g = -Math.round(Math.random() * 50) / 10; // gravity
     }
-
     draw() {
         let p = engravingText.p;
         p.ctx.fillStyle = '#fff';

@@ -10,11 +10,10 @@ export var BoardResult = Backbone.View.extend({
     },
     initialize: function (options) {
         this.isShowed = false;
-
         this.parentV = options.pageV;
         this.render();
         this.resize();
-        vent.on('removeGame', this.remove, this);
+        this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
         this.parentV.$el.append(this.$el.append(this.template));

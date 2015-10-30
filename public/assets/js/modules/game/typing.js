@@ -9,7 +9,7 @@ export var TypingV = Backbone.View.extend({
     initialize: function (options) {
         this.parentV = options.pageV;
         this.render();
-        vent.on('removeGame', this.remove, this);
+        this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
         this.arrLettersV = [];
@@ -79,8 +79,7 @@ var LetterV = Backbone.View.extend({
     initialize: function () {
         this.render();
         //this.resize();
-        //vent.on('textLoaded', this.setPositionInModel, this); // cause slide effect on start, we need change position in finish
-        vent.on('removeGame', this.remove, this);
+        this.listenTo(vent, 'removeGame', this.remove);
         this.listenTo(this.model, 'change:killed', this.hideLetter);
     },
     render: function () {
