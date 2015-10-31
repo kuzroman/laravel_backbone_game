@@ -9,13 +9,12 @@ export var BoardLeaderV = Backbone.View.extend({
     },
     initialize: function (options) {
         this.isShowed = false;
-
         this.parentV = options.pageV;
         this.gameModel = options.model;
         this.render();
         this.resize();
-        vent.listenTo(vent, 'openBoardLeader', this.show.bind(this) );
-        vent.listenTo(vent, 'hadGotScores', this.hadGotScores.bind(this) );
+        this.listenTo(vent, 'openBoardLeader', this.show );
+        this.listenTo(vent, 'hadGotScores', this.hadGotScores );
         this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
@@ -137,6 +136,7 @@ var User = Backbone.Model.extend({
         this.on("invalid", function (model, error) {
             //console.log(error);
         });
+        this.listenTo(vent, 'removeGame', this.remove);
     },
     validate: function (attrs, options) {
         if (attrs.name.length < 3) {
