@@ -29,7 +29,6 @@ var LoaderSlipV = Backbone.View.extend({
     initialize: function (options) {
         //this.parentV = options.pageV;
         this.setElement('#loaderSlip');
-        this.width = this.$el.width();
         vent.game.on('changeDestroyed', this.shift, this);
         //vent.on('removeGame', this.remove, this);
         this.listenTo(vent, 'removeGame', this.remove);
@@ -39,9 +38,9 @@ var LoaderSlipV = Backbone.View.extend({
     },
     shift: function () {
         let percent = this.model.get('destroyed') / (this.model.get('NUMBER_GOALS') / 100)
-            ,left = (this.width / 100) * percent
+            ,left = (this.$el.width() / 100) * percent
             ;
-        //console.log(this.model.get('destroyed'), this.model.get('NUMBER_GOALS'));
+        //console.log(this.model.get('destroyed'), this.model.get('NUMBER_GOALS'), left, this.$el.width(), percent);
         this.$el.css({left: -left });
     }
 });
