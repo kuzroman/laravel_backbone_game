@@ -99,8 +99,8 @@ var CanvasForBulletV = Backbone.View.extend({
     },
     render: function () {
         this.parentV.$el.append(this.$el);
-        this.el.width = params.bodyW;
-        this.el.height = params.bodyH;
+        this.el.width = 5000;
+        this.el.height = 5000;
         return this;
     },
     addBulletInCanvas: function (x) {
