@@ -1,6 +1,6 @@
 require("../css/main.css");
 
-// backbone - пробрасывает себя глобально, достаточно загрузить только здесь
+// backbone - пробрасывает себя глобально
 var Backbone = require("backbone");
 import {Audio} from './modules/audio';
 

@@ -1,9 +1,9 @@
-export var vent = {
+export var vent = _.extend({
     page: _.extend({}, Backbone.Events),
     game: _.extend({}, Backbone.Events),
     audio: _.extend({}, Backbone.Events)
-};
-vent = _.extend(vent, Backbone.Events);
+}, Backbone.Events);
+
 
 export var hp = {};
 
@@ -36,13 +36,11 @@ window.onresize = function () {
 
 params.speedChangePage = 600;
 
-// расширим виды
+// extend View
 Backbone.View.prototype.show = function () {
-    $('body').addClass('rotate');
     setTimeout(()=> {
         this.$el.animate({left: 0}, params.speedChangePage)
             .queue(function (next) {
-                $('body').removeClass('rotate');
                 vent.trigger('pageLoaded');
                 next();
             });

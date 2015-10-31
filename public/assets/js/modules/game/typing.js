@@ -46,7 +46,6 @@ export var TypingV = Backbone.View.extend({
         }, this.model.get('SPEED_TYPING'));
     },
     updateLettersPosition: function () {
-        console.log('update');
         _.each(this.lettersV, function (letterV) {
             letterV.updateModelData();
         }, this);
