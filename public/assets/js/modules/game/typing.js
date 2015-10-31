@@ -23,6 +23,7 @@ export var TypingV = Backbone.View.extend({
             this.lettersV.push(letterV);
         }, this);
 
+        this.updateLettersPosition();
         this.showLetter();
         this.setNumberGoal();
     },
@@ -80,7 +81,7 @@ var Letter = Backbone.Model.extend({
         symbol: '',
         killed: false,
         isGoal: true,
-        x1: -10, x2: -10, y1: 0, y2: 0 // -10 for i.display:block
+        x1: 0, x2: 0, y1: 0, y2: 0 // -10 for i.display:block
     }
 });
 
@@ -130,7 +131,7 @@ var myText = `Hello, my name is Roman Kuznetsov.
 |Single page applications, animation, parallax are my passion
 |Feel free to take a look at my most recent projects on my work page.
 |Also you can stop and say hello at kuzroman@list.ru`;
-//var myText = `Hello|1`;
+//var myText = `Hello`;
 
 myText = $.trim(myText.replace(/\s{2,}/g, ''));
 let arrLetter = [], len = myText.length;
@@ -138,4 +139,4 @@ for (let i = 0; i < len; i++) {
     arrLetter.push(new Letter({symbol: myText[i]}));
 }
 export var letters = new Letters(arrLetter); // collection
-
+//console.log(letters.models);
