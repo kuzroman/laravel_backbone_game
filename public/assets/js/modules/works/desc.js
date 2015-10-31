@@ -10,6 +10,7 @@ export var DescPageV = Backbone.View.extend({
         new BackPageV(options);
 
         this.render();
+        this.listenTo(vent, 'pageLoaded', this.scrollUp);
         this.listenTo(vent, 'removePage', this.remove);
     },
     render: function () {
@@ -23,6 +24,9 @@ export var DescPageV = Backbone.View.extend({
             Backbone.View.prototype.remove.call(this);
             vent.trigger('removeDesc');
         }, params.speedChangePage);
+    },
+    scrollUp: function () {
+        $('body,html').animate({scrollTop: 0}, 300);
     }
 });
 

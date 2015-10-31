@@ -635,8 +635,8 @@ a {
   top: 0;
   left: 0; }
 
-.works {
-  top: 100px; }
+.works-view {
+  position: relative; }
 
 @media screen and (max-width: 480px) {
   .works {
@@ -749,11 +749,6 @@ a {
   opacity: 0.9;
   bottom: 0; }
 
-/*@media screen and (max-width: 980px) {*/
-/*}*/
-/*@media screen and (max-width: 480px) {*/
-/*}*/
-/* in addition to work (will not work without works.css) */
 .skillsBox {
   overflow: hidden;
   text-align: center;
