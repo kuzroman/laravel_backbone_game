@@ -9,6 +9,7 @@ export var TypingV = Backbone.View.extend({
     initialize: function (options) {
         this.parentV = options.pageV;
         this.render();
+        this.resize();
         this.listenTo(vent.game, 'textLoaded', this.updateLettersPosition);
         this.listenTo(vent, 'removeGame', this.remove);
     },
@@ -56,11 +57,21 @@ export var TypingV = Backbone.View.extend({
     },
     remove: function () {
         clearInterval(this.interval);
+        $(window).off("resize", this.resize);
         Backbone.View.prototype.remove.call(this);
     },
     updateView: function () {
         this.remove();
         this.render();
+    },
+    resize: function () {
+        var self = this, resizeTimeoutId;
+        $(window).on('resize', function () {
+            clearTimeout(resizeTimeoutId);
+            resizeTimeoutId = setTimeout(function () {
+                self.updateLettersPosition();
+            }, 200);
+        });
     }
 });
 
@@ -81,7 +92,6 @@ var LetterV = Backbone.View.extend({
     tagName: 'i',
     initialize: function () {
         this.render();
-        //this.resize();
         this.listenTo(vent, 'removeGame', this.remove);
         this.listenTo(this.model, 'change:killed', this.hideLetter);
     },
