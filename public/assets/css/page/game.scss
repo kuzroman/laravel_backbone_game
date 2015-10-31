@@ -22,6 +22,7 @@
   display: table-cell;
   vertical-align: middle;
 }
+
 @media screen and (max-width: $mediaMaxWidth-1) {
   .typingCenter div {
     vertical-align: top;
@@ -42,6 +43,12 @@
   top: 0;
   left: 0;
   z-index: $zIndex-2;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-user-select: none;
 }
 
 .shooter {
@@ -79,10 +86,12 @@
   transition: 0.5s;
   opacity: 0;
 }
+
 .scoreBord.show {
   opacity: 1;
   top: 10px;
 }
+
 @media screen and (max-width: $mediaMaxWidth-1) {
   .scoreBord {
     width: 200px;
@@ -92,10 +101,10 @@
   }
 }
 
-
 .timeLimit {
   float: right;
 }
+
 @media screen and (max-width: $mediaMaxWidth-1) {
   .timeLimit {
     position: absolute;
