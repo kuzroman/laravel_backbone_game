@@ -8,7 +8,6 @@ import {CanvasV} from './canvasPartialsFall.js';
 import {BoardResultV} from './boardResult.js';
 import {BoardLeaderV} from './boardLeader.js';
 
-
 var Game = Backbone.Model.extend({
     defaults: {
         PERIOD: 10, // 10 // stop the time if all goal reached

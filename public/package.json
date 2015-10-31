@@ -1,7 +1,7 @@
 {
   "name": "roman-kuznetsov-portfolio",
   "version": "0.0.1",
-  "description": "This SPA app use ES6 Babel Grunt Webpack Backbone",
+  "description": "SPA app uses ES6 Babel Grunt Webpack Backbone",
   "author": "",
   "main": "Gruntfile.js",
   "license": "ISC",

@@ -7,7 +7,7 @@ module.exports = {
         ]
     },
     options: {
-        watchTask: true // позволяет работать слушателю
+        watchTask: true
         //,server: { // for static sites
         //    baseDir: "./",
         //    //index: "game.html"
