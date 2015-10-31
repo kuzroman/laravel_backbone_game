@@ -1,11 +1,10 @@
 default:
- description: 'Сборка по умолчанию'
+ description: 'build & browser sync'
  tasks:
   - 'browserSync'
   - 'webpack'
-#  - 'watch' # теперь использую вотчер от weppack!
 
 build:
- description: 'Сборка в продакшен'
+ description: 'only build'
  tasks:
   - 'webpack'
