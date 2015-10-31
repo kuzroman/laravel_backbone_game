@@ -1,54 +1,57 @@
 import {hp, vent, params} from '../../helper';
 
-// + отрисовать буквы
-// + заполнение модели данными о положении буквы
-
+/**
+ * draw the letters and fill model their position
+ */
 export var TypingV = Backbone.View.extend({
     id: 'typingCenter',
     className: 'typingCenter',
     initialize: function (options) {
         this.parentV = options.pageV;
         this.render();
+        this.listenTo(vent.game, 'textLoaded', this.updateLettersPosition);
         this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
-        this.arrLettersV = [];
-        this.collectionLetters = letters;
-        //console.log(letters);
+        this.lettersV = []; // list of View
         this.parentV.$el.append(this.$el.html('<div>'));
-        this.collectionLetters.each(function (letter) {
-            var letterV = new LetterV({model: letter});
+        letters.each(function (letterM) {
+            var letterV = new LetterV({model: letterM});
             this.$el.find('div').append(letterV.$el);
-            this.arrLettersV.push(letterV);
+            this.lettersV.push(letterV);
         }, this);
 
         this.showLetter();
         this.setNumberGoal();
     },
     showLetter: function () {
-        // + показать буквы
-        var i = 0, len = this.arrLettersV.length;
+        var i = 0, len = this.lettersV.length;
 
         this.interval = setInterval(() => {
-            let letter = this.arrLettersV[i];
-            letter.setPositionInModel();
+            let letter = this.lettersV[i];
+            letter.updateModelData();
             letter.$el.css('opacity', 1);
 
             if (letter.model.get('isGoal')) {
-                vent.trigger('letterShowed', { // передаем в канвас
+                vent.trigger('letterShowed', { // pass to canvass
                     x: letter.model.get('x2'),
                     y: letter.model.get('y2')
                 });
             }
-
             if (len <= ++i) {
                 vent.game.trigger('textLoaded');
                 clearInterval(this.interval)
             }
         }, this.model.get('SPEED_TYPING'));
     },
+    updateLettersPosition: function () {
+        console.log('update');
+        _.each(this.lettersV, function (letterV) {
+            letterV.updateModelData();
+        }, this);
+    },
     setNumberGoal: function () {
-        this.model.set('NUMBER_GOALS', this.collectionLetters.where({'isGoal': true}).length);
+        this.model.set('NUMBER_GOALS', letters.where({'isGoal': true}).length);
         //console.log( this.collectionLetters.where({'isGoal': true}).length, this.model.get('NUMBER_GOALS') );
     },
     remove: function () {
@@ -83,7 +86,6 @@ var LetterV = Backbone.View.extend({
         this.listenTo(this.model, 'change:killed', this.hideLetter);
     },
     render: function () {
-        // + сделать перенос строки
         var symbol = this.model.get('symbol');
         if (symbol == '|') {
             symbol = '';
@@ -95,13 +97,12 @@ var LetterV = Backbone.View.extend({
                 this.model.set('isGoal', false);
             this.$el.text(symbol);
         }
-
         return this;
     },
     hideLetter: function (model, killed) {
         if (killed) this.$el.css('opacity', 0);
     },
-    setPositionInModel: function () {
+    updateModelData: function () {
         this.model.set({
             killed: false,
             x1: ~~this.$el.offset().left,
@@ -120,12 +121,10 @@ var myText = `Hello, my name is Roman Kuznetsov.
 |Feel free to take a look at my most recent projects on my work page.
 |Also you can stop and say hello at kuzroman@list.ru`;
 
-//var myText = `Hello|вава вавава|вавава вавава`; // 31 - 4 = 27
-
 myText = $.trim(myText.replace(/\s{2,}/g, ''));
 let arrLetter = [], len = myText.length;
 for (let i = 0; i < len; i++) {
     arrLetter.push(new Letter({symbol: myText[i]}));
 }
-export var letters = new Letters(arrLetter);
+export var letters = new Letters(arrLetter); // collection
 

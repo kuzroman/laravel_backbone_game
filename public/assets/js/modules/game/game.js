@@ -3,17 +3,17 @@ import {hp, vent, params} from '../../helper';
 import {Btn} from './btn.js';
 import {LoaderV} from './loader.js';
 import {TypingV} from './typing.js';
-import {ShooterMouseArea, ShooterV} from './shooter.js';
-import {Canvas} from './canvasPartialsFall.js';
-import {BoardResult} from './boardResult.js';
+import {ShooterMouseAreaV, ShooterV} from './shooter.js';
+import {CanvasV} from './canvasPartialsFall.js';
+import {BoardResultV} from './boardResult.js';
 import {BoardLeaderV} from './boardLeader.js';
 
 
 var Game = Backbone.Model.extend({
     defaults: {
-        PERIOD: 10, // stop the time if all goal reached
-        SPEED_TYPING: 10, // 10
-        SPEED_PARTIALS: 15, // 15
+        PERIOD: 10, // 10 // stop the time if all goal reached
+        SPEED_TYPING: 1, // 10
+        SPEED_PARTIALS: 1, // 15
         NUMBER_GOALS: 0, // set in typing
 
         timeSpend: 0,
@@ -86,8 +86,9 @@ export var GamePageView = Backbone.View.extend({
         }, this);
 
         this.gameNumber = 0;
-        vent.on('pageLoaded', this.loadModules, this);
-        vent.on('removePage', this.remove, this);
+        this.loadModules();
+
+        this.listenTo(vent, 'removePage', this.remove);
     },
     render: function () {
         var gameModel = new Game(), options;
@@ -98,12 +99,12 @@ export var GamePageView = Backbone.View.extend({
     },
     loadModules: function () {
         this.modules.typingV = new TypingV(this.options);
-        this.modules.canvas = new Canvas(this.options);
+        this.modules.canvasV = new CanvasV(this.options);
         this.modules.shooterV = new ShooterV(this.options);
         this.modules.loaderV = new LoaderV(this.options);
-        this.modules.boardResult = new BoardResult(this.options);
-        this.modules.boardLeader = new BoardLeaderV(this.options);
-        this.shooterMouseArea = new ShooterMouseArea(this.options);
+        this.modules.boardResultV = new BoardResultV(this.options);
+        this.modules.boardLeaderV = new BoardLeaderV(this.options);
+        this.shooterMouseAreaV = new ShooterMouseAreaV(this.options);
     },
     startGame: function (model, gameStarted) {
         if (!gameStarted) return;
@@ -119,10 +120,10 @@ export var GamePageView = Backbone.View.extend({
         vent.audio.trigger('play', 'startGame');
     },
     stopGame: function () {
-        this.shooterMouseArea.cleanAttr();
+        this.shooterMouseAreaV.cleanAttr();
         this.modules.shooterV.hide();
         this.modules.loaderV.hide();
-        this.modules.boardResult.show();
+        this.modules.boardResultV.show();
 
         this.model.setDefaults();
 
@@ -132,9 +133,8 @@ export var GamePageView = Backbone.View.extend({
     remove: function () {
         vent.audio.trigger('killGameAudio');
         vent.audio.trigger('showBackground');
-        vent.off();
+        vent.off('removePage');
 
-        $('body').addClass('rotate');
         this.$el.addClass('rotate');
         setTimeout(()=> {
             Backbone.View.prototype.remove.call(this);
@@ -146,4 +146,3 @@ export var GamePageView = Backbone.View.extend({
         this.render();
     }
 });
-

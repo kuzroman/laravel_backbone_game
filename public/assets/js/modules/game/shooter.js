@@ -1,9 +1,5 @@
 import {vent, params} from '../../helper';
 import {letters} from './typing.js';
-//import {Canvas} from './canvasPartialsFall.js';
-
-// + двигать shooter за мышью
-// + делать выстрел при клике
 
 var Shooter = Backbone.Model.extend({
     defaults: {
@@ -13,8 +9,10 @@ var Shooter = Backbone.Model.extend({
 });
 var shooter = new Shooter();
 
-// меняем модель {x}, а так же стреляем
-export var ShooterMouseArea = Backbone.View.extend({
+/**
+ * change shooter position and do shoot here
+ */
+export var ShooterMouseAreaV = Backbone.View.extend({
     id: 'shooterMouseArea',
     events: {
         'click': 'bulletShot',
@@ -30,7 +28,6 @@ export var ShooterMouseArea = Backbone.View.extend({
     },
     render: function () {
         this.parentV.$el.append(this.$el);
-        //this.cleanAttr();
     },
     shooterMove: function (event) {
         this.model.set('x', event.offsetX);
@@ -48,12 +45,8 @@ export var ShooterMouseArea = Backbone.View.extend({
 
         vent.audio.trigger('play', 'shoot');
         vent.game.trigger('changeShoots');
-
-        //for (var i = 0, len = 20; i < len; i++) {
-        //    var x = i * 20;
-        //    this.canvasForBulletV.createBullet(x);
-        //}
-        this.canvasForBulletV.createBullet(this.model.get('x'));
+        
+        this.canvasForBulletV.addBulletInCanvas(this.model.get('x'));
     },
     cleanAttr: function () {
         this.model.clear().set(this.model.defaults);
@@ -93,7 +86,7 @@ export var ShooterV = Backbone.View.extend({
 
 var CanvasForBulletV = Backbone.View.extend({
     tagName: 'canvas',
-    className: 'canvasLoader',
+    className: 'canvas',
     initialize: function (options) {
         this.bullets = [];
         this.ctx = this.el.getContext('2d');
@@ -110,7 +103,7 @@ var CanvasForBulletV = Backbone.View.extend({
         this.el.height = params.bodyH;
         return this;
     },
-    createBullet: function (x) {
+    addBulletInCanvas: function (x) {
         this.bullets.push(new Bullet({x: x, ctx: this.ctx}));
     },
 
@@ -118,7 +111,7 @@ var CanvasForBulletV = Backbone.View.extend({
         var isInt = setInterval(() => {
             //console.log(this.intervalStatus);
             this.clearCanvas();
-            this.update();
+            this.drawElements();
             if (this.intervalStatus == 'stop') {
                 clearInterval(isInt);
                 this.clearCanvas();
@@ -129,18 +122,16 @@ var CanvasForBulletV = Backbone.View.extend({
         this.ctx.fillStyle = "#2f2f2f";
         this.ctx.clearRect(0, 0, 5000, 5000);
     },
-    update: function () {
-        //var isReachedGoal = false;
+    drawElements: function () {
         //console.log('update', this.bullets.length);
         for (let j = 0, b, lenBullets = this.bullets.length; j < lenBullets; j++) {
             b = this.bullets[j];
             b.y -= 2;
             b.draw();
 
-
             let aims = letters.models,
-                bX1 = b.x,
-                bX2 = bX1 + 12 // bullet size
+                bX1 = b.x - b.radius,
+                bX2 = b.x + b.radius
             ;
 
             for (let i = 0, len = aims.length; i < len; i++) {
@@ -182,10 +173,11 @@ var Bullet = class {
         this.y = data.y || $('body').height() - 138;
         this.ctx = data.ctx;
         this.isReachedGoal = false;
+        this.radius = 6
     }
     draw() {
         this.ctx.beginPath();
-        this.ctx.arc(this.x, this.y, 6, 0, Math.PI * 2, true);
+        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
         this.ctx.fillStyle = "#f1ff00";
         this.ctx.fill();
     }

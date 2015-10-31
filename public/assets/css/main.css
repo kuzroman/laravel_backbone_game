@@ -630,7 +630,7 @@ a {
 #represent {
   display: none; }
 
-.canvasLoader {
+.canvas {
   position: absolute;
   top: 0;
   left: 0; }
