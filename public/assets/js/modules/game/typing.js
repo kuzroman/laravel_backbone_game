@@ -11,6 +11,7 @@ export var TypingV = Backbone.View.extend({
         this.render();
         this.resize();
         this.listenTo(vent.game, 'textLoaded', this.updateLettersPosition);
+        this.listenTo(vent, 'pageLoaded', this.updateLettersPosition);
         this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
@@ -52,7 +53,7 @@ export var TypingV = Backbone.View.extend({
     },
     setNumberGoal: function () {
         this.model.set('NUMBER_GOALS', letters.where({'isGoal': true}).length);
-        //console.log( this.collectionLetters.where({'isGoal': true}).length, this.model.get('NUMBER_GOALS') );
+        //console.log( letters.where({'isGoal': true}).length, this.model.get('NUMBER_GOALS') );
     },
     remove: function () {
         clearInterval(this.interval);
@@ -129,6 +130,7 @@ var myText = `Hello, my name is Roman Kuznetsov.
 |Single page applications, animation, parallax are my passion
 |Feel free to take a look at my most recent projects on my work page.
 |Also you can stop and say hello at kuzroman@list.ru`;
+//var myText = `Hello|1`;
 
 myText = $.trim(myText.replace(/\s{2,}/g, ''));
 let arrLetter = [], len = myText.length;
