@@ -1,8 +1,8 @@
 import {hp, vent, params} from '../../helper';
 
-export var Canvas = Backbone.View.extend({
+export var CanvasV = Backbone.View.extend({
     tagName: 'canvas',
-    className: 'canvasLoader',
+    className: 'canvas',
     initialize: function (options) {
         this.parentV = options.pageV;
         this.render();

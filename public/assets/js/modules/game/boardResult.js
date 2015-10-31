@@ -1,6 +1,6 @@
 import {hp, vent, params} from '../../helper';
 
-export var BoardResult = Backbone.View.extend({
+export var BoardResultV = Backbone.View.extend({
     id: 'results',
     className: 'results',
     template: hp.tmpl('tmplBoardResult'),
