@@ -6,7 +6,8 @@ export var CanvasV = Backbone.View.extend({
     initialize: function (options) {
         this.parentV = options.pageV;
         this.render();
-        engravingText.events();
+        //engravingText.events();
+        this.listenTo(vent, 'letterShowed', this.animation);
         this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
@@ -24,27 +25,28 @@ export var CanvasV = Backbone.View.extend({
     updateView: function () {
         this.remove();
         this.render();
+    },
+    remove: function () {
+        Backbone.View.prototype.remove.call(this);
+    },
+    animation: function (positions) {
+        engravingText.addBits(positions);
+        if (engravingText.p.bitsStatus != 'act') {
+            engravingText.p.bitsStatus = 'act';
+            engravingText.animationBits();
+        }
     }
 });
 
 var engravingText = {};
 engravingText.p = {};
 
-engravingText.events = function () {
-    vent.on('letterShowed', (positions) => {
-        this.addBits(positions);
-        if (engravingText.p.bitsStatus != 'act') {
-            engravingText.p.bitsStatus = 'act';
-            this.animationBits();
-        }
-    });
-};
-
 engravingText.addBits = function (positions) {
     for (let i = 0, bit; i < 3; i++) {
         bit = new this.Bit(positions.x, positions.y);
         this.p.bits.push(bit);
     }
+    //console.log(this.p.bits.length);
 };
 engravingText.animationBits = function () {
     var isInt = setInterval(() => {
