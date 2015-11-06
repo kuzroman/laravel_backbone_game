@@ -15,7 +15,7 @@ var shooter = new Shooter();
 export var ShooterMouseAreaV = Backbone.View.extend({
     id: 'shooterMouseArea',
     events: {
-        'click': 'bulletShot',
+        'click': 'bulletShot', // bulletShot // testBit
         'mousemove': 'shooterMove'
     },
     initialize: function (options) {
@@ -23,7 +23,7 @@ export var ShooterMouseAreaV = Backbone.View.extend({
         this.parentM = options.model;
         this.model = shooter;
         this.render();
-        this.canvasForBulletV = new CanvasForBulletV(options);
+        this.canvasForBulletV = new Canvas(options);
         this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
@@ -45,18 +45,20 @@ export var ShooterMouseAreaV = Backbone.View.extend({
 
         vent.audio.trigger('play', 'shoot');
         vent.game.trigger('changeShoots');
-        
+
         this.canvasForBulletV.addBulletInCanvas(this.model.get('x'));
     },
     cleanAttr: function () {
         this.model.clear().set(this.model.defaults);
-    }
+    },
+    //testBit: function (e) {
+    //    this.canvasForBulletV.addBitInCanvas({x: e.clientX, y: e.clientY});
+    //}
 });
 
 export var ShooterV = Backbone.View.extend({
     id: 'shooter',
     className: 'shooter',
-    //,events: {}
     initialize: function (options) {
         this.parentV = options.pageV;
         this.model = shooter;
@@ -84,11 +86,12 @@ export var ShooterV = Backbone.View.extend({
 
 ////////////////////////////////////////////////
 
-var CanvasForBulletV = Backbone.View.extend({
+var Canvas = Backbone.View.extend({
     tagName: 'canvas',
     className: 'canvas',
     initialize: function (options) {
         this.bullets = [];
+        this.bits = [];
         this.ctx = this.el.getContext('2d');
         this.intervalStatus = 'act';
         this.parentV = options.pageV;
@@ -96,6 +99,7 @@ var CanvasForBulletV = Backbone.View.extend({
         this.render();
         this.animations();
         this.listenTo(vent, 'removeGame', this.remove);
+        this.listenTo(vent.game, 'changeDestroyed', this.addBitInCanvas);
     },
     render: function () {
         this.parentV.$el.append(this.$el);
@@ -106,12 +110,19 @@ var CanvasForBulletV = Backbone.View.extend({
     addBulletInCanvas: function (x) {
         this.bullets.push(new Bullet({x: x, ctx: this.ctx}));
     },
+    addBitInCanvas: function (positions) {
+        for (var i = 0; i < 3; i++) {
+            this.bits.push(new Bit({x: positions.x, y: positions.y, ctx: this.ctx}));
+        }
+        //console.log(positions, this.bits, this);
+    },
 
     animations: function () {
         var isInt = setInterval(() => {
             //console.log(this.intervalStatus);
             this.clearCanvas();
-            this.drawElements();
+            this.calcBurstPosition();
+            this.calcBitPositions();
             if (this.intervalStatus == 'stop') {
                 clearInterval(isInt);
                 this.clearCanvas();
@@ -122,29 +133,41 @@ var CanvasForBulletV = Backbone.View.extend({
         this.ctx.fillStyle = "#2f2f2f";
         this.ctx.clearRect(0, 0, 5000, 5000);
     },
-    drawElements: function () {
+    calcBitPositions: function () {
+        for (let j = 0, b, lenBits = this.bits.length; j < lenBits; j++) {
+            b = this.bits[j];
+            b.move();
+            b.draw();
+
+            if (2000 < b.y) {
+                this.bits.splice(j, 1);
+                lenBits = this.bits.length;
+            }
+        }
+    },
+    calcBurstPosition: function () {
         //console.log('update', this.bullets.length);
         for (let j = 0, b, lenBullets = this.bullets.length; j < lenBullets; j++) {
             b = this.bullets[j];
-            b.y -= 2;
+            b.move();
             b.draw();
 
             let aims = letters.models,
                 bX1 = b.x - b.radius,
                 bX2 = b.x + b.radius
-            ;
+                ;
 
             for (let i = 0, len = aims.length; i < len; i++) {
-                if (aims[i].get('killed') || !aims[i].get('isGoal') ) continue;
+                if (aims[i].get('killed') || !aims[i].get('isGoal')) continue;
                 var y2 = aims[i].get('y2');
 
                 // they on the one axis y
-                if (b.y == y2 || b.y == y2 - 1 || b.y == y2 + 1 ) {
+                if (b.y == y2 || b.y == y2 - 1 || b.y == y2 + 1) {
                     if ((bX1 <= aims[i].get('x1') && aims[i].get('x1') <= bX2) || // bullet at left
                         (bX1 <= aims[i].get('x2') && aims[i].get('x2') <= bX2 )) { // bullet at right
                         // they on the one axis x - Goal!
                         aims[i].set('killed', true);
-                        vent.game.trigger('changeDestroyed');
+                        vent.game.trigger('changeDestroyed', {x: b.x, y: b.y});
 
                         if (!b.isReachedGoal) {
                             b.isReachedGoal = true;
@@ -162,23 +185,45 @@ var CanvasForBulletV = Backbone.View.extend({
         }
     },
     remove: function () {
+        //console.log('remove canvas');
         this.intervalStatus = 'stop';
         Backbone.View.prototype.remove.call(this);
     }
 });
-
 var Bullet = class {
     constructor(data) {
         this.x = data.x || 0;
         this.y = data.y || $('body').height() - 138;
         this.ctx = data.ctx;
         this.isReachedGoal = false;
-        this.radius = 6
+        this.radius = 6;
     }
     draw() {
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
         this.ctx.fillStyle = "#f1ff00";
         this.ctx.fill();
+    }
+    move() {
+        this.y -= 2; // speed
+    }
+};
+var Bit = class {
+    constructor(data) {
+        this.x = data.x || 0;
+        this.y = data.y || 0;
+        this.g = Math.random() * 5 + 1; // gravity
+        this.size = Math.random() * 3 + 1;
+        this.vectorX = Math.random() < 0.5 ? 1 : -1;
+        this.ctx = data.ctx;
+    }
+    draw() {
+        this.ctx.fillStyle = "#fff";
+        this.ctx.fillRect(this.x, this.y, this.size, this.size);
+    }
+    move() {
+        this.g -= 0.1;
+        this.y -= this.g;
+        this.x = this.x + this.vectorX * 2;
     }
 };
