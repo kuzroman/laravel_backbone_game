@@ -22,11 +22,11 @@ var audioEvents = {
 var FactorySounds = Backbone.View.extend({
     tagName: 'audio',
     initialize: function (nameSound) {
-        this.sound = nameSound;
-        this.group = audioEvents[this.sound]['group'];
-        this.file = audioEvents[this.sound]['file'];
-        this.loop = audioEvents[this.sound]['loop'] || false;
-        this.volume = audioEvents[this.sound]['volume'] || 0.8;
+        var sound = audioEvents[nameSound];
+        this.group = sound['group'];
+        this.file = sound['file'];
+        this.loop = sound['loop'] || false;
+        this.volume = sound.hasOwnProperty('volume') ? sound['volume'] : 0.8;
         this.play();
         //vent.on('audio:killGameAudio', this.removeGameAudio, this);
         vent.audio.on('killGameAudio', this.removeGameAudio, this);
