@@ -28,22 +28,22 @@ var Game = Backbone.Model.extend({
         gameFinished: false
     },
     initialize: function () {
-        vent.game.on('textLoaded', function () {
+        this.listenTo(vent.game, 'textLoaded', function () {
             this.set('textLoaded', true);
         }, this);
-        vent.game.on('changeDestroyed', function () {
+        this.listenTo(vent.game, 'changeDestroyed', function () {
             this.counter('destroyed')
         }, this);
-        vent.game.on('changeShoots', function () {
+        this.listenTo(vent.game, 'changeShoots', function () {
             this.counter('shoots')
         }, this);
-        vent.game.on('changeTimeSpend', function () {
+        this.listenTo(vent.game, 'changeTimeSpend', function () {
             this.counter('timeSpend')
         }, this);
-        vent.game.on('changeBulletsReachedGoal', function () {
+        this.listenTo(vent.game, 'changeBulletsReachedGoal', function () {
             this.counter('bulletsReachedGoal')
         }, this);
-        vent.game.on('startGame', function () {
+        this.listenTo(vent.game, 'startGame', function () {
             this.set('gameStarted', true);
         }, this);
     },
