@@ -1,7 +1,5 @@
 import {vent} from '../helper';
 
-// + если уходим со страницы game включаем фоновую музыку
-// + если уходим со страницы game убиваем не все vent события а только текущей страницы!
 export var Audio = Backbone.View.extend({
     initialize: function () {
         vent.audio.on('play', this.createSound); // Внимание! зависит от положения. должен быть выше чем sound
@@ -15,9 +13,9 @@ export var Audio = Backbone.View.extend({
 });
 
 var audioEvents = {
-    startGame: {group: 'game', file: 'start2.mp3', loop: true},
-    shoot: {group: 'game', file: 'shoot.mp3'},
-    destroyed: {group: 'game', file: 'explode.mp3'},
+    startGame: {group: 'game', file: 'start2.mp3', loop: true, volume: 0.3},
+    shoot: {group: 'game', file: 'shoot.mp3', volume: 0.2},
+    destroyed: {group: 'game', file: 'explode.mp3', volume: 0.2},
     sound1: {group: 'bg', file: 'sound_1.mp3', loop: true}
 };
 
@@ -28,6 +26,7 @@ var FactorySounds = Backbone.View.extend({
         this.group = audioEvents[this.sound]['group'];
         this.file = audioEvents[this.sound]['file'];
         this.loop = audioEvents[this.sound]['loop'] || false;
+        this.volume = audioEvents[this.sound]['volume'] || 0.8;
         this.play();
         //vent.on('audio:killGameAudio', this.removeGameAudio, this);
         vent.audio.on('killGameAudio', this.removeGameAudio, this);
@@ -37,6 +36,7 @@ var FactorySounds = Backbone.View.extend({
     play: function () {
         this.$el.attr('src', '/assets/media/' + this.file);
         this.el.loop = this.loop;
+        this.el.volume = this.volume;
         this.el.play();
     },
     removeGameAudio: function () {
@@ -69,7 +69,7 @@ var SoundCheck = Backbone.View.extend({
         this.render();
         vent.audio.on('showBackground', this.show, this);
         vent.audio.on('hideBackground', this.hide, this);
-        //vent.on('removePage', this.remove, this); // постоянный на странице!
+        //vent.on('removePage', this.remove, this);
     },
     render: function () {
         var arr = new Array(7);
