@@ -106,10 +106,19 @@ var WorkView = Backbone.View.extend({
     }
 });
 
-// может быть этим данным в js и не место
-// но создавать отдельные миграции и сиды а ларавел и делать пару запросов в роутах из за нескольких строк данных как то глупо
 // названия страниц в формате дефисов! cash-back-calc
 export var dataWorks = [
+    {
+        href: 'rbc',
+        nameTitle: 'Exchange Rate Lookup',
+        nameCompany: 'Ros Business Consulting',
+        descCompany: 'The RBC Group operates on the mass media (an information agency, business television channel RBC TV, online newspapers, and marketing communications) and IT (RBC SOFT) markets.',
+        numberImg: 4,
+        descDeal: '<h3>Exchange Rate Lookup</h3><p>Spent 4 month for implementation (from start to tests and deploy to prodaction)</p><p>Single page application, was made a next modules</p><i>Main page:</i><ul><li>- list of banks associated with map</li><li>- toggle binding to map</li><li>- filters by rate, currencies & buy/sell</li><li>- search by subway(metro) stations</li><li>- toggler of view with map or only list of banks</li><li>- toggler cities</li><li>- adding banks to favorite list</li><li>- sorting list of banks by name or rate</li><li>- auto update list of banks</li><li>- support from ie8 to tablets</li></ul><i>Statistics:</i><ul><li>- line chart</li><li>- list of rates</li><li>- filters by currencies, dates</li><li>- toggler max rate</li><li>- auto update information</li><li>- toggler cities</li></ul><i>Info pages:</i><ul><li>- search by list</li><li>- toggler cities</li></ul>',
+        skills: ['JS','SPA','LESS','HTML','CSS3','jQuery','AJAX','JSON','Gulp','Browserify','Mercurial','npm','lodash'],
+        descDopInfo: '',
+        link: 'http://quote.rbc.ru/inttotestv5'
+    },
     {
         href: 'anywayanyday',
         nameTitle: 'Best fares',
@@ -193,7 +202,7 @@ export var dataWorks = [
         nameCompany: 'Advertising boulevard',
         descCompany: 'Strategic marketing, creative development and production',
         numberImg: 7,
-        descDeal: '<i>Mostly layout from psd to html and js</i><br><a href="http://trueski.ru/">trueski.ru</a><br><a href="http://www.belbereg.ru/">belbereg.ru</a><br><a href="http://www.imperialtea.ru/">imperialtea.ru</a><br><a href="http://www.tom-t.ru/">tom-t.ru</a><br><a href="www.trans-i.ru">trans-i.ru</a><br>',
+        descDeal: '<i>Mostly layout from psd to html & js</i><br><a href="http://trueski.ru/">trueski.ru</a><br><a href="http://www.belbereg.ru/">belbereg.ru</a><br><a href="http://www.imperialtea.ru/">imperialtea.ru</a><br><a href="http://www.tom-t.ru/">tom-t.ru</a><br><a href="www.trans-i.ru">trans-i.ru</a><br>',
         skills: ['HTML', 'CSS3', 'JavaScript', 'jQuery', 'animations', 'Photoshop'],
         descDopInfo: '',
         link: 'http://www.designbox.ru/eng/'

@@ -64,11 +64,11 @@ var SkillsView = Backbone.View.extend({
 
 var skills = {
     'Master': [
+        { title: 'JavaScript'},
         { title: 'HTML 5'},
         { title: 'CSS 3'}
     ],
     'Expert': [
-        { title: 'JavaScript'},
         { title: 'JQuery'},
         { title: 'JQuery UI'},
         { title: 'AJAX'},
@@ -76,24 +76,31 @@ var skills = {
         { title: 'JQuery templates'},
         { title: 'JSON'},
         { title: 'Underscore'},
+        { title: 'Lodash'},
         { title: 'Grunt'},
+        { title: 'Gulp'},
         { title: 'Bower'},
         { title: 'NPM'},
         { title: 'Babel'},
         { title: 'SASS'},
-        { title: 'BrowserSync'}
+        { title: 'LESS'},
+        { title: 'BrowserSync'},
+        { title: 'Browserify'}
     ],
     'Proficient': [
         { title: 'PHP'},
         { title: 'Laravel'},
         { title: 'MySQL'},
         { title: 'Git'},
+        { title: 'Mercurial'},
         { title: 'SmartGit'},
         { title: 'GitHub'},
         { title: 'Backbone'},
         { title: 'Webpack'},
-        { title: 'Twig'},
-        { title: 'Photoshop'}
+        { title: 'Twig for php & js'},
+        { title: 'Photoshop'},
+        { title: 'Highcharts api'},
+        { title: 'Yandex map api'}
     ],
     'Familiar': [
         { title: 'Node'},
@@ -102,7 +109,6 @@ var skills = {
         { title: 'Mongoose'},
         { title: 'Jade'},
         { title: 'Razor'},
-        { title: 'Mercurial'}
     ]
 };
 
