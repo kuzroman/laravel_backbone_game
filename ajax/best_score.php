@@ -1,13 +1,9 @@
 <?php
 
-//header('Content-Type: application/json');
-
 $requestMethod = $_SERVER['REQUEST_METHOD'];
-//echo $_REQUEST;
 
 $scoreList = [];
 
-//kuzroman.com
 $mysqli = new mysqli("localhost", "root", "", "kuzroman");
 if ($mysqli->connect_errno) {
     echo "can not connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -34,6 +30,5 @@ elseif ($requestMethod == 'POST') {
     $name = $post_data['name'];
     $score = $post_data['score'];
     $mysqli->query("INSERT INTO scores (`name`, `score`) VALUES ('$name', '$score')");
-//    echo $mysqli->insert_id;
     echo json_encode( array('id' => $mysqli->insert_id) );
 }
