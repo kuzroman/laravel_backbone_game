@@ -11,8 +11,8 @@ import {BoardLeaderV} from './boardLeader.js';
 var Game = Backbone.Model.extend({
     defaults: {
         PERIOD: 10, // 10 // stop the time if all goal reached
-        SPEED_TYPING: 10, // 10
-        SPEED_PARTIALS: 15, // 15
+        SPEED_TYPING: 10, // 10 ms
+        SPEED_PARTIALS: 1, // 15
         NUMBER_GOALS: 0, // set in typing
 
         timeSpend: 0,
@@ -51,11 +51,11 @@ var Game = Backbone.Model.extend({
         var result = !(this.get('NUMBER_GOALS') - this.get('destroyed')) // !(0) -> all goals destroyed
                 || this.get('timeSpend') == this.get('PERIOD') // time left) {
             ;
-        if (!result) return;
+        if (!result) return false;
 
-        this.set('gameFinished', result);
+        this.set('gameFinished', true);
         vent.game.trigger('stopGame');
-        return result;
+        return true;
     },
     counter: function (param) {
         this.set(param, this.get(param) + 1);

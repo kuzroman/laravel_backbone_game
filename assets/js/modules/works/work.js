@@ -117,7 +117,7 @@ export var dataWorks = [
         descDeal: '<h3>Exchange Rate Lookup</h3><p>Spent 4 month for implementation (from start to tests and deploy to prodaction)</p><p>Single page application, was made a next modules</p><i>Main page:</i><ul><li>- list of banks associated with map</li><li>- toggle binding to map</li><li>- filters by rate, currencies & buy/sell</li><li>- search by subway(metro) stations</li><li>- toggler of view with map or only list of banks</li><li>- toggler cities</li><li>- adding banks to favorite list</li><li>- sorting list of banks by name or rate</li><li>- auto update list of banks</li><li>- support from ie8 to tablets</li></ul><i>Statistics:</i><ul><li>- line chart</li><li>- list of rates</li><li>- filters by currencies, dates</li><li>- toggler max rate</li><li>- auto update information</li><li>- toggler cities</li></ul><i>Info pages:</i><ul><li>- search by list</li><li>- toggler cities</li></ul>',
         skills: ['JS','SPA','LESS','HTML','CSS3','jQuery','AJAX','JSON','Gulp','Browserify','Mercurial','npm','lodash'],
         descDopInfo: '',
-        link: 'http://quote.rbc.ru/inttotestv5'
+        link: 'https://cash.rbc.ru/cash/'
     },
     {
         href: 'anywayanyday',
@@ -150,7 +150,7 @@ export var dataWorks = [
         descDeal: '<i>Landing Page for holders of platinum cards</i> <hr> <ul> <li>layout from psd to html</li> <li>integration with cms of Bank</li> <li>video background</li> <li>cash back calculator</li> <li>web form</li> <li>popup content</li> </ul>',
         skills: ['HTML5 - video','CSS3, SASS','JavaScript','jQuery','Bower','Git','Photoshop'],
         descDopInfo: '',
-        link: 'http://www.bm.ru/ru/private/paket-platinum/cashback/'
+        link: 'http://www.bm.ru/ru/private/paket-visota/cashback/'
     },
     {
         href: 'private-banking',
@@ -197,7 +197,7 @@ export var dataWorks = [
         link: 'https://www.bm.ru/ru/personal/platezhi-i-perevody/perevody-s-kart/perevody-s-karty-na-karty/'
     },
     {
-        href: 'advertising-boulevard',
+        href: 'boulevard',
         nameTitle: 'Creative agency',
         nameCompany: 'Advertising boulevard',
         descCompany: 'Strategic marketing, creative development and production',

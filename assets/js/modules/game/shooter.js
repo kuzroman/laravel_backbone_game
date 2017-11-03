@@ -1,4 +1,4 @@
-import {vent, params} from '../../helper';
+import {vent} from '../../helper';
 import {letters} from './typing.js';
 
 var Shooter = Backbone.Model.extend({
@@ -97,9 +97,15 @@ var Canvas = Backbone.View.extend({
         this.parentV = options.pageV;
 
         this.render();
-        this.animations();
+
+        // this.animations();
+
         this.listenTo(vent, 'removeGame', this.remove);
         this.listenTo(vent.game, 'changeDestroyed', this.addBitInCanvas);
+        this.listenTo(vent.game, 'startGame', this.animations);
+        this.listenTo(vent.game, 'stopGame', function () {
+            this.intervalStatus = 'stop';
+        });
     },
     render: function () {
         this.parentV.$el.append(this.$el);
@@ -119,11 +125,11 @@ var Canvas = Backbone.View.extend({
 
     animations: function () {
         var isInt = setInterval(() => {
-            //console.log(this.intervalStatus);
+            console.log(this.intervalStatus);
             this.clearCanvas();
             this.calcBurstPosition();
             this.calcBitPositions();
-            if (this.intervalStatus == 'stop') {
+            if (this.intervalStatus == 'stop') { // todo это не выполняется и цикл бесконечный Карл!
                 clearInterval(isInt);
                 this.clearCanvas();
             }

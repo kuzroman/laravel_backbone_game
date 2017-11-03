@@ -3,6 +3,8 @@ import {hp, vent, params} from '../../helper';
 /**
  * draw the letters and fill model their position
  */
+let speedTyping = 10;
+
 export var TypingV = Backbone.View.extend({
     id: 'typingCenter',
     className: 'typingCenter',
