@@ -26,6 +26,11 @@ hp.canvasSize = {
     h: $(window).outerHeight()
 };
 
+hp.clearCanvas = function (ctx) {
+    ctx.fillStyle = "#2f2f2f";
+    ctx.clearRect(0, 0, 5000, 5000);
+};
+
 export let params = {};
 params.body = $('body');
 params.bodyW = params.body.width();

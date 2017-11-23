@@ -7,7 +7,6 @@ export let LoaderV = Backbone.View.extend({
     initialize: function (options) {
         this.parentV = options.pageV;
         this.render();
-
         this.timer = new TimerV(options);
         this.loaderSlipV = new LoaderSlipV(options);
         this.listenTo(vent, 'removeGame', this.remove);
@@ -27,10 +26,8 @@ export let LoaderV = Backbone.View.extend({
 
 let LoaderSlipV = Backbone.View.extend({
     initialize: function (options) {
-        //this.parentV = options.pageV;
         this.setElement('#loaderSlip');
         vent.game.on('changeDestroyed', this.shift, this);
-        //vent.on('removeGame', this.remove, this);
         this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
@@ -49,16 +46,13 @@ let TimerV = Backbone.View.extend({
     initialize: function (options) {
         this.setElement('#timer');
         this.model = options.model;
-        //this.render();
-        vent.on('startTimer', this.start, this);
-        //vent.on('removeGame', this.remove, this);
+        this.listenTo(vent.game, 'firstShot', this.start, this);
         this.listenTo(vent, 'removeGame', this.remove);
     },
     render: function () {
         this.$el.text(this.model.get('PERIOD') - this.model.get('timeSpend'));
     },
     start: function () {
-        //console.log('startTimer');
         let id = setInterval(() => {
             //console.log('isGameFinished',this.model.isGameFinished());
             vent.game.trigger('changeTimeSpend');

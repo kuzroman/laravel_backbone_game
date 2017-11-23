@@ -76,8 +76,7 @@ engravingText.Bit = class {
 
 engravingText.clearCanvas = function () {
     this.p.ctx.fillStyle = "#2f2f2f";
-    //this.p.ctx.fillRect(0, 0, params.bodyW, params.bodyH);
-    this.p.ctx.clearRect(0, 0, 5000, 5000);
+    hp.clearCanvas(this.p.ctx);
 };
 
 engravingText.updateBit = function () {

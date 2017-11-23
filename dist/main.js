@@ -2028,6 +2028,11 @@ hp.canvasSize = {
     h: $(window).outerHeight()
 };
 
+hp.clearCanvas = function (ctx) {
+    ctx.fillStyle = "#2f2f2f";
+    ctx.clearRect(0, 0, 5000, 5000);
+};
+
 var params = exports.params = {};
 params.body = $('body');
 params.bodyW = params.body.width();
@@ -13702,7 +13707,6 @@ var TypingV = exports.TypingV = Backbone.View.extend({
         this.interval = setInterval(function () {
             var letter = _this.lettersV[i];
             letter.updateModelData();
-
             letter.$el.css('opacity', 1);
 
             if (letter.model.get('isGoal')) {
@@ -14501,7 +14505,6 @@ var LoaderV = exports.LoaderV = Backbone.View.extend({
     initialize: function initialize(options) {
         this.parentV = options.pageV;
         this.render();
-
         this.timer = new TimerV(options);
         this.loaderSlipV = new LoaderSlipV(options);
         this.listenTo(_helper.vent, 'removeGame', this.remove);
@@ -14521,10 +14524,8 @@ var LoaderV = exports.LoaderV = Backbone.View.extend({
 
 var LoaderSlipV = Backbone.View.extend({
     initialize: function initialize(options) {
-        //this.parentV = options.pageV;
         this.setElement('#loaderSlip');
         _helper.vent.game.on('changeDestroyed', this.shift, this);
-        //vent.on('removeGame', this.remove, this);
         this.listenTo(_helper.vent, 'removeGame', this.remove);
     },
     render: function render() {
@@ -14542,9 +14543,7 @@ var TimerV = Backbone.View.extend({
     initialize: function initialize(options) {
         this.setElement('#timer');
         this.model = options.model;
-        //this.render();
-        _helper.vent.on('startTimer', this.start, this);
-        //vent.on('removeGame', this.remove, this);
+        this.listenTo(_helper.vent.game, 'firstShot', this.start, this);
         this.listenTo(_helper.vent, 'removeGame', this.remove);
     },
     render: function render() {
@@ -14553,7 +14552,6 @@ var TimerV = Backbone.View.extend({
     start: function start() {
         var _this = this;
 
-        //console.log('startTimer');
         var id = setInterval(function () {
             //console.log('isGameFinished',this.model.isGameFinished());
             _helper.vent.game.trigger('changeTimeSpend');
@@ -14623,7 +14621,7 @@ var ShooterMouseAreaV = exports.ShooterMouseAreaV = Backbone.View.extend({
         if (!this.parentM.get('textLoaded') || !this.parentM.get('gameStarted') || this.parentM.get('gameFinished')) return;
 
         if (this.model.get('firstShot')) {
-            _helper.vent.trigger('startTimer');
+            _helper.vent.game.trigger('firstShot');
             this.model.set('firstShot', false);
         }
 
@@ -14677,18 +14675,21 @@ var Canvas = Backbone.View.extend({
         this.bullets = [];
         this.bits = [];
         this.ctx = this.el.getContext('2d');
-        this.intervalStatus = 'act';
+        this.intervalStatus = 'stop';
         this.parentV = options.pageV;
 
         this.render();
 
-        // this.animations();
-
         this.listenTo(_helper.vent, 'removeGame', this.remove);
         this.listenTo(_helper.vent.game, 'changeDestroyed', this.addBitInCanvas);
-        this.listenTo(_helper.vent.game, 'startGame', this.animations);
         this.listenTo(_helper.vent.game, 'stopGame', function () {
             this.intervalStatus = 'stop';
+            this.bullets = [];
+            this.bits = [];
+        });
+        this.listenTo(_helper.vent.game, 'firstShot', function () {
+            this.intervalStatus = 'act';
+            this.animations();
         });
     },
     render: function render() {
@@ -14716,15 +14717,13 @@ var Canvas = Backbone.View.extend({
             _this.calcBurstPosition();
             _this.calcBitPositions();
             if (_this.intervalStatus == 'stop') {
-                // todo это не выполняется и цикл бесконечный Карл!
                 clearInterval(isInt);
                 _this.clearCanvas();
             }
         }, 0);
     },
     clearCanvas: function clearCanvas() {
-        this.ctx.fillStyle = "#2f2f2f";
-        this.ctx.clearRect(0, 0, 5000, 5000);
+        _helper.hp.clearCanvas(this.ctx);
     },
     calcBitPositions: function calcBitPositions() {
         for (var j = 0, b, lenBits = this.bits.length; j < lenBits; j++) {
@@ -14780,6 +14779,7 @@ var Canvas = Backbone.View.extend({
     remove: function remove() {
         //console.log('remove canvas');
         this.intervalStatus = 'stop';
+        this.clearCanvas();
         Backbone.View.prototype.remove.call(this);
     }
 });
@@ -14946,8 +14946,7 @@ engravingText.Bit = function () {
 
 engravingText.clearCanvas = function () {
     this.p.ctx.fillStyle = "#2f2f2f";
-    //this.p.ctx.fillRect(0, 0, params.bodyW, params.bodyH);
-    this.p.ctx.clearRect(0, 0, 5000, 5000);
+    _helper.hp.clearCanvas(this.p.ctx);
 };
 
 engravingText.updateBit = function () {

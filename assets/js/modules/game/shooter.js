@@ -39,7 +39,7 @@ export let ShooterMouseAreaV = Backbone.View.extend({
             return;
 
         if (this.model.get('firstShot')) {
-            vent.trigger('startTimer');
+            vent.game.trigger('firstShot');
             this.model.set('firstShot', false);
         }
 
@@ -93,18 +93,21 @@ let Canvas = Backbone.View.extend({
         this.bullets = [];
         this.bits = [];
         this.ctx = this.el.getContext('2d');
-        this.intervalStatus = 'act';
+        this.intervalStatus = 'stop';
         this.parentV = options.pageV;
 
         this.render();
 
-        // this.animations();
-
         this.listenTo(vent, 'removeGame', this.remove);
         this.listenTo(vent.game, 'changeDestroyed', this.addBitInCanvas);
-        this.listenTo(vent.game, 'startGame', this.animations);
         this.listenTo(vent.game, 'stopGame', function () {
             this.intervalStatus = 'stop';
+            this.bullets = [];
+            this.bits = [];
+        });
+        this.listenTo(vent.game, 'firstShot', function () {
+            this.intervalStatus = 'act';
+            this.animations();
         });
     },
     render: function () {
@@ -129,15 +132,14 @@ let Canvas = Backbone.View.extend({
             this.clearCanvas();
             this.calcBurstPosition();
             this.calcBitPositions();
-            if (this.intervalStatus == 'stop') { // todo это не выполняется и цикл бесконечный Карл!
+            if (this.intervalStatus == 'stop') {
                 clearInterval(isInt);
                 this.clearCanvas();
             }
         }, 0)
     },
     clearCanvas: function () {
-        this.ctx.fillStyle = "#2f2f2f";
-        this.ctx.clearRect(0, 0, 5000, 5000);
+        hp.clearCanvas(this.ctx);
     },
     calcBitPositions: function () {
         for (let j = 0, b, lenBits = this.bits.length; j < lenBits; j++) {
@@ -193,6 +195,7 @@ let Canvas = Backbone.View.extend({
     remove: function () {
         //console.log('remove canvas');
         this.intervalStatus = 'stop';
+        this.clearCanvas();
         Backbone.View.prototype.remove.call(this);
     }
 });
