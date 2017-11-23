@@ -1,6 +1,4 @@
 /.idea/
 /assets/bower_components/
 /node_modules/
-*.map
-*compiled.js
 npm-debug.log

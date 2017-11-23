@@ -5,9 +5,7 @@
   "author": "",
   "main": "Gruntfile.js",
   "license": "ISC",
-
-  "scripts": {
-  },
+  "scripts": {},
 
   "devDependencies": {
     "babel-core": "^6.26.0",
