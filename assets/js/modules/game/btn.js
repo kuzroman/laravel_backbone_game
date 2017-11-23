@@ -1,11 +1,10 @@
-import {vent} from '../../helper';
+import {hp, vent} from '../../helper';
 
 export let BtnModel = Backbone.Model.extend({
     defaults: {
         text: 'DESTROY THIS TEXT',
-        isFirstStart: true
+        isFirstStart: true,
     },
-    //,initialize: function () {}
     changeFirstStart () {
         this.set('isFirstStart', false);
     }
@@ -15,37 +14,52 @@ export let BtnModel = Backbone.Model.extend({
 // + модель файрит событие о том что она изменилась
 
 export let Btn = Backbone.View.extend({
-    id: 'startGameBtn_2',
+    id: 'startGameBtn',
+    template: hp.tmpl('tmplStartGameBtn'),
     className: 'button',
     events: {
-        'click': 'btnClick'
+        'click': 'btnClick',
+        'mousemove': 'tiltButton'
     },
     initialize: function (options) {
         this.parentV = options.pageV;
-        //this.parentM = options.model;
         this.model = new BtnModel();
         this.render();
         this.listenTo(vent, 'removeGame', this.remove);
+        this.model.set('width', this.getWidth());
+        this.model.set('halfWidth', this.getWidth() / 2);
     },
     render: function () {
-        this.$el.text(this.model.get('text'));
+        this.$el.html(this.template);
+        this.$el.find('.button__text').text(this.model.get('text'));
+        // this.parentV.$el.append(this.$el);
         this.parentV.$el.append(this.$el);
     },
 
     btnClick: function () {
-        //if (!this.parentM.get('textLoaded')) return;
         vent.game.trigger('startGame');
         this.hideEl();
         this.model.changeFirstStart();
     },
     showEl: function () {
-        this.$el.text('PLAY AGAIN').removeClass('hide');
+        this.$el.find('.button__text').text('PLAY AGAIN');
+        this.$el.removeClass('hide');
     },
     hideEl: function () {
         this.$el.addClass('hide');
     },
     changeText: function () {
-        this.$el.text('PLAY AGAIN');
+        this.$el.find('.button__text').text('PLAY AGAIN');
+    },
+    tiltButton: function (e) {
+        let x = e.offsetX, angle;
+        let halfWidth = this.model.get('halfWidth');
+        angle = (x - halfWidth) / 100;
+        // console.log(angle);
+        this.$el.find('.button__text').css('transform', 'rotate(' + angle + 'deg)');
+    },
+    getWidth () {
+        return this.el.offsetWidth;
     }
 });
 

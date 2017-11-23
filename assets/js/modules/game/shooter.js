@@ -1,4 +1,4 @@
-import {vent} from '../../helper';
+import {hp, vent} from '../../helper';
 import {letters} from './typing.js';
 
 let Shooter = Backbone.Model.extend({
@@ -109,8 +109,8 @@ let Canvas = Backbone.View.extend({
     },
     render: function () {
         this.parentV.$el.append(this.$el);
-        this.el.width = 5000;
-        this.el.height = 5000;
+        this.el.width = hp.canvasSize.w;
+        this.el.height = hp.canvasSize.h;
         return this;
     },
     addBulletInCanvas: function (x) {

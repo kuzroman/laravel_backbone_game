@@ -1,10 +1,5 @@
 import {hp, vent, params} from '../../helper';
 
-let canvasSize = { // it affects on performance
-    w: $(window).outerWidth(),
-    h: $(window).outerHeight()
-};
-
 export let CanvasV = Backbone.View.extend({
     tagName: 'canvas',
     className: 'canvas',
@@ -23,8 +18,8 @@ export let CanvasV = Backbone.View.extend({
             speedPartials: this.model.get('SPEED_PARTIALS')
         };
         this.parentV.$el.append(this.$el);
-        this.el.width = canvasSize.w;
-        this.el.height = canvasSize.h;
+        this.el.width = hp.canvasSize.w;
+        this.el.height = hp.canvasSize.h;
         return this;
     },
     updateView: function () {

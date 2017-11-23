@@ -35,6 +35,7 @@ export let TypingV = Backbone.View.extend({
         this.interval = setInterval(() => {
             let letter = this.lettersV[i];
             letter.updateModelData();
+
             letter.$el.css('opacity', 1);
 
             if (letter.model.get('isGoal')) {

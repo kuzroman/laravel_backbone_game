@@ -10,7 +10,7 @@ let pathTo = {
     twig: path.resolve(__dirname, 'src/twig'),
 };
 
-// webpack // webpack --progress --colors --watch
+// webpack --progress --colors --watch
 module.exports = {
 
     entry: pathTo.js,

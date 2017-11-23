@@ -2022,6 +2022,12 @@ hp.styleHyphenFormat = function (propertyName) {
     return propertyName.replace(/-[a-z]/g, upperToHyphenLower);
 };
 
+// it affects on performance, than bigger canvas than slower work!
+hp.canvasSize = {
+    w: $(window).outerWidth(),
+    h: $(window).outerHeight()
+};
+
 var params = exports.params = {};
 params.body = $('body');
 params.bodyW = params.body.width();
@@ -13696,6 +13702,7 @@ var TypingV = exports.TypingV = Backbone.View.extend({
         this.interval = setInterval(function () {
             var letter = _this.lettersV[i];
             letter.updateModelData();
+
             letter.$el.css('opacity', 1);
 
             if (letter.model.get('isGoal')) {
@@ -14413,7 +14420,6 @@ var BtnModel = exports.BtnModel = Backbone.Model.extend({
         text: 'DESTROY THIS TEXT',
         isFirstStart: true
     },
-    //,initialize: function () {}
     changeFirstStart: function changeFirstStart() {
         this.set('isFirstStart', false);
     }
@@ -14423,37 +14429,53 @@ var BtnModel = exports.BtnModel = Backbone.Model.extend({
 // + модель файрит событие о том что она изменилась
 
 var Btn = exports.Btn = Backbone.View.extend({
-    id: 'startGameBtn_2',
+    id: 'startGameBtn',
+    template: _helper.hp.tmpl('tmplStartGameBtn'),
     className: 'button',
     events: {
-        'click': 'btnClick'
+        'click': 'btnClick',
+        'mousemove': 'tiltButton'
     },
     initialize: function initialize(options) {
         this.parentV = options.pageV;
-        //this.parentM = options.model;
         this.model = new BtnModel();
         this.render();
         this.listenTo(_helper.vent, 'removeGame', this.remove);
+        this.model.set('width', this.getWidth());
+        this.model.set('halfWidth', this.getWidth() / 2);
     },
     render: function render() {
-        this.$el.text(this.model.get('text'));
+        this.$el.html(this.template);
+        this.$el.find('.button__text').text(this.model.get('text'));
+        // this.parentV.$el.append(this.$el);
         this.parentV.$el.append(this.$el);
     },
 
     btnClick: function btnClick() {
-        //if (!this.parentM.get('textLoaded')) return;
         _helper.vent.game.trigger('startGame');
         this.hideEl();
         this.model.changeFirstStart();
     },
     showEl: function showEl() {
-        this.$el.text('PLAY AGAIN').removeClass('hide');
+        this.$el.find('.button__text').text('PLAY AGAIN');
+        this.$el.removeClass('hide');
     },
     hideEl: function hideEl() {
         this.$el.addClass('hide');
     },
     changeText: function changeText() {
-        this.$el.text('PLAY AGAIN');
+        this.$el.find('.button__text').text('PLAY AGAIN');
+    },
+    tiltButton: function tiltButton(e) {
+        var x = e.offsetX,
+            angle = void 0;
+        var halfWidth = this.model.get('halfWidth');
+        angle = (x - halfWidth) / 100;
+        // console.log(angle);
+        this.$el.find('.button__text').css('transform', 'rotate(' + angle + 'deg)');
+    },
+    getWidth: function getWidth() {
+        return this.el.offsetWidth;
     }
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -14671,8 +14693,8 @@ var Canvas = Backbone.View.extend({
     },
     render: function render() {
         this.parentV.$el.append(this.$el);
-        this.el.width = 5000;
-        this.el.height = 5000;
+        this.el.width = _helper.hp.canvasSize.w;
+        this.el.height = _helper.hp.canvasSize.h;
         return this;
     },
     addBulletInCanvas: function addBulletInCanvas(x) {
@@ -14825,7 +14847,7 @@ var Bit = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($, Backbone) {
+/* WEBPACK VAR INJECTION */(function(Backbone) {
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -14837,11 +14859,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _helper = __webpack_require__(1);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var canvasSize = { // it affects on performance
-    w: $(window).outerWidth(),
-    h: $(window).outerHeight()
-};
 
 var CanvasV = exports.CanvasV = Backbone.View.extend({
     tagName: 'canvas',
@@ -14861,8 +14878,8 @@ var CanvasV = exports.CanvasV = Backbone.View.extend({
             speedPartials: this.model.get('SPEED_PARTIALS')
         };
         this.parentV.$el.append(this.$el);
-        this.el.width = canvasSize.w;
-        this.el.height = canvasSize.h;
+        this.el.width = _helper.hp.canvasSize.w;
+        this.el.height = _helper.hp.canvasSize.h;
         return this;
     },
     updateView: function updateView() {
@@ -14950,7 +14967,7 @@ engravingText.updateBit = function () {
         this.p.bitsStatus = 'stop';
     }
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 16 */

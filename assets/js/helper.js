@@ -20,6 +20,12 @@ hp.styleHyphenFormat = function (propertyName) {
     return propertyName.replace(/-[a-z]/g, upperToHyphenLower);
 };
 
+// it affects on performance, than bigger canvas than slower work!
+hp.canvasSize = {
+    w: $(window).outerWidth(),
+    h: $(window).outerHeight()
+};
+
 export let params = {};
 params.body = $('body');
 params.bodyW = params.body.width();
