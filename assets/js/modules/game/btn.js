@@ -1,6 +1,6 @@
 import {vent} from '../../helper';
 
-export var BtnModel = Backbone.Model.extend({
+export let BtnModel = Backbone.Model.extend({
     defaults: {
         text: 'DESTROY THIS TEXT',
         isFirstStart: true
@@ -14,7 +14,7 @@ export var BtnModel = Backbone.Model.extend({
 // + изменить значение модели gameStarted при клике
 // + модель файрит событие о том что она изменилась
 
-export var Btn = Backbone.View.extend({
+export let Btn = Backbone.View.extend({
     id: 'startGameBtn_2',
     className: 'button',
     events: {

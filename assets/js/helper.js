@@ -1,11 +1,11 @@
-export var vent = _.extend({
+export let vent = _.extend({
     page: _.extend({}, Backbone.Events),
     game: _.extend({}, Backbone.Events),
     audio: _.extend({}, Backbone.Events)
 }, Backbone.Events);
 
 
-export var hp = {};
+export let hp = {};
 
 hp.tmpl = function (id) {
     return _.template($('#' + id).html());
@@ -14,18 +14,18 @@ hp.tmpl = function (id) {
 // 'page-one' => 'pageOne'
 hp.styleHyphenFormat = function (propertyName) {
     function upperToHyphenLower(match) {
-        var result = match.replace('-', '');
+        let result = match.replace('-', '');
         return result.toUpperCase();
     }
     return propertyName.replace(/-[a-z]/g, upperToHyphenLower);
 };
 
-export var params = {};
+export let params = {};
 params.body = $('body');
 params.bodyW = params.body.width();
 params.bodyH = params.body.height();
 
-var resizeTimeoutId;
+let resizeTimeoutId;
 window.onresize = function () {
     clearTimeout(resizeTimeoutId);
     resizeTimeoutId = setTimeout(function () {

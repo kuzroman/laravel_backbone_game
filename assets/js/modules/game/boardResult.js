@@ -1,6 +1,6 @@
 import {hp, vent, params} from '../../helper';
 
-export var BoardResultV = Backbone.View.extend({
+export let BoardResultV = Backbone.View.extend({
     id: 'results',
     className: 'results',
     template: hp.tmpl('tmplBoardResult'),
@@ -62,7 +62,7 @@ export var BoardResultV = Backbone.View.extend({
         );
     },
     getBestScoreAndRecord: function (newScore) {
-        var bestScore = window.localStorage.getItem('bestScore'),
+        let bestScore = window.localStorage.getItem('bestScore'),
             record = false
             ;
         if (!bestScore || bestScore < newScore) {
@@ -75,7 +75,7 @@ export var BoardResultV = Backbone.View.extend({
         this.model.set('record', record);
     },
     resize: function () {
-        var self = this, resizeTimeoutId;
+        let self = this, resizeTimeoutId;
         //console.log(this);
         $(window).on('resize', function () {
             if (!self.isShowed) return;

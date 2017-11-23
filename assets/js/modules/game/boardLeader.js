@@ -1,6 +1,6 @@
 import {hp, vent, params} from '../../helper';
 
-export var BoardLeaderV = Backbone.View.extend({
+export let BoardLeaderV = Backbone.View.extend({
     id: 'leaders',
     className: 'results',
     template: hp.tmpl('tmplBoardLeader'),
@@ -51,7 +51,7 @@ export var BoardLeaderV = Backbone.View.extend({
         new LeadersV({collection: collect}).render();
     },
     resize: function () {
-        var self = this, resizeTimeoutId;
+        let self = this, resizeTimeoutId;
         $(window).on('resize', function () {
             if (!self.isShowed) return;
             clearTimeout(resizeTimeoutId);
@@ -62,7 +62,7 @@ export var BoardLeaderV = Backbone.View.extend({
     }
 });
 
-var LeadersV = Backbone.View.extend({
+let LeadersV = Backbone.View.extend({
     initialize: function (options) {
         this.setElement('#topLeaders');
         this.$el.empty();
@@ -77,7 +77,7 @@ var LeadersV = Backbone.View.extend({
             }
 
             else if (!model.get('name')) {
-                var preModel = this.collection.find(function (mod) {
+                let preModel = this.collection.find(function (mod) {
                     return mod.get('i') == model.get('i') - 1;
                 });
                 this.$el.append(new LeaderV({line:true}).render().$el); // line
@@ -91,7 +91,7 @@ var LeadersV = Backbone.View.extend({
     }
 });
 
-var LeaderV = Backbone.View.extend({
+let LeaderV = Backbone.View.extend({
     tagName: 'li',
     template: hp.tmpl('tmplLeader'),
     templateCurrentScore: hp.tmpl('tmplYourScore'),
@@ -122,14 +122,14 @@ var LeaderV = Backbone.View.extend({
         this.save();
     },
     save: function (e) {
-        var name = this.$el.find('#resultNameInput').val();
+        let name = this.$el.find('#resultNameInput').val();
         this.model.set('name', name);
         this.model.save();
         this.render();
     }
 });
 
-var User = Backbone.Model.extend({
+let User = Backbone.Model.extend({
     defaults: {
         name: '',
         score: 0
@@ -151,7 +151,7 @@ var User = Backbone.Model.extend({
     }
 });
 
-var Users = Backbone.Collection.extend({
+let Users = Backbone.Collection.extend({
     model: User,
     url: 'ajax/best_score.php',
     comparator: function (model) {

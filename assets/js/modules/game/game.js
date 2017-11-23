@@ -8,11 +8,11 @@ import {CanvasV} from './canvasPartialsFall.js';
 import {BoardResultV} from './boardResult.js';
 import {BoardLeaderV} from './boardLeader.js';
 
-var Game = Backbone.Model.extend({
+let Game = Backbone.Model.extend({
     defaults: {
         PERIOD: 10, // 10 // stop the time if all goal reached
         SPEED_TYPING: 10, // 10 ms
-        SPEED_PARTIALS: 1, // 15
+        SPEED_PARTIALS: 15, // 15
         NUMBER_GOALS: 0, // set in typing
 
         timeSpend: 0,
@@ -48,7 +48,7 @@ var Game = Backbone.Model.extend({
         }, this);
     },
     isGameFinished: function () {
-        var result = !(this.get('NUMBER_GOALS') - this.get('destroyed')) // !(0) -> all goals destroyed
+        let result = !(this.get('NUMBER_GOALS') - this.get('destroyed')) // !(0) -> all goals destroyed
                 || this.get('timeSpend') == this.get('PERIOD') // time left) {
             ;
         if (!result) return false;
@@ -71,7 +71,7 @@ var Game = Backbone.Model.extend({
     }
 });
 
-export var GamePageView = Backbone.View.extend({
+export let GamePageView = Backbone.View.extend({
     className: 'page game',
     initialize: function () {
         this.modules = {};
@@ -90,7 +90,7 @@ export var GamePageView = Backbone.View.extend({
         this.listenTo(vent, 'removePage', this.remove);
     },
     render: function () {
-        var gameModel = new Game(), options;
+        let gameModel = new Game(), options;
         this.options = {model: gameModel, pageV: this};
         this.model = gameModel;
         $('body').append(this.$el);

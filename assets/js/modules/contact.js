@@ -1,6 +1,6 @@
 import {hp, vent, params} from '../helper';
 
-export var ContactPageView = Backbone.View.extend({
+export let ContactPageView = Backbone.View.extend({
     className: 'page contact',
     initialize: function () {
         this.render();
@@ -21,7 +21,7 @@ export var ContactPageView = Backbone.View.extend({
     }
 });
 
-var ContactDescView = Backbone.View.extend({
+let ContactDescView = Backbone.View.extend({
     template: hp.tmpl('tmplContact'),
     initialize: function (options) {
         this.parentV = options.pageV;

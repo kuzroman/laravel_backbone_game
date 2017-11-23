@@ -2,7 +2,7 @@ import {hp, vent, params} from '../../helper';
 import {dataWorks} from './work';
 import {BackPageV} from '../backPage';
 
-export var DescPageV = Backbone.View.extend({
+export let DescPageV = Backbone.View.extend({
     className: 'page desc',
     initialize: function (options) {
         options = _.extend({pageV: this}, options);
@@ -30,7 +30,7 @@ export var DescPageV = Backbone.View.extend({
     }
 });
 
-var DescV = Backbone.View.extend({
+let DescV = Backbone.View.extend({
     className: 'content',
     template: hp.tmpl('tmplDesc'),
     initialize: function (options) {
@@ -42,10 +42,10 @@ var DescV = Backbone.View.extend({
         this.listenTo(vent, 'removeDesc', this.remove);
     },
     render: function () {
-        var data = _.find(dataWorks, (model) => {
+        let data = _.find(dataWorks, (model) => {
             return model['href'] == this.pageName;
         });
-        var content = this.$el.html(this.template(data));
+        let content = this.$el.html(this.template(data));
         this.pageV.$el.append(content);
     }
 });

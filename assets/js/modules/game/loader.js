@@ -1,6 +1,6 @@
 import {hp, vent} from '../../helper';
 
-export var LoaderV = Backbone.View.extend({
+export let LoaderV = Backbone.View.extend({
     id: 'scoreBord',
     className: 'scoreBord',
     template: hp.tmpl('tmplScoreBoard'),
@@ -25,7 +25,7 @@ export var LoaderV = Backbone.View.extend({
     }
 });
 
-var LoaderSlipV = Backbone.View.extend({
+let LoaderSlipV = Backbone.View.extend({
     initialize: function (options) {
         //this.parentV = options.pageV;
         this.setElement('#loaderSlip');
@@ -45,7 +45,7 @@ var LoaderSlipV = Backbone.View.extend({
     }
 });
 
-var TimerV = Backbone.View.extend({
+let TimerV = Backbone.View.extend({
     initialize: function (options) {
         this.setElement('#timer');
         this.model = options.model;
@@ -59,7 +59,7 @@ var TimerV = Backbone.View.extend({
     },
     start: function () {
         //console.log('startTimer');
-        var id = setInterval(() => {
+        let id = setInterval(() => {
             //console.log('isGameFinished',this.model.isGameFinished());
             vent.game.trigger('changeTimeSpend');
             this.render();

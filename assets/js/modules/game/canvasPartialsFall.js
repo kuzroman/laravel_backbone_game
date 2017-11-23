@@ -1,6 +1,11 @@
 import {hp, vent, params} from '../../helper';
 
-export var CanvasV = Backbone.View.extend({
+let canvasSize = { // it affects on performance
+    w: $(window).outerWidth(),
+    h: $(window).outerHeight()
+};
+
+export let CanvasV = Backbone.View.extend({
     tagName: 'canvas',
     className: 'canvas',
     initialize: function (options) {
@@ -12,14 +17,14 @@ export var CanvasV = Backbone.View.extend({
     },
     render: function () {
         engravingText.p = {
-            ctx: this.el.getContext("2d"),
+            ctx: this.el.getContext('2d'),
             bits: [],
             bitsStatus: 'start', // start, act, stop
             speedPartials: this.model.get('SPEED_PARTIALS')
         };
         this.parentV.$el.append(this.$el);
-        this.el.width = 5000;
-        this.el.height = 5000;
+        this.el.width = canvasSize.w;
+        this.el.height = canvasSize.h;
         return this;
     },
     updateView: function () {
@@ -38,7 +43,7 @@ export var CanvasV = Backbone.View.extend({
     }
 });
 
-var engravingText = {};
+let engravingText = {};
 engravingText.p = {};
 
 engravingText.addBits = function (positions) {
@@ -49,7 +54,7 @@ engravingText.addBits = function (positions) {
     //console.log(this.p.bits.length);
 };
 engravingText.animationBits = function () {
-    var isInt = setInterval(() => {
+    let isInt = setInterval(() => {
         this.clearCanvas();
         this.updateBit();
         if (this.p.bitsStatus == 'stop') {

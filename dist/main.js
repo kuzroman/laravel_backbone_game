@@ -2027,7 +2027,7 @@ params.body = $('body');
 params.bodyW = params.body.width();
 params.bodyH = params.body.height();
 
-var resizeTimeoutId;
+var resizeTimeoutId = void 0;
 window.onresize = function () {
     clearTimeout(resizeTimeoutId);
     resizeTimeoutId = setTimeout(function () {
@@ -13522,7 +13522,7 @@ var WorksView = Backbone.View.extend({
     },
     resize: function resize() {
         var self = this,
-            resizeTimeoutId;
+            resizeTimeoutId = void 0;
         $(window).on('resize', function () {
             clearTimeout(resizeTimeoutId);
             resizeTimeoutId = setTimeout(function () {
@@ -13730,7 +13730,7 @@ var TypingV = exports.TypingV = Backbone.View.extend({
     },
     resize: function resize() {
         var self = this,
-            resizeTimeoutId;
+            resizeTimeoutId = void 0;
         $(window).on('resize', function () {
             clearTimeout(resizeTimeoutId);
             resizeTimeoutId = setTimeout(function () {
@@ -13789,7 +13789,7 @@ var LetterV = Backbone.View.extend({
 /////////////////////////////////////////////////////////////////////////////
 
 var myText = 'Hello, my name is Roman Kuznetsov.\n|I am a web Front-End Developer and UX enthusiast.\n|Single page applications, animation, parallax are my passion\n|Feel free to take a look at my most recent projects on my work page.\n|Also you can stop and say hello at kuzroman@list.ru';
-//var myText = `Hello`;
+//let myText = `Hello`;
 
 myText = $.trim(myText.replace(/\s{2,}/g, ''));
 var arrLetter = [],
@@ -14256,7 +14256,7 @@ var Game = Backbone.Model.extend({
     defaults: {
         PERIOD: 10, // 10 // stop the time if all goal reached
         SPEED_TYPING: 10, // 10 ms
-        SPEED_PARTIALS: 1, // 15
+        SPEED_PARTIALS: 15, // 15
         NUMBER_GOALS: 0, // set in typing
 
         timeSpend: 0,
@@ -14335,7 +14335,7 @@ var GamePageView = exports.GamePageView = Backbone.View.extend({
     },
     render: function render() {
         var gameModel = new Game(),
-            options;
+            options = void 0;
         this.options = { model: gameModel, pageV: this };
         this.model = gameModel;
         $('body').append(this.$el);
@@ -14689,7 +14689,7 @@ var Canvas = Backbone.View.extend({
         var _this = this;
 
         var isInt = setInterval(function () {
-            console.log(_this.intervalStatus);
+            // console.log(this.intervalStatus);
             _this.clearCanvas();
             _this.calcBurstPosition();
             _this.calcBitPositions();
@@ -14825,7 +14825,7 @@ var Bit = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(Backbone) {
+/* WEBPACK VAR INJECTION */(function($, Backbone) {
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -14837,6 +14837,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _helper = __webpack_require__(1);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var canvasSize = { // it affects on performance
+    w: $(window).outerWidth(),
+    h: $(window).outerHeight()
+};
 
 var CanvasV = exports.CanvasV = Backbone.View.extend({
     tagName: 'canvas',
@@ -14850,14 +14855,14 @@ var CanvasV = exports.CanvasV = Backbone.View.extend({
     },
     render: function render() {
         engravingText.p = {
-            ctx: this.el.getContext("2d"),
+            ctx: this.el.getContext('2d'),
             bits: [],
             bitsStatus: 'start', // start, act, stop
             speedPartials: this.model.get('SPEED_PARTIALS')
         };
         this.parentV.$el.append(this.$el);
-        this.el.width = 5000;
-        this.el.height = 5000;
+        this.el.width = canvasSize.w;
+        this.el.height = canvasSize.h;
         return this;
     },
     updateView: function updateView() {
@@ -14945,7 +14950,7 @@ engravingText.updateBit = function () {
         this.p.bitsStatus = 'stop';
     }
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(0)))
 
 /***/ }),
 /* 16 */
@@ -15030,7 +15035,7 @@ var BoardResultV = exports.BoardResultV = Backbone.View.extend({
     },
     resize: function resize() {
         var self = this,
-            resizeTimeoutId;
+            resizeTimeoutId = void 0;
         //console.log(this);
         $(window).on('resize', function () {
             if (!self.isShowed) return;
@@ -15109,7 +15114,7 @@ var BoardLeaderV = exports.BoardLeaderV = Backbone.View.extend({
     },
     resize: function resize() {
         var self = this,
-            resizeTimeoutId;
+            resizeTimeoutId = void 0;
         $(window).on('resize', function () {
             if (!self.isShowed) return;
             clearTimeout(resizeTimeoutId);

@@ -5,7 +5,7 @@ import {hp, vent, params} from '../../helper';
  */
 let speedTyping = 10;
 
-export var TypingV = Backbone.View.extend({
+export let TypingV = Backbone.View.extend({
     id: 'typingCenter',
     className: 'typingCenter',
     initialize: function (options) {
@@ -20,7 +20,7 @@ export var TypingV = Backbone.View.extend({
         this.lettersV = []; // list of View
         this.parentV.$el.append(this.$el.html('<div>'));
         letters.each(function (letterM) {
-            var letterV = new LetterV({model: letterM});
+            let letterV = new LetterV({model: letterM});
             this.$el.find('div').append(letterV.$el);
             this.lettersV.push(letterV);
         }, this);
@@ -30,7 +30,7 @@ export var TypingV = Backbone.View.extend({
         this.setNumberGoal();
     },
     showLetter: function () {
-        var i = 0, len = this.lettersV.length;
+        let i = 0, len = this.lettersV.length;
 
         this.interval = setInterval(() => {
             let letter = this.lettersV[i];
@@ -68,7 +68,7 @@ export var TypingV = Backbone.View.extend({
         this.render();
     },
     resize: function () {
-        var self = this, resizeTimeoutId;
+        let self = this, resizeTimeoutId;
         $(window).on('resize', function () {
             clearTimeout(resizeTimeoutId);
             resizeTimeoutId = setTimeout(function () {
@@ -78,7 +78,7 @@ export var TypingV = Backbone.View.extend({
     }
 });
 
-var Letter = Backbone.Model.extend({
+let Letter = Backbone.Model.extend({
     defaults: {
         symbol: '',
         killed: false,
@@ -87,11 +87,11 @@ var Letter = Backbone.Model.extend({
     }
 });
 
-var Letters = Backbone.Collection.extend({
+let Letters = Backbone.Collection.extend({
     model: Letter
 });
 
-var LetterV = Backbone.View.extend({
+let LetterV = Backbone.View.extend({
     tagName: 'i',
     initialize: function () {
         this.render();
@@ -99,7 +99,7 @@ var LetterV = Backbone.View.extend({
         this.listenTo(this.model, 'change:killed', this.hideLetter);
     },
     render: function () {
-        var symbol = this.model.get('symbol');
+        let symbol = this.model.get('symbol');
         if (symbol == '|') {
             symbol = '';
             this.$el.css('display', 'block');
@@ -128,17 +128,17 @@ var LetterV = Backbone.View.extend({
 
 /////////////////////////////////////////////////////////////////////////////
 
-var myText = `Hello, my name is Roman Kuznetsov.
+let myText = `Hello, my name is Roman Kuznetsov.
 |I am a web Front-End Developer and UX enthusiast.
 |Single page applications, animation, parallax are my passion
 |Feel free to take a look at my most recent projects on my work page.
 |Also you can stop and say hello at kuzroman@list.ru`;
-//var myText = `Hello`;
+//let myText = `Hello`;
 
 myText = $.trim(myText.replace(/\s{2,}/g, ''));
 let arrLetter = [], len = myText.length;
 for (let i = 0; i < len; i++) {
     arrLetter.push(new Letter({symbol: myText[i]}));
 }
-export var letters = new Letters(arrLetter); // collection
+export let letters = new Letters(arrLetter); // collection
 //console.log(letters.models);

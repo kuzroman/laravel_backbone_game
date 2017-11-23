@@ -1,6 +1,6 @@
 import {hp, vent, params} from '../../helper';
 
-export var WorksPageView = Backbone.View.extend({
+export let WorksPageView = Backbone.View.extend({
     className: 'page works',
     initialize: function () {
         this.render();
@@ -22,7 +22,7 @@ export var WorksPageView = Backbone.View.extend({
     }
 });
 
-var WorksView = Backbone.View.extend({
+let WorksView = Backbone.View.extend({
     className: 'works-view',
     initialize: function (options) {
         this.parentV = options.pageV;
@@ -43,14 +43,14 @@ var WorksView = Backbone.View.extend({
         }, this);
     },
     cubsInLine: function (isAnimation) {
-        var countEl = this.worksV.length
+        let countEl = this.worksV.length
             , elSize = 325 // 25 it's offset
             , fieldW = this.$el.width()
             , countInColumn = Math.floor(fieldW / elSize) || 1;
 
         if (countInColumn == 1) elSize = 300;
 
-        var countInRow = Math.ceil(countEl / countInColumn)
+        let countInRow = Math.ceil(countEl / countInColumn)
             , fieldH = countInRow * elSize
             , centerX = ( fieldW - (countInColumn * elSize) ) / 2
             , centerY = ( fieldH - (countInRow * elSize) ) / 2
@@ -60,7 +60,7 @@ var WorksView = Backbone.View.extend({
         //if (fieldW < 480) return; // we will work only with css!
         //console.log(countEl, countInColumn, countInRow, elSize );
 
-        for (var i = 0; i < countEl; i++) {
+        for (let i = 0; i < countEl; i++) {
             //coordinateList[i] = {x:x, y:y};
             if (!i) {
                 if (y < 0) y = 0;
@@ -78,7 +78,7 @@ var WorksView = Backbone.View.extend({
         this.$el.css('height', fieldH);
     },
     resize: function () {
-        var self = this, resizeTimeoutId;
+        let self = this, resizeTimeoutId;
         $(window).on('resize', function () {
             clearTimeout(resizeTimeoutId);
             resizeTimeoutId = setTimeout(function () {
@@ -92,7 +92,7 @@ var WorksView = Backbone.View.extend({
     }
 });
 
-var WorkView = Backbone.View.extend({
+let WorkView = Backbone.View.extend({
     tagName: 'a',
     className: 'works-work',
     template: hp.tmpl('tmplWork'),
@@ -107,7 +107,7 @@ var WorkView = Backbone.View.extend({
 });
 
 // названия страниц в формате дефисов! cash-back-calc
-export var dataWorks = [
+export let dataWorks = [
     {
         href: 'rbc',
         nameTitle: 'Exchange Rate Lookup',

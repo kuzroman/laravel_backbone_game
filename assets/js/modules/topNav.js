@@ -1,6 +1,6 @@
 import {hp} from '../helper';
 
-export var NavigationView = Backbone.View.extend({
+export let NavigationView = Backbone.View.extend({
     initialize: function () {
         this.icon = new NavIconView();
         this.menu = new NavMenuView();
@@ -11,9 +11,9 @@ export var NavigationView = Backbone.View.extend({
     }
 });
 
-var ev = $.extend({}, Backbone.Events);
+let ev = $.extend({}, Backbone.Events);
 
-var Navigation = Backbone.Model.extend({
+let Navigation = Backbone.Model.extend({
     //url: 'someUrl.json',
     defaults: function () {
         return {
@@ -30,9 +30,9 @@ var Navigation = Backbone.Model.extend({
     }
 });
 
-var navigation = new Navigation();
+let navigation = new Navigation();
 
-var NavIconView = Backbone.View.extend({
+let NavIconView = Backbone.View.extend({
     id: 'topMenu'
     ,className: 'topMenu',
     events: {
@@ -44,7 +44,7 @@ var NavIconView = Backbone.View.extend({
         this.listenTo(ev, 'changeOpened', this.changeIcon);
     },
     render: function () {
-        var arr = new Array(3);
+        let arr = new Array(3);
         $.each(arr, (n) => {
             this.$el.append($('<i>'));
         });
@@ -59,7 +59,7 @@ var NavIconView = Backbone.View.extend({
     }
 });
 
-var NavMenuView = Backbone.View.extend({
+let NavMenuView = Backbone.View.extend({
     id: 'topNav'
     ,className: 'topNav hidden',
     template: hp.tmpl('tmplMenu'),

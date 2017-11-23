@@ -1,7 +1,7 @@
 require("../css/main.scss");
 
 // backbone - пробрасывает себя глобально
-var Backbone = require("backbone");
+let Backbone = require("backbone");
 import {Audio} from './modules/audio';
 
 import {vent} from './helper';
@@ -13,7 +13,7 @@ import {GamePageView} from './modules/game/game';
 import {DescPageV} from './modules/works/desc';
 import {ContactPageView} from './modules/contact';
 
-var Router = Backbone.Router.extend({
+let Router = Backbone.Router.extend({
     routes: {
         '': 'game'
         , "about": "about"
@@ -44,7 +44,7 @@ var Router = Backbone.Router.extend({
     }
 });
 
-var router = new Router();
+let router = new Router();
 Backbone.history.start();
 new NavigationView();
 

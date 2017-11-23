@@ -1,6 +1,6 @@
 import {hp, vent, params} from '../helper';
 
-export var BackPageV = Backbone.View.extend({
+export let BackPageV = Backbone.View.extend({
     tagName: 'a',
     className: 'back-to-work',
     events: {
@@ -14,7 +14,7 @@ export var BackPageV = Backbone.View.extend({
         this.listenTo(vent, 'removePage', this.remove);
     },
     render: function () {
-        var arr = new Array(9);
+        let arr = new Array(9);
         $.each(arr, (n) => {
             this.$el.append($('<i>'));
         });

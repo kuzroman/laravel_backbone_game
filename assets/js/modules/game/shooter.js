@@ -1,18 +1,18 @@
 import {vent} from '../../helper';
 import {letters} from './typing.js';
 
-var Shooter = Backbone.Model.extend({
+let Shooter = Backbone.Model.extend({
     defaults: {
         x: 0,
         firstShot: true
     }
 });
-var shooter = new Shooter();
+let shooter = new Shooter();
 
 /**
  * change shooter position and do shoot here
  */
-export var ShooterMouseAreaV = Backbone.View.extend({
+export let ShooterMouseAreaV = Backbone.View.extend({
     id: 'shooterMouseArea',
     events: {
         'click': 'bulletShot', // bulletShot // testBit
@@ -56,7 +56,7 @@ export var ShooterMouseAreaV = Backbone.View.extend({
     //}
 });
 
-export var ShooterV = Backbone.View.extend({
+export let ShooterV = Backbone.View.extend({
     id: 'shooter',
     className: 'shooter',
     initialize: function (options) {
@@ -86,7 +86,7 @@ export var ShooterV = Backbone.View.extend({
 
 ////////////////////////////////////////////////
 
-var Canvas = Backbone.View.extend({
+let Canvas = Backbone.View.extend({
     tagName: 'canvas',
     className: 'canvas',
     initialize: function (options) {
@@ -117,15 +117,15 @@ var Canvas = Backbone.View.extend({
         this.bullets.push(new Bullet({x: x, ctx: this.ctx}));
     },
     addBitInCanvas: function (positions) {
-        for (var i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
             this.bits.push(new Bit({x: positions.x, y: positions.y, ctx: this.ctx}));
         }
         //console.log(positions, this.bits, this);
     },
 
     animations: function () {
-        var isInt = setInterval(() => {
-            console.log(this.intervalStatus);
+        let isInt = setInterval(() => {
+            // console.log(this.intervalStatus);
             this.clearCanvas();
             this.calcBurstPosition();
             this.calcBitPositions();
@@ -165,7 +165,7 @@ var Canvas = Backbone.View.extend({
 
             for (let i = 0, len = aims.length; i < len; i++) {
                 if (aims[i].get('killed') || !aims[i].get('isGoal')) continue;
-                var y2 = aims[i].get('y2');
+                let y2 = aims[i].get('y2');
 
                 // they on the one axis y
                 if (b.y == y2 || b.y == y2 - 1 || b.y == y2 + 1) {
@@ -196,7 +196,7 @@ var Canvas = Backbone.View.extend({
         Backbone.View.prototype.remove.call(this);
     }
 });
-var Bullet = class {
+let Bullet = class {
     constructor(data) {
         this.x = data.x || 0;
         this.y = data.y || $('body').height() - 138;
@@ -214,7 +214,7 @@ var Bullet = class {
         this.y -= 2; // speed
     }
 };
-var Bit = class {
+let Bit = class {
     constructor(data) {
         this.x = data.x || 0;
         this.y = data.y || 0;

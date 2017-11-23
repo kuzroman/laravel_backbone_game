@@ -1,6 +1,6 @@
 import {hp, vent, params} from '../helper';
 
-export var SkillsPageView = Backbone.View.extend({
+export let SkillsPageView = Backbone.View.extend({
     className: 'page skills',
     initialize: function () {
         this.render();
@@ -24,7 +24,7 @@ export var SkillsPageView = Backbone.View.extend({
     }
 });
 
-var ResumeView = Backbone.View.extend({
+let ResumeView = Backbone.View.extend({
     className: 'content',
     template: hp.tmpl('tmplResume'),
     initialize: function (options) {
@@ -38,7 +38,7 @@ var ResumeView = Backbone.View.extend({
     }
 });
 
-var SkillsView = Backbone.View.extend({
+let SkillsView = Backbone.View.extend({
     //id: "skills-view",
     className: 'skillsBox',
     initialize: function (options) {
@@ -51,10 +51,10 @@ var SkillsView = Backbone.View.extend({
         this.parentV.$el.append(this.el);
 
         _.each(skills, (skillsArr, experienceName) => {
-            var div = $('<div>',{'class':'experience','data-experience':experienceName});
+            let div = $('<div>',{'class':'experience','data-experience':experienceName});
             
             _.each(skillsArr, (skillObj, num) => {
-                var skillV = new SkillView({model: new Backbone.Model({title: skillObj.title, nameImg: skillObj.nameImg})});
+                let skillV = new SkillView({model: new Backbone.Model({title: skillObj.title, nameImg: skillObj.nameImg})});
                 div.append(skillV.el);
             });
             this.$el.append(div);
@@ -62,7 +62,7 @@ var SkillsView = Backbone.View.extend({
     }
 });
 
-var skills = {
+let skills = {
     'Master': [
         { title: 'JavaScript'},
         { title: 'HTML 5'},
@@ -112,7 +112,7 @@ var skills = {
     ]
 };
 
-var SkillView = Backbone.View.extend({
+let SkillView = Backbone.View.extend({
     tagName: 'a',
     className: 'works-work',
     template: hp.tmpl('tmplSkill'),

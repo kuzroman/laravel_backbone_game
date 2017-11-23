@@ -1,8 +1,8 @@
 import {vent} from '../helper';
 
-export var Audio = Backbone.View.extend({
+export let Audio = Backbone.View.extend({
     initialize: function () {
-        vent.audio.on('play', this.createSound); // Внимание! зависит от положения. должен быть выше чем sound
+        vent.audio.on('play', this.createSound); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ! пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ sound
 
         new SoundCheck();
         //vent.on('removePage', this.remove, this);
@@ -12,17 +12,17 @@ export var Audio = Backbone.View.extend({
     }
 });
 
-var audioEvents = {
+let audioEvents = {
     startGame: {group: 'game', file: 'start2.mp3', loop: true, volume: 0.3},
     shoot: {group: 'game', file: 'shoot.mp3', volume: 0.2},
     destroyed: {group: 'game', file: 'explode.mp3', volume: 0.2},
     sound1: {group: 'bg', file: 'sound_1.mp3', loop: true}
 };
 
-var FactorySounds = Backbone.View.extend({
+let FactorySounds = Backbone.View.extend({
     tagName: 'audio',
     initialize: function (nameSound) {
-        var sound = audioEvents[nameSound];
+        let sound = audioEvents[nameSound];
         this.group = sound['group'];
         this.file = sound['file'];
         this.loop = sound['loop'] || false;
@@ -31,7 +31,7 @@ var FactorySounds = Backbone.View.extend({
         //vent.on('audio:killGameAudio', this.removeGameAudio, this);
         vent.audio.on('killGameAudio', this.removeGameAudio, this);
         vent.audio.on('killBgAudio', this.removeBgAudio, this);
-        //vent.on('removePage', this.remove, this); // постоянный на странице!
+        //vent.on('removePage', this.remove, this); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
     },
     play: function () {
         this.$el.attr('src', '/assets/media/' + this.file);
@@ -57,7 +57,7 @@ var FactorySounds = Backbone.View.extend({
     }
 });
 
-var SoundCheck = Backbone.View.extend({
+let SoundCheck = Backbone.View.extend({
     className: 'sound',
     events: {
         'click': 'toggle',
@@ -72,7 +72,7 @@ var SoundCheck = Backbone.View.extend({
         //vent.on('removePage', this.remove, this);
     },
     render: function () {
-        var arr = new Array(7);
+        let arr = new Array(7);
         $.each(arr, (n) => {
             this.$el.append($('<i>'));
         });
@@ -102,7 +102,7 @@ var SoundCheck = Backbone.View.extend({
         this.hide = true;
         this.stop();
     },
-    // действия по наведению
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     hoverOn: function () {
         if (!this.sound) this.$el.addClass('play');
     },
