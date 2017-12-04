@@ -13569,7 +13569,7 @@ var dataWorks = exports.dataWorks = [{
     descCompany: 'The RBC Group operates on the mass media (an information agency, business television channel RBC TV, online newspapers, and marketing communications) and IT (RBC SOFT) markets.',
     numberImg: 4,
     descDeal: '<h3>Exchange Rate Lookup</h3><p>Spent 4 month for implementation (from start to tests and deploy to prodaction)</p><p>Single page application, was made a next modules</p><i>Main page:</i><ul><li>- list of banks associated with map</li><li>- toggle binding to map</li><li>- filters by rate, currencies & buy/sell</li><li>- search by subway(metro) stations</li><li>- toggler of view with map or only list of banks</li><li>- toggler cities</li><li>- adding banks to favorite list</li><li>- sorting list of banks by name or rate</li><li>- auto update list of banks</li><li>- support from ie8 to tablets</li></ul><i>Statistics:</i><ul><li>- line chart</li><li>- list of rates</li><li>- filters by currencies, dates</li><li>- toggler max rate</li><li>- auto update information</li><li>- toggler cities</li></ul><i>Info pages:</i><ul><li>- search by list</li><li>- toggler cities</li></ul>',
-    skills: ['JS', 'SPA', 'LESS', 'HTML', 'CSS3', 'jQuery', 'AJAX', 'JSON', 'Gulp', 'Browserify', 'Mercurial', 'npm', 'lodash'],
+    skills: ['HTML5 - history', 'JS', 'SPA', 'LESS', 'HTML', 'CSS3', 'jQuery', 'AJAX', 'JSON', 'Gulp', 'Browserify', 'Mercurial, git', 'npm'],
     descDopInfo: '',
     link: 'https://cash.rbc.ru/cash/'
 }, {
@@ -13589,7 +13589,7 @@ var dataWorks = exports.dataWorks = [{
     descCompany: '',
     numberImg: 3,
     descDeal: 'The idea behind this project was to create a showcase of everything I have worked on in the past few years. I tried to keep the UI as simple as possible.',
-    skills: ['HTML5', 'CSS3', 'JavaScript', 'ES6', 'jQuery', 'AJAX', 'JSON', 'Backbone', 'Underscore', 'Grunt', 'Webpack', 'Babel', 'SASS', 'BrowserSync', 'Bower', 'NPM', 'PHP', 'Laravel', 'MySQL', 'Git', 'GitHub', 'Photoshop'],
+    skills: ['HTML5 - canvas, audio', 'CSS3', 'JavaScript', 'ES6', 'jQuery', 'AJAX', 'JSON', 'Backbone', 'Underscore', 'Webpack', 'Babel', 'SASS', 'Bower', 'NPM', 'PHP', 'MySQL', 'Git', 'GitHub', 'Photoshop'],
     descDopInfo: '',
     link: ''
 }, {

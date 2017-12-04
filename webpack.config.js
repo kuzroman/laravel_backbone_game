@@ -2,12 +2,10 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
-let PROD = 0;//JSON.parse(process.env.PROD_ENV || '0');
+let PROD = 1;//JSON.parse(process.env.PROD_ENV || '0');
 let pathTo = {
     dist: path.resolve(__dirname, 'dist'),
     js: path.resolve(__dirname, 'assets/js/routers.js'),
-    sass: path.resolve(__dirname, 'src/sass'),
-    twig: path.resolve(__dirname, 'src/twig'),
 };
 
 // webpack --progress --colors --watch
@@ -29,7 +27,7 @@ module.exports = {
         ],
 
     resolve: { // path to scripts for imports & require in .js
-        modules: [pathTo.js, pathTo.sass, pathTo.twig, 'node_modules']
+        modules: [pathTo.js, 'node_modules']
     },
 
     module: {
