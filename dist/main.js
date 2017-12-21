@@ -13563,8 +13563,18 @@ var WorkView = Backbone.View.extend({
 
 // названия страниц в формате дефисов! cash-back-calc
 var dataWorks = exports.dataWorks = [{
-    href: 'rbc',
-    nameTitle: 'Exchange Rate Lookup',
+    href: 'videojs',
+    nameTitle: 'RBC video player',
+    nameCompany: 'Ros Business Consulting',
+    descCompany: 'The RBC Group operates on the mass media (an information agency, business television channel RBC TV, online newspapers, and marketing communications) and IT (RBC SOFT) markets.',
+    numberImg: 4,
+    descDeal: '<h3>Task</h3><p>The company want to refuse from comercial plugin jwplayer with annual payment.</p><p>I need to find a solution for build new video player with support:</p><ul> <li>pre roll advertising</li> <li>VAST ad</li> <li>streaming HLS (online stream)</li> <li>read file with .m3u8</li> <li>quality changing menu</li> <li>all modern browsers (ie10+)</li> <li>all mobile & tablet browsers (android 4.4+, iOs7+)</li> <li>fullScreen</li> <li>include player in different place on site, in topline in small area & popup, also 2 view in content area in infinite scrolling</li> <li>to apply this solution for all projects of company rbc.ru, tv.rbc.ru, rbc.ru/newspaper, www.rbc.ru/magazine, quote.rbc.ru, autonews.ru, sport.rbc.ru, realty.rbc.ru ... </li></ul><p>Time for solution - one month</p><h3>Solution</h3><p>market analysis video plugins, check ease of use for API, to apply this solution for all projects of company Was used next plugins for a work</p><ul> <li>videojs</li> <li>videojs-contrib-hls</li> <li>videojs-vast-vpaid</li> <li>wrote myself modul for change quality</li></ul> <h3>Задача</h3><p>Компания хочет отказаться от платного плагина jwplayer.</p><p>Необходимо найти решение для создания собственного проигрывателя с поддержкой:</p><ul> <li>предпоказов рекламы (с возможностью пропустить ее)</li> <li>поддержкой VAST рекламы</li> <li>поддержкой потокового видео HLS (онлайн трансляция)</li> <li>поддержкой формата .m3u8</li> <li>возможность сменить качество видео</li> <li>поддержка большинства десктопных браузеров (ie10+)</li> <li>поддержка большинства мобильных браузеров (android 4.4+, iOs7+)</li> <li>поддержка fullScreen</li> <li>внедрение проигрывателя в topline - 2 вида использования в маленьком окне и popup, так же еще 2 вида в контентную область и в бесконечную прокрутку в виде рекрамных вставок </li> <li>распространить данное решение на все основные продукты компании rbc.ru, tv.rbc.ru, rbc.ru/newspaper, www.rbc.ru/magazine, quote.rbc.ru, autonews.ru, sport.rbc.ru, realty.rbc.ru ... </li></ul><p>Срок выполнения - месяц.</p><h3>Решение</h3><p>Анализ рынка video плагинов, удобства использования их API, внедрение решения в продукты компании. В ходе работы были выбраны следующие плагины</p><ul> <li>videojs</li> <li>videojs-contrib-hls</li> <li>videojs-vast-vpaid</li> <li>написан свой модуль для смены качества видео</li></ul>',
+    skills: ['js, html5, jQuery, git, npm, gulp'],
+    descDopInfo: '',
+    link: 'https://rbc.ru/'
+}, {
+    href: 'cash-rbc',
+    nameTitle: 'RBC Cash',
     nameCompany: 'Ros Business Consulting',
     descCompany: 'The RBC Group operates on the mass media (an information agency, business television channel RBC TV, online newspapers, and marketing communications) and IT (RBC SOFT) markets.',
     numberImg: 4,
